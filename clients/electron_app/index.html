@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+	<title>Contact Printer</title>
+	<link rel="stylesheet" href="./css/photon.css"/ >
+	<link rel="stylesheet" href="./css/app.css" />
+</head>
+
+<body>
+	<header>
+		<div class="tab-group">
+			<div class="tab-item active">
+				<span class="icon icon-video"></span>
+				Run
+			</div>
+			<div class="tab-item">
+				<span class="icon icon-gauge"></span>
+				Settings
+			</div>
+		</div>
+	</header>
+	<div class="window-content" style="color: black;">
+	    We are using Node.js <script>document.write(process.versions.node)</script>,
+    	Chromium <script>document.write(process.versions.chrome)</script>,
+    	and Electron <script>document.write(process.versions.electron)</script>.
+		<div id="buttons">
+			<div>
+				<button class="btn btn-large btn-positive">
+				Start
+				</button>
+			</div>
+		</div>
+		<div id="progress">
+			<progress value="0"></progress>
+		<div>
+    </div>
+	<footer class="toolbar toolbar-footer">
+		<div class="toolbar-actions">
+			<button class="btn btn-default">
+			Cancel
+			</button>
+
+			<button class="btn btn-default pull-right">
+			Reset
+			</button>
+		</div>
+	</footer>
+	<script src="./dist/app.js"></script>
+</body>
+</html>

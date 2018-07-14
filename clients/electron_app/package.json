@@ -1,0 +1,30 @@
+{
+  "name": "contact_printer",
+  "version": "1.0.0",
+  "description": "16mm contact printer control software",
+  "main": "main.js",
+  "scripts": {
+    "start": "gulp && electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "jshintConfig": {
+    "esversion": 6,
+    "strict": "global",
+    "node": true
+  },
+  "author": "mmcwilliams",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^1.4.1",
+    "electron-rebuild": "^1.5.7",
+    "serialport": "^4.0.7"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.5.11",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.3.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-less": "^3.3.0",
+    "gulp-minify": "0.0.14"
+  }
+}

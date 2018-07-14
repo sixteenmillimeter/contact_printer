@@ -1,0 +1,96 @@
+vnkarwa
+June 3rd, 2003, 03:46 AM
+Can anybody have the circuit for the calculation of diameter vs. linear speed.
+I have a application in the winding machine that as the coil diameter increases the linear speed increases as the rpm is fix.
+I want a circuit which can reduce the referance voltage according to increase in the diameter so that the linear speed will be maintained.
+Thanks a lot.
+Also Mr jvdcande I want your Email address to communicate with you personally.
+My address is vnkarwa@indiatimes.com
+JesperMP
+June 3rd, 2003, 04:05 AM
+Is this a trick question ?
+
+Speed = Diameter x Pi x RPM
+
+If Speed is constant then
+
+RPM = Constant Speed / (Pi x Diameter)
+
+So RPM is inversely linear with the Diameter. It cant get much simpler than that.
+Calistodwt
+June 3rd, 2003, 05:24 AM
+Linear velocity v = omega * r [m/s]
+
+Where omega = 2*PI*n ( n is speed in revs per second)
+and v = velocity in metres per second.
+and r is the radius in metres and D is diameter in metres.
+
+So v = 2*PI*n*r = PI*D*n [m/s]
+
+So v is proportional to D.
+
+Therefore v1/v2 = D1/D2
+
+which gives: v2 = v1 * D2/D1
+
+So with your references of diameter D1 and speed of v1 you can work out v2 for any given diameter D2
+rdrast
+June 3rd, 2003, 09:18 AM
+If possible, the simplest solution for what (I think) you want to do, is mount a tachometer/encoder with either a belt drive, or a rubber roll, and use it as a surface speed feedback device to your drive.
+
+If you can put such an arrangement on an arm so a belt can maintain contact with the winder roll, you are covered in all cases.
+
+If you can only put a single roller on the material coming into the winder, you need to also put in some extra circuitry/logic to take care of the case when no material is loaded.
+Peter Nachtwey
+June 4th, 2003, 02:06 AM
+vnkarwa, clearly stated that he wanted change his system to keep the linear speed constant and not the RPM constant as he has it now.
+
+Although the equations are valid, they assume that the RPM is held constant.
+
+Hint, vnkarwa, don't assume that you are the first to ask this question. I know we discussed an unwinder a few months back. Search this site and search the web. The answers are out there.
+JesperMP
+June 4th, 2003, 02:42 AM
+Peter, 
+
+neither mine nor Calisto's replies assumes that the RPM should be kept constant.
+Both formulas assumes that the speed (of the unwinded material) should be kept constant.
+
+I found the relation between speed = f(diameter) so simple that maybe I had misunderstood something.
+Calistodwt
+June 5th, 2003, 05:00 AM
+I assumed that what was required was to control the linear speed as the diameter of the cable coil varied; with the winding rpm assumed to be constant. From this I also assumed that the application could measure the changing diameter and use this in the velocity formula to determine a measured value for a controller. Maybe I assumed too much but then the initial information was rather vague with no further response on the suggestions made being offered by the originator.
+scottezell
+July 12th, 2003, 10:17 AM
+The issue as I understand it is that you wish to be able to maintain a constant linear speed as the diameter decreases. The first thought is that you need to know the circumfrence of the object an any point during the cycle. ie if the cir=1 meter then at 60 rpm your linear spd is 60 m/s. but as the dia changes the spd would change at this rpm. Therefore to maintain constant linear spd you have to vary the rpm. To find the cir of the object at any point in the process it is easier if you use polar math rather than conventional math. The equation that explains this reduction in dia is R=(T/2p)*q where R=Radius T=change in diameter per revoulution p=Pi and q= Theta(angular position). if you have a graphing calculator ie ti-85 or similar change your mode to polar and enter this formula. you will basically get a spiral. This formula can be used in the calculation for circumfrence and applied as the angular velocity.
+Peter Nachtwey
+July 12th, 2003, 12:03 PM
+The is because the change ing angular velocity is changing as the diameter changes. The simple arithmetic formulas above require that one assumes the rotational speed is constant or conituously measures the sheet speed and roll radius. With the equations below, if you know the initial conditions then one can calculate the state knowing how many encoder pulses have gone by. The calculus equations end up being pretty simple, but they look nothing like what I see above. It isn't that they are wrong. They just make assumptions that a lot of the parameters are known or measured.
+
+Below is the link I post a long time ago for winder equations.
+
+If you want to show the world that you know something about winding, you better study the info at this URL. It isn't hard, but it does take more effort than lifting another beer.
+
+Winder Control Equations
+http://www.apicsllc.com/apics/Ie_ias03/IAS4p5s.html
+
+Winder Control Equations (http://www.apicsllc.com/apics/Ie_ias03/IAS4p5s.html)
+
+( I couldn't get the link to work, but I could cut and paste the URL into my browser )
+
+Since we are quoting rock stars now.....
+
+"Living is easy with eyes closed, misunderstanding all you see." 
+Strawberry Fields Forever, John Lennon
+DickDV
+July 12th, 2003, 10:31 PM
+You could avoid the calculus at the cost of a slight increase in error by using the static formulas and recalculating the rpm required while adjusting the diameter either up or down by double the caliper of the sheet being wound or unwound.
+
+Use the results of this calculation to adjust the drive speed on the center shaft. Remember also that you need to tell the control system the size of the empty core so it knows what diameter to use at the beginning of a run (assuming a winder).
+DickDV
+July 12th, 2003, 10:35 PM
+The first paragraph in my previous post should read "recalculate the rpm required after each complete revolution while adjusting the diameter...."
+Peter Nachtwey
+July 13th, 2003, 01:20 PM
+That is why I recommend using best algorithms available.
+
+Did you read the full report? In the end the calculus boils down to equations that use a square root and no calculus is necessary.

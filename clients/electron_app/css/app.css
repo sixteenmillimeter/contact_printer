@@ -1,0 +1,18 @@
+footer{
+	position:fixed;
+	bottom:0;
+	left:0;
+	right:0;
+}
+.window-content{
+	background:#2f2f2f;
+	height:100%;
+	display:block;
+}
+progress{
+	width: 95%;
+	margin-left: 2.5%;
+}
+#buttons{
+	margin: 5%;
+}

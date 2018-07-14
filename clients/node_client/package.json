@@ -1,0 +1,18 @@
+{
+  "name": "contact_printer_node_client",
+  "version": "0.0.1",
+  "description": "Node.js client for the contact_printer project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mmcwilliams",
+  "license": "MIT",
+  "dependencies": {
+    "arduino": "file:lib/arduino",
+    "commander": "^2.16.0",
+    "lodash": "^4.17.10",
+    "serialport": "^6.2.1",
+    "uuid": "^3.3.2"
+  }
+}
