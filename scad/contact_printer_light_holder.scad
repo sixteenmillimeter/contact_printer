@@ -1,4 +1,4 @@
-include <../ReadyCAD/ready.scad>;
+include <./ready.scad>;
 
 OUTER_D = 44.45;
 CAP_D = 57.15;

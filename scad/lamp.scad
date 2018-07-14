@@ -1,6 +1,6 @@
 $fn = 80;
 
-include <../readyCAD/ready.scad>;
+include <./ready.scad>;
 include <./16mm_sprocketed_roller_var.scad>;
 
     BRACE_L = 24;

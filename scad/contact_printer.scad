@@ -1,7 +1,7 @@
 include <16mm_sprocketed_roller_var.scad>
 include <./lamp.scad>;
-include <../box_laser/library.scad>
-include <../readyCAD/ready.scad>
+include <./box_laser.scad>
+include <./ready.scad>
 
 AT = 25.4 * 0.22;
 daylight_w = 92;
@@ -733,6 +733,16 @@ module four_point_connector () {
         translate([-X / 2, -Y / 2, Z + .5]) cylinder(r = 2.8, h = H + 1, center = true);
 }
 
+module sprocketed_roller_gear_cap () {
+    difference () {
+        union () {
+            cylinder(r = 16 / 2, h = 3, center = true);
+            translate([0, 0, 1.5]) cylinder(r = 11 / 2, h = 6, center = true);
+        }
+        translate([0, 0, -30]) contact_printer_roller();
+    }
+}
+
 //contact_printer();
 /*projection() {
 	intersection () {
@@ -746,10 +756,11 @@ module four_point_connector () {
 //translate([0, 0, 6]) outer_box();
 //translate([57.5, 0, 0]) four_point_connector();
 translate([40, 0, LAMP_Z]) rotate([0, 0, -90]) {
-    lamp_plate();
+    //lamp_plate();
 	//light_housing();
 	//light_housing();
 }
+sprocketed_roller_gear_cap ();
 //reel_holder_plate();
 //reel_holder();
 //translate([60, 45, PEG_H / 2]) rotate([180, 0, 0]) elastic_peg_top();

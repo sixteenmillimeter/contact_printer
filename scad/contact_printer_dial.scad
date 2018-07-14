@@ -1,4 +1,4 @@
-include <../readyCAD/ready.scad>
+include <./ready.scad>
 
 in = 25.4;
 $fn = 100;
