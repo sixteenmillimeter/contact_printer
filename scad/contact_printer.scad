@@ -306,32 +306,6 @@ module sprocketed_voids () {
 	bearing_laser(SPROCKETED_OFFSET, -SPROCKETED_SPACING / 2, 0, hole=false);
 }
 
-module gate () {
-    H = 20;
-    GATE_D = 65;
-    BOX_X = 39;
-    BOX_Y = 100;
-    difference () {
-        intersection () {
-            translate([-1, 0, 0]) cube([4, 16, H + 4], center = true);
-            translate([GATE_D / 2 - 3, 0, 0]) cylinder(r = GATE_D / 2, h = H + 4, center = true);
-        }
-        translate([0, 0, -2]) cube([50, SLIT, H], center = true);
-    }
-    //side walls
-    translate([8, 10, 0]) rotate([0, 0, 20])  cube([20, 4, H + 4], center = true);
-    translate([8, -10, 0]) rotate([0, 0, -20])  cube([20, 4, H + 4], center = true);
-    
-    translate([BOX_X - 6, 0, 0]) {
-        difference () {
-            rounded_cube([BOX_X, BOX_Y, H + 4], d = 6, center = true); 
-            cube([BOX_X - 8, BOX_Y - 8, H + 4 + 1], center = true);
-            translate([-BOX_X / 2, 0, 0]) cube([BOX_X, 24, H + 4 + 1], center = true);
-            translate([BOX_X / 2, 30, -9]) cube([20, 20, 8], center = true);
-        }
-   }
-}
-
 module bearing_hobbled_rod () {
     RH_CONNECT_R = 4; //inside of bearing
     difference () {
@@ -757,8 +731,9 @@ module sprocketed_roller_gear_cap () {
 //translate([57.5, 0, 0]) four_point_connector();
 translate([40, 0, LAMP_Z]) rotate([0, 0, -90]) {
     //lamp_plate();
-	light_housing();
-	//light_housing();
+	lamp_housing();
+    //translate([0, 15, 4]) lamp_front();
+	//gate();
     
 }
 //sprocketed_roller_gear_cap ();

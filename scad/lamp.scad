@@ -3,12 +3,24 @@ $fn = 80;
 include <./ready.scad>;
 include <./16mm_sprocketed_roller_var.scad>;
 
-    BRACE_L = 24;
-    PLATE_L = 47;
-    Z = 36;
-    X = 45;
-    OUTER_W = 34;
-    INNER_W = 22.3;
+BRACE_L = 24;
+PLATE_L = 47;
+Z = 36;
+X = 45;
+OUTER_W = 34;
+INNER_W = 22.3;
+
+//echo("hex(diag = 10, h = 1);");
+module hex (diag = 10, h = 1) {
+    //echo("Diag");
+    //echo(diag);
+    cylinder(r = diag / 2, h = h, center = true, $fn = 6);
+}
+
+module m4_nut (H = 3.25, DIAG = 8.1) {
+    //tolerance
+    hex(diag = DIAG, h = H);
+}
 
 module roller_base (X = 40) {
     BEARING_OUTER_D = 22;
@@ -84,37 +96,55 @@ module lamp_plate() {
 	
 }
 
-module light_housing () {
+module m4_nut_void () {
+    //hex nut void
+    cylinder(r = 8.1 / 2, h = 3, center = true, $fn = 6);
+    //drop in space
+    translate([-10, 0, 0]) cube([20, 7.1, 3], center = true);
+    //bolt void
+    translate([0, 0, -5]) cylinder(r = 3.9 / 2, h = 30, center = true);
+    translate([-10, 0 , -5]) cube([20, 3.9, 10], center = true);
+}
+
+module lamp_housing () {
 	color("red") translate([0, 32, -8]) cube([34, 28, 2], center = true);
 	translate([0, 31, 3])  {
         difference () {
-            cube([OUTER_W, 15 + 8, BRACE_L], center = true);
-            cube([INNER_W, 15 + 8 + 1, BRACE_L + 1], center = true);
-            //set screw holes
-            translate([0, -7, 7]) rotate([0, 90, 0]) cylinder(r = 1, h = 50, center = true, $fn = 40);
-            //gaps for slide wings
-            translate([(INNER_W / 2) + 1, (BRACE_L / 2) - 10, 3]) color("green") cube([2, BRACE_L, 20], center = true);
-            translate([-(INNER_W / 2) - 1, (BRACE_L / 2) - 10, 3]) color("green") cube([2, BRACE_L, 20], center = true);
-        }
-        
-    }
-
-    //bolts
-    
-
-    
-    //light + acrylic holder
-    translate([0, 45, 5]) {
-        rotate([0, 0, 180]) light_holder();
-        translate([0, -7.5, -11.5]) cube([10, 17, 2], center = true);
-        
-        translate([0, -1.5, -1]) {
-            difference () {
-                    cube([OUTER_W, 2, 22], center = true);
-                    cube([9, 2, 22], center = true);
+            union() {
+                difference () {
+                   //main body
+                    cube([OUTER_W, 15 + 8, BRACE_L], center = true);
+                    //main void
+                    cube([INNER_W, 15 + 8 + 1, BRACE_L + 1], center = true);
+                    //set screw holes
+                    translate([0, -7, 7]) rotate([0, 90, 0]) cylinder(r = 1, h = 50, center = true, $fn = 40);
+                    //gaps for slide wings
+                    translate([(INNER_W / 2) + 1, (BRACE_L / 2) - 10, 3]) color("green") cube([2, BRACE_L, 20], center = true);
+                    translate([-(INNER_W / 2) - 1, (BRACE_L / 2) - 10, 3]) color("green") cube([2, BRACE_L, 20], center = true);
+                }
+                //blocks for bolts
+                translate([10, 7, -3]) cube([10, 12, 15], center = true);
+                translate([-10, 7, -3]) cube([10, 12, 15], center = true);
+                
+                //light + acrylic holder
+                translate([0, 45 - 31, 5 - 3]) {
+                    rotate([0, 0, 180]) light_holder();
+                    translate([0, -7.5, -11.5]) cube([10, 17, 2], center = true);
+                    
+                    translate([0, -1.5, -1]) {
+                        difference () {
+                                cube([OUTER_W, 2, 22], center = true);
+                                cube([9, 2, 22], center = true);
+                        }
+                    }   
+                }
             }
-        }   
+            //bolt voids
+            translate([11, 10, 2]) rotate ([0, 90, 90]) m4_nut_void();
+            translate([-11, 10, 2]) rotate ([0, 90, 90]) m4_nut_void();
+        }  
     }
+
     //extended tabs from light housing                                                                 
     translate([20, 35.5, -4]) {
 		difference () {
@@ -176,6 +206,7 @@ module corner () {
     }
 }
 
+//adjustable piece, holds the gate
 module lamp_front () {
     
     R = 70;
@@ -253,7 +284,7 @@ module ws2812b (H = 1.4) {
     
         cube([W, W, Z], center = true);
 }
-
+//3 RGB leds
 module light_holder () {
     //
     difference () {
@@ -323,6 +354,7 @@ module lamp_cover () {
         translate([0, -6, -3.5]) rotate([0, 90, 0]) cylinder(r = 3.5, h = 50, center = true);   
     }
 }
+
 //corner();
 translate ([0, 0, 11]) {
     rotate([0, 180, 0]) {
