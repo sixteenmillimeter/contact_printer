@@ -757,10 +757,11 @@ module sprocketed_roller_gear_cap () {
 //translate([57.5, 0, 0]) four_point_connector();
 translate([40, 0, LAMP_Z]) rotate([0, 0, -90]) {
     //lamp_plate();
+	light_housing();
 	//light_housing();
-	//light_housing();
+    
 }
-sprocketed_roller_gear_cap ();
+//sprocketed_roller_gear_cap ();
 //reel_holder_plate();
 //reel_holder();
 //translate([60, 45, PEG_H / 2]) rotate([180, 0, 0]) elastic_peg_top();

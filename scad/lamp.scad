@@ -98,6 +98,11 @@ module light_housing () {
         }
         
     }
+
+    //bolts
+    
+
+    
     //light + acrylic holder
     translate([0, 45, 5]) {
         rotate([0, 0, 180]) light_holder();
@@ -137,7 +142,6 @@ module light_housing () {
 			}
 		}
     }	
-	
 }
 
 module lamp_plate_attached () {
@@ -148,10 +152,10 @@ module lamp_plate_attached () {
 }
 
 module corner () {
-        H = 22;
-        W = 26;
-        L = 19;
-        D = 36;
+    H = 22;
+    W = 26;
+    L = 19;
+    D = 36;
     difference () {
         translate([3, 3, 0]) cube([L, W, H], center = true);
         //top negative
@@ -242,8 +246,6 @@ module gate (TYPE = "full", WIDTH = 2) {
         }
     }
 }
-
-
 
 module ws2812b (H = 1.4) {
         W = 4.91 + .25;
