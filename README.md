@@ -1,3 +1,7 @@
+## Archived Repo
+
+[Canonical URL: https://git.sixteenmillimeter.com/16mm/contact_printer](https://git.sixteenmillimeter.com/16mm/contact_printer)
+
 # contact printer
 
 A desktop 16mm contact printer made for CNC/laser cutting and 3D printing
