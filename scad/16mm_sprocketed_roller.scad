@@ -1,5 +1,3 @@
-time = 0;
-
 SPROCKET_BASE_D = 19.05; //8 frames
 SPROCKET_BASE_H = 2.7;
 

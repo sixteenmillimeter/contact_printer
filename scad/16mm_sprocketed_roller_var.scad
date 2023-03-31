@@ -1,5 +1,3 @@
-time = 0;
-
 $fn = 100;
 
 SPROCKET_BASE_D = 19.05; //8 frames

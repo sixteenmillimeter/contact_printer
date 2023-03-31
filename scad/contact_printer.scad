@@ -1,7 +1,7 @@
 include <16mm_sprocketed_roller_var.scad>
 include <./lamp.scad>;
 include <./box_laser.scad>
-include <./ready.scad>
+include <./common/common.scad>
 
 AT = 25.4 * 0.22;
 daylight_w = 92;
