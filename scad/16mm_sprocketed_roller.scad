@@ -1,59 +1,62 @@
-SPROCKET_BASE_D = 19.05; //8 frames
-SPROCKET_BASE_H = 2.7;
+SprocketBaseD = 19.05; //8 frames
+SprocketBaseH = 2.7;
 
-INNER_D = 13.98;
-INNER_H = 10.6;
+InnerD = 13.98;
+InnerH = 10.6;
 
-TOP_BASE_D = 18.47;
-TOP_BASE_H = 2.96;
+TopBaseD = 18.47;
+TopBaseH = 2.96;
 
-LIP_D = 18.84;
-LIP_H = 0.33;
+LipD = 18.84;
+LipH = 0.33;
 
-HOLLOW_D = 4.7;
-HOLLOW_BASE_D = 12.01;
-HOLLOW_BASE_H = 6.09;
+HollowD = 4.7;
+HollowBaseD = 12.01;
+HollowBaseH = 6.09;
 
-TOP_D = 21.66;
-TOP_H = 1.4;
+TopD = 21.66;
+TopH = 1.4;
 
-SPROCKET_H = 10;
-SPROCKET_W = 0.79;
-SPROCKET_L = 1.3;
+SprocketH = 10;
+SprocketW = 0.79;
+SprocketL = 1.3;
 
-FRAME_C = (SPROCKET_BASE_D * PI) / 8;
-//echo(FRAME_C);
+FrameC = (SprocketBaseD * PI) / 8;
 
 $fn = 100;
-module sprocket () {
-    //cube([SPROCKET_L, SPROCKET_W, SPROCKET_H], center = true);
-    translate ([0, 0, -SPROCKET_H/2]) {
+module sprocket (pos = [0, 0, 0], rot = [0, 0, 0], bevel = false) {
+    //cube([SprocketL, SprocketW, SprocketH], center = true);
+    translate (pos) rotate(rot) {
         difference () {
-            translate([0, 0, 0]) scale([1, 1, 2.25]) rotate([90, 0, 90]) cylinder(r = SPROCKET_W/2, h = SPROCKET_L, center = true);
+            translate([0, 0, 0]) scale([1, 1, 2.25]) rotate([90, 0, 90]) cylinder(r = SprocketW/2, h = SprocketL, center = true);
             translate([0, 0, -1]) cube([2, 2, 2], center = true);
-            //translate([1.5, 0, 0]) rotate([0, -5, 0]) cube([2, 2, 2], center = true);
-            //translate([-1.5, 0, 0]) rotate([0, 5, 0]) cube([2, 2, 2], center = true);
+            if (bevel) {
+                translate([1.5, 0, 0]) rotate([0, -5, 0]) cube([2, 2, 2], center = true);
+                translate([-1.5, 0, 0]) rotate([0, 5, 0]) cube([2, 2, 2], center = true);
+            }
         }
     }
 }
-module sprocketed_roller () {
-    difference () {
-        union () {
-           cylinder(r = SPROCKET_BASE_D / 2, h = SPROCKET_BASE_H, center = true);
+module sprocketed_roller (pos = [0, 0, 0], bevel = false) {
+    translate(pos) {
+        difference () {
+            union () {
+               cylinder(r = SprocketBaseD / 2, h = SprocketBaseH, center = true);
 
-            translate([0, 0, (INNER_H / 2) + (SPROCKET_BASE_H / 2)]) cylinder(r = INNER_D / 2, h = INNER_H, center = true);
+                translate([0, 0, (InnerH / 2) + (SprocketBaseH / 2)]) cylinder(r = InnerD / 2, h = InnerH, center = true);
 
-            translate([0, 0, (TOP_BASE_H / 2) +INNER_H + (SPROCKET_BASE_H / 2)]) cylinder(r = TOP_BASE_D / 2, h = TOP_BASE_H, center = true);
-            translate([0, 0, (TOP_BASE_H / 2) + INNER_H + (SPROCKET_BASE_H / 2) - (TOP_BASE_H / 2) + (LIP_H / 2)]) cylinder(r = LIP_D / 2, h = LIP_H, center = true);
-            translate([0, 0, (TOP_BASE_H / 2) + INNER_H + (SPROCKET_BASE_H / 2) + (TOP_BASE_H / 2) - (LIP_H / 2)]) cylinder(r = LIP_D / 2, h = LIP_H, center = true);
-            translate([0, 0, (TOP_H / 2) + (TOP_BASE_H / 2) + INNER_H + (SPROCKET_BASE_H / 2) + (TOP_BASE_H / 2) - (LIP_H / 2)]) cylinder(r = TOP_D / 2, h = TOP_H, center = true);
+                translate([0, 0, (TopBaseH / 2) +InnerH + (SprocketBaseH / 2)]) cylinder(r = TopBaseD / 2, h = TopBaseH, center = true);
+                translate([0, 0, (TopBaseH / 2) + InnerH + (SprocketBaseH / 2) - (TopBaseH / 2) + (LipH / 2)]) cylinder(r = LipD / 2, h = LipH, center = true);
+                translate([0, 0, (TopBaseH / 2) + InnerH + (SprocketBaseH / 2) + (TopBaseH / 2) - (LipH / 2)]) cylinder(r = LipD / 2, h = LipH, center = true);
+                translate([0, 0, (TopH / 2) + (TopBaseH / 2) + InnerH + (SprocketBaseH / 2) + (TopBaseH / 2) - (LipH / 2)]) cylinder(r = TopD / 2, h = TopH, center = true);
+            }
+            cylinder(r = HollowD / 2, h = 100, center = true);
+            translate([0, 0, (HollowBaseH / 2) - (SprocketBaseH / 2)]) cylinder(r = HollowBaseD/2, h = HollowBaseH + 0.1, center = true);
         }
-        cylinder(r = HOLLOW_D / 2, h = 100, center = true);
-        translate([0, 0, (HOLLOW_BASE_H / 2) - (SPROCKET_BASE_H / 2)]) cylinder(r = HOLLOW_BASE_D/2, h = HOLLOW_BASE_H + 0.1, center = true);
-    }
-    for (i = [0: 8]) {
-        rotate([0, 0, i * 360 / 8]) translate([(SPROCKET_BASE_D / 2) + (SPROCKET_H / 2) - .15, 0, (SPROCKET_BASE_H / 2) - (SPROCKET_L / 2)]) rotate([0, 90, 0]) sprocket();
+        for (i = [0: 8]) {
+            rotate([0, 0, i * 360 / 8]) sprocket([(SprocketBaseD / 2) -.01, 0, (SprocketBaseH / 2) - (SprocketL / 2)], [0, 90, 0], bevel);
+        }
     }
 }
 
-sprocketed_roller();
+sprocketed_roller( bevel = true);
