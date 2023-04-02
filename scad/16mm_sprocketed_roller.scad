@@ -1,3 +1,5 @@
+include <./common/common.scad>;
+
 SprocketBaseD = 19.05; //8 frames
 SprocketBaseH = 2.7;
 
@@ -38,20 +40,22 @@ module sprocket (pos = [0, 0, 0], rot = [0, 0, 0], bevel = false) {
     }
 }
 module sprocketed_roller (pos = [0, 0, 0], bevel = false) {
+    SoundtrackH = (TopBaseH / 2) + InnerH + (SprocketBaseH / 2);
     translate(pos) {
         difference () {
             union () {
-               cylinder(r = SprocketBaseD / 2, h = SprocketBaseH, center = true);
-
-                translate([0, 0, (InnerH / 2) + (SprocketBaseH / 2)]) cylinder(r = InnerD / 2, h = InnerH, center = true);
-
-                translate([0, 0, (TopBaseH / 2) +InnerH + (SprocketBaseH / 2)]) cylinder(r = TopBaseD / 2, h = TopBaseH, center = true);
-                translate([0, 0, (TopBaseH / 2) + InnerH + (SprocketBaseH / 2) - (TopBaseH / 2) + (LipH / 2)]) cylinder(r = LipD / 2, h = LipH, center = true);
-                translate([0, 0, (TopBaseH / 2) + InnerH + (SprocketBaseH / 2) + (TopBaseH / 2) - (LipH / 2)]) cylinder(r = LipD / 2, h = LipH, center = true);
-                translate([0, 0, (TopH / 2) + (TopBaseH / 2) + InnerH + (SprocketBaseH / 2) + (TopBaseH / 2) - (LipH / 2)]) cylinder(r = TopD / 2, h = TopH, center = true);
+                //sprocket base
+                cylinder(r = R(SprocketBaseD), h = SprocketBaseH, center = true);
+                //center
+                translate([0, 0, (InnerH / 2) + (SprocketBaseH / 2)]) cylinder(r = R(InnerD), h = InnerH, center = true);
+                //soundtrack area
+                translate([0, 0, SoundtrackH]) cylinder(r = R(TopBaseD), h = TopBaseH, center = true);
+                translate([0, 0, SoundtrackH - (TopBaseH / 2) + (LipH / 2)]) cylinder(r = R(LipD), h = LipH, center = true);
+                translate([0, 0, SoundtrackH + (TopBaseH / 2) - (LipH / 2)]) cylinder(r = R(LipD), h = LipH, center = true);
+                translate([0, 0, SoundtrackH + (TopH / 2) + (TopBaseH / 2) - (LipH / 2)]) cylinder(r = R(TopD), h = TopH, center = true);
             }
             cylinder(r = HollowD / 2, h = 100, center = true);
-            translate([0, 0, (HollowBaseH / 2) - (SprocketBaseH / 2)]) cylinder(r = HollowBaseD/2, h = HollowBaseH + 0.1, center = true);
+            translate([0, 0, (HollowBaseH / 2) - (SprocketBaseH / 2)]) cylinder(r = R(HollowBaseD), h = HollowBaseH + 0.1, center = true);
         }
         for (i = [0: 8]) {
             rotate([0, 0, i * 360 / 8]) sprocket([(SprocketBaseD / 2) -.01, 0, (SprocketBaseH / 2) - (SprocketL / 2)], [0, 90, 0], bevel);
