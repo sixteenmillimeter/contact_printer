@@ -1,114 +1,111 @@
+include <./common/common.scad>;
+
+SprocketBaseD = 19.05; //8 frames
+SprocketBaseH = 2.7;
+FrameC = (SprocketBaseD * PI) / 8;
+
+SprocketH = 10;
+SprocketW = 1;
+SprocketL = 1.5;
+
+InnerH = 10.6;
+
+
+TopBaseD = 18.47;
+TopBaseC = (TopBaseD * PI) / 8;
+TopBaseH = 2.96;
+
+LipD = 18.84;
+LipH = 0.33;
+LipC = (LipD * PI) / 8;
+
+TopD = 21.66;
+TopC = (TopD * PI) / 8;
+TopH = 1.4;
+
+
+
+echo(FrameC);
+
 $fn = 100;
 
-SPROCKET_BASE_D = 19.05; //8 frames
-SPROCKET_BASE_H = 2.7;
-FRAME_C = (SPROCKET_BASE_D * PI) / 8;
+module sprocket (pos = [0, 0, 0], rot = [0, 0, 0], bevel = false) {
 
-SPROCKET_H = 10;
-SPROCKET_W = 1;
-SPROCKET_L = 1.5;
-
-INNER_H = 10.6;
-
-TOP_D = 21.66;
-TOP_C = (TOP_D * PI) / 8;
-TOP_H = 1.4;
-
-TOP_BASE_D = 18.47;
-TOP_BASE_C = (TOP_BASE_D * PI) / 8;
-TOP_BASE_H = 2.96;
-
-LIP_D = 18.84;
-LIP_H = 0.33;
-LIP_C = (LIP_D * PI) / 8;
-
-echo(FRAME_C);
-
-module bearing_laser (x, y, z, width= 8, hole = true) {
-	innerD = 8.05;
-	outerD = 22.1 - .4;
-	fuzz = 0.3;
-	translate ([x, y, z]) {
-		difference () {
-			cylinder(r = (outerD / 2) + fuzz, h = width, center = true);
-			if (hole) {
-				cylinder(r = innerD / 2 - fuzz, h = width, center = true);
-			}
-		}
-	}
-}
-
-module sprocket () {
-    translate ([0, 0, -SPROCKET_H/2]) {
+    translate (pos) rotate(rot) {
         difference () {
-            translate([0, 0, 0]) scale([1, 1.2, 2]) rotate([90, 0, 90]) cylinder(r = SPROCKET_W/2, h = SPROCKET_L, center = true);
+            translate([0, 0, 0]) scale([1, 1, 2.25]) rotate([90, 0, 90]) cylinder(r = SprocketW/2, h = SprocketL, center = true);
             translate([0, 0, -1]) cube([2, 2, 2], center = true);
-        }
-    }
-}
-
-module sprocketed_roller (sprockets = 8) {
-  D = (FRAME_C * sprockets) / PI;
-  LIP_D = (LIP_C * sprockets) / PI;
-  TOP_D = (TOP_C * sprockets) / PI;
-  TOP_BASE_D = (TOP_BASE_C * sprockets) / PI;
-  INNER_D = D - 5.07;
-    
-  echo(D);
-  echo(LIP_D);
-
-  //top
-  cylinder(r = D / 2, h = SPROCKET_BASE_H, center = true);
-    
-  //center
-  translate([0, 0, (INNER_H / 2) + (SPROCKET_BASE_H / 2)]) {
-    cylinder(r = INNER_D / 2, h = INNER_H, center = true);
-  }
-  
-  //lip
-  translate([0, 0, (TOP_BASE_H / 2) + INNER_H + (SPROCKET_BASE_H / 2) - (TOP_BASE_H / 2) + (LIP_H / 2)]) {
-      cylinder(r = LIP_D / 2, h = LIP_H, center = true);
-  }
-  
-  //bottom
-  translate([0, 0, (TOP_H / 2) + (TOP_BASE_H / 2) + INNER_H + (SPROCKET_BASE_H / 2) + (TOP_BASE_H / 2) - (LIP_H / 2)]) {
-      cylinder(r = TOP_D / 2, h = TOP_H, center = true);
-  }
-  
-  //bottom base
-  translate([0, 0, (TOP_BASE_H / 2) +INNER_H + (SPROCKET_BASE_H / 2)]) {
-      cylinder(r = TOP_BASE_D / 2, h = TOP_BASE_H, center = true);
-  }
-
-  for (i = [0: sprockets]) {
-    rotate([0, 0, i * 360 / sprockets]) translate([(D / 2) + (SPROCKET_H / 2) - .15, 0, (SPROCKET_BASE_H / 2) - (SPROCKET_L / 2)]) rotate([0, 90, 0]) sprocket();
-  }
-}
-
-//rotate([0, 0, time]) sprocketed_roller(sprockets = 13);
-
-module corner (sprockets = 8) {
-    
-}
-
-module contact_printer_roller () {
-    union () {
-        sprocketed_roller(13);
-        translate([0, 0, 16]) cylinder(r = 12 / 2, h = 2, center = true);
-        translate([0, 0, 22]) {
-            difference () {
-                translate([0, 0, 3]) cylinder(r = 8 / 2, h = 26, center = true, $fn = 50);
-                translate([0, 6.5, 11]) cube([10, 10, 12], center = true);
+            if (bevel) {
+                translate([1.5, 0, 0]) rotate([0, -5, 0]) cube([2, 2, 3], center = true);
+                translate([-1.5, 0, 0]) rotate([0, 5, 0]) cube([2, 2, 3], center = true);
             }
         }
-        
     }
 }
-module contact_printer_roller2 () {
-	innerD = 8.05;
-	fuzz = 0.3;
-	translate([0, 0, 21]) cylinder(r = innerD / 2 - fuzz, h = 10, center = true);
-    sprocketed_roller(13);
+
+module sprocketed_roller_body (sprockets = 8, pos = [0, 0, 0], rot = [0, 0, 0], bevel = false) {
+    D = (FrameC * sprockets) / PI;
+    LipD = (LipC * sprockets) / PI;
+    TopD = (TopC * sprockets) / PI;
+    TopBaseD = (TopBaseC * sprockets) / PI;
+    InnerD = D - 5.07;
+
+    echo("D", D);
+    echo("LipD", LipD);
+    echo("InnerD", InnerD);
+
+    translate(pos) rotate(rot) {
+        //top
+        cylinder(r = R(D), h = SprocketBaseH, center = true);
+
+        //center
+        translate([0, 0, (InnerH / 2) + (SprocketBaseH / 2)]) {
+            cylinder(r = R(InnerD), h = InnerH, center = true);
+        }
+
+        //lip
+        translate([0, 0, (TopBaseH / 2) + InnerH + (SprocketBaseH / 2) - (TopBaseH / 2) + (LipH / 2)]) {
+            cylinder(r = R(LipD), h = LipH, center = true);
+        }
+
+        //bottom
+        translate([0, 0, (TopH / 2) + (TopBaseH / 2) + InnerH + (SprocketBaseH / 2) + (TopBaseH / 2) - (LipH / 2)]) {
+            cylinder(r = R(TopD), h = TopH, center = true);
+        }
+
+        //bottom base
+        translate([0, 0, (TopBaseH / 2) + InnerH + (SprocketBaseH / 2)]) {
+            cylinder(r = R(TopBaseD), h = TopBaseH, center = true);
+        }
+
+        for (i = [0: sprockets]) {
+        rotate([0, 0, i * 360 / sprockets]) sprocket([(D / 2) - .01, 0, (SprocketBaseH / 2) - (SprocketL / 2)], [0, 90, 0], bevel);
+        }
+    }
 }
-//contact_printer_roller();
-//contact_printer_roller2();
+
+module sprocketed_roller (sprockets = 8, pos = [0, 0, 0], rot = [0, 0, 0], bevel = false) {
+    difference () {
+        union () {
+            sprocketed_roller_body(sprockets, pos, rot, bevel);
+            //translate(pos) rotate(rot) addition();
+        }
+        //translate(pos) rotate(rot) void();
+    }
+}
+
+module bearing_laser (x, y, z, width= 8, hole = true) {
+    innerD = 8.05;
+    outerD = 22.1 - .4;
+    fuzz = 0.3;
+    translate ([x, y, z]) {
+        difference () {
+            cylinder(r = (outerD / 2) + fuzz, h = width, center = true);
+            if (hole) {
+                cylinder(r = innerD / 2 - fuzz, h = width, center = true);
+            }
+        }
+    }
+}
+
+sprocketed_roller(sprockets = 24, bevel = true);

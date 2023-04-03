@@ -3,29 +3,32 @@ include <./common/common.scad>;
 SprocketBaseD = 19.05; //8 frames
 SprocketBaseH = 2.7;
 
+
+SprocketH = 10;
+SprocketW = 0.79;
+SprocketL = 1.3;
+
 InnerD = 13.98;
 InnerH = 10.6;
 
 TopBaseD = 18.47;
 TopBaseH = 2.96;
 
+
 LipD = 18.84;
 LipH = 0.33;
+
+
+TopD = 21.66;
+TopH = 1.4;
+
 
 HollowD = 4.7;
 HollowBaseD = 12.01;
 HollowBaseH = 6.09;
 
-TopD = 21.66;
-TopH = 1.4;
-
-SprocketH = 10;
-SprocketW = 0.79;
-SprocketL = 1.3;
-
-FrameC = (SprocketBaseD * PI) / 8;
-
 $fn = 100;
+
 module sprocket (pos = [0, 0, 0], rot = [0, 0, 0], bevel = false) {
     //cube([SprocketL, SprocketW, SprocketH], center = true);
     translate (pos) rotate(rot) {
@@ -33,12 +36,13 @@ module sprocket (pos = [0, 0, 0], rot = [0, 0, 0], bevel = false) {
             translate([0, 0, 0]) scale([1, 1, 2.25]) rotate([90, 0, 90]) cylinder(r = SprocketW/2, h = SprocketL, center = true);
             translate([0, 0, -1]) cube([2, 2, 2], center = true);
             if (bevel) {
-                translate([1.5, 0, 0]) rotate([0, -5, 0]) cube([2, 2, 2], center = true);
-                translate([-1.5, 0, 0]) rotate([0, 5, 0]) cube([2, 2, 2], center = true);
+                translate([1.5, 0, 0]) rotate([0, -5, 0]) cube([2, 2, 3], center = true);
+                translate([-1.5, 0, 0]) rotate([0, 5, 0]) cube([2, 2, 3], center = true);
             }
         }
     }
 }
+
 module sprocketed_roller (pos = [0, 0, 0], bevel = false) {
     SoundtrackH = (TopBaseH / 2) + InnerH + (SprocketBaseH / 2);
     translate(pos) {
