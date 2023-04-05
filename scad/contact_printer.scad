@@ -3,9 +3,25 @@ include <./lamp.scad>;
 include <./box_laser.scad>
 include <./common/common.scad>
 
+IN = 25.4;
+
+DaylightW = 92;
+DaylightH = 18;
+
+MotorZ = -16;
+
+RollerY = -20;
+
+LampY = 20;
+
+IdleRollerPrintX = 35;
+IdleRollerPrintY = -10;
+IdleRollerNegativeX = 55;
+IdleRollerNegativeY = 10;
+
+/*
 AT = 25.4 * 0.22;
-daylight_w = 92;
-daylight_h = 18;
+
 
 INNER_BOX_X = 225;
 INNER_BOX_Y = 400;
@@ -52,31 +68,6 @@ BREAK_PEG_OFFSET = -80;
 
 module m5_25 () {
     cylinder(r = BOLT_R, h = BOLT_Z, center = true);
-}
-
-module daylight_spool (DEBUG = false) {  
-    //inner starting d = 31.5 or 32
-	color([[255, 0, 0, 1]]) difference () {
-		cylinder(r=daylight_w / 2, h = daylight_h, center = true);
-		cylinder(r=(daylight_w / 2) + 1, h = daylight_h - 2, center = true);
-		cube([9, 9, 50], center=true);
-		translate([4.5, 4.5, 0]) {
-			rotate([0, 0, 45]) {
-				cube([3, 3, 50], center=true);
-			}
-		}
-	}
-	difference () {
-		cylinder(r = 32/2, h = daylight_h, center=true);
-		cylinder(r = 32/2 - 1, h = daylight_h + 1, center=true);
-		translate([0, 32/2, 0]) {
-			cube([1.3, 10, 18], center=true);
-		}
-	}
-    
-    if (DEBUG) {
-        color([0,0,1,0.5]) cylinder(r = 300, h = 16, center=true);
-    }
 }
   
 module roller (DEBUG = false) {
@@ -671,12 +662,12 @@ module reel_holder_plate () {
 }
 
 //corner pieces for outer box to support inner box 
-/*
-___________
-|/       \|
-|         |
-|\_______/|
-*/
+
+// ___________
+// |/       \|
+// |         |
+// |\_______/|
+
 module spacer () {
         H = 16.3;
         W = 25;
@@ -715,27 +706,29 @@ module sprocketed_roller_gear_cap () {
         }
         translate([0, 0, -30]) contact_printer_roller();
     }
-}
+}*/
+
+
 
 //contact_printer();
 /*projection() {
-	intersection () {
-		inner_box();
-		translate([30, 0, 0]) cube([130, 160, 50], center = true);
-	}
+    intersection () {
+        inner_box();
+        translate([30, 0, 0]) cube([130, 160, 50], center = true);
+    }
 }*/
 //translate([23, 0, 0]) cube([35, 45, 5], center = true);
 //translate([8, 0, -26]) rotate([0, 0, 34]) import("/home/mathias/Desktop/InvoluteGear_2.dxf");
 //translate([20, 0, -20]) cube([41.6, 0.5, 2], center = true);
 //translate([0, 0, 6]) outer_box();
 //translate([57.5, 0, 0]) four_point_connector();
-translate([40, 0, LAMP_Z]) rotate([0, 0, -90]) {
+//translate([40, 0, LAMP_Z]) rotate([0, 0, -90]) {
     //lamp_plate();
-	lamp_housing();
+    //lamp_housing();
     //translate([0, 15, 4]) lamp_front();
-	//gate();
+    //gate();
     
-}
+//}
 //sprocketed_roller_gear_cap ();
 //reel_holder_plate();
 //reel_holder();
@@ -758,3 +751,95 @@ translate([40, 0, LAMP_Z]) rotate([0, 0, -90]) {
 //contact_printer_roller();
 
 //sprocketed_roller_mold();
+
+/**
+ * DEBUG MODULES
+ **/
+
+module daylight_spool (DEBUG = false) {  
+    //inner starting d = 31.5 or 32
+    color([[255, 0, 0, 1]]) difference () {
+        cylinder(r=DaylightW / 2, h = DaylightH, center = true);
+        cylinder(r=(DaylightW / 2) + 1, h = DaylightH - 2, center = true);
+        cube([9, 9, 50], center=true);
+        translate([4.5, 4.5, 0]) {
+            rotate([0, 0, 45]) {
+                cube([3, 3, 50], center=true);
+            }
+        }
+    }
+    difference () {
+        cylinder(r = 32/2, h = DaylightH, center=true);
+        cylinder(r = 32/2 - 1, h = DaylightH + 1, center=true);
+        translate([0, 32/2, 0]) {
+            cube([1.3, 10, 18], center=true);
+        }
+    }
+    
+    if (DEBUG) {
+        color([0,0,1,0.5]) cylinder(r = 300, h = 16, center=true);
+    }
+}
+
+module centered_geared_motor (pos = [0, 0, 0], rot = [0, 0, 0]) {
+    translate(pos) rotate(rot) {
+        translate([8.25, 0, 0]) geared_motor();
+    }
+}
+
+module debug () {
+    //////
+    panel([0, 0, -2.5]);
+    translate([0, RollerY, 18]) rotate([180, 0, 0]) sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor");
+    lamp([0, LampY, 0]);
+    idle_roller([ IdleRollerPrintX, IdleRollerPrintY, 3]);
+    idle_roller([-IdleRollerPrintX, IdleRollerPrintY, 3]);
+    idle_roller([ IdleRollerNegativeX, IdleRollerNegativeY, 3]);
+    idle_roller([-IdleRollerNegativeX, IdleRollerNegativeY, 3]);
+    //////
+    centered_geared_motor([0, RollerY, MotorZ], [180, 0, 180]);
+    //feed
+    translate([-100,  50, 15]) daylight_spool();
+    translate([-100, -50, 15]) daylight_spool();
+    //takeup
+    translate([100,  50, 15]) daylight_spool();
+    translate([100, -50, 15]) daylight_spool();
+    centered_geared_motor([100,  50, MotorZ], [180, 0, 180]);
+    centered_geared_motor([100, -50, MotorZ], [180, 0, 180]); 
+}
+
+/**
+ * CONTACT PRINTER MODULES
+ **/
+
+module idle_roller (pos = [0, 0, 0]) {
+    $fn = 80;
+    translate(pos) {
+        cylinder(r = R(16), h = 1, center = true);
+        translate([0, 0, 17]) cylinder(r = R(16), h = 1, center = true);
+        translate([0, 0, 17/2]) cylinder(r = R(12), h = 17, center = true);
+    }
+}
+
+module lamp (pos = [0, 0, 0]) {
+    translate(pos) {
+        difference () {
+            cube([50, 50, 4], center = true);
+            translate([0, -40, 0]) cylinder(r = R(60), h = 4 + 1, center = true, $fn = 100);
+        }
+    }
+}
+
+module panel (pos = [0, 0, 0]) {
+    translate (pos) {
+        color("green") cube([250, 150, 5], center = true);
+    }
+}
+
+PART = "";
+
+if (PART == "panel") {
+
+} else {
+    debug();
+}
