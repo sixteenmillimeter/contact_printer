@@ -89,7 +89,7 @@ module m3_bolt_void (pos = [0, 0, 0]) {
 module sprocketed_wheel_m3_nut_void (pos = [0, 0, 0]) {
     translate(pos) {
         cylinder(r = R(3.25), h = 40, center = true, $fn = 30);
-        hex(R(6), 4);
+        hex(R(6.3), 4);
     }
 }
 
@@ -109,7 +109,8 @@ module sprocketed_roller_body (pos = [0, 0, 0], rot = [0, 0, 0], sprockets = 8, 
     TopBaseD = (TopBaseC * sprockets) / PI;
     InnerD = D - 5.07;
     ReinforcedRegistration = (InnerD - 5) / 2;
-    BoltsY = ReinforcedRegistration + 12;
+    ReinforcedRegistrationCorner = sqrt(pow(2.5, 2) + pow(2.5, 2));
+    BoltsY = ReinforcedRegistration + 12.5;
 
     echo("D", D);
     echo("LipD", LipD);
@@ -119,10 +120,11 @@ module sprocketed_roller_body (pos = [0, 0, 0], rot = [0, 0, 0], sprockets = 8, 
         //top
         union () {
             if (!reinforced) {
-                sprocketed_roller_top_sprockets(sprockets = sprockets, D = D, bevel = bevel);
+                sprocketed_roller_sprocket_wheel(sprockets = sprockets, D = D, bevel = bevel);
             } else {
                 cube([ReinforcedRegistration + 5, ReinforcedRegistration, SprocketBaseH], center = true);
                 cube([ReinforcedRegistration, ReinforcedRegistration + 5, SprocketBaseH], center = true);
+                translate([(ReinforcedRegistration/2), (ReinforcedRegistration/2), 0]) rotate([0, 0, 45]) cube([ReinforcedRegistrationCorner, ReinforcedRegistrationCorner, SprocketBaseH], center = true);
             }
 
             //center
@@ -181,7 +183,7 @@ module sprocketed_roller_reinforced (pos = [0, 0, 0], rot = [0, 0, 0], sprockets
     }
 }
 
-PART = "sprocketed_wheel";
+PART = "sprocketed_roller_reinforced";
 if (PART == "sprocketed_roller_reinforced") {
     rotate([180, 0, 0]) sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor", reinforced = true, bolts = true);
 } else if (PART == "sprocketed_wheel") {
