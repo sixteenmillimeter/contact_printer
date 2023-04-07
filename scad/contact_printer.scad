@@ -759,8 +759,8 @@ module sprocketed_roller_gear_cap () {
 module daylight_spool (DEBUG = false) {  
     //inner starting d = 31.5 or 32
     color([[255, 0, 0, 1]]) difference () {
-        cylinder(r=DaylightW / 2, h = DaylightH, center = true);
-        cylinder(r=(DaylightW / 2) + 1, h = DaylightH - 2, center = true);
+        cylinder(r = R(DaylightW), h = DaylightH - 0.1, center = true);
+        cylinder(r = R(DaylightW) + 1, h = DaylightH - 2, center = true);
         cube([9, 9, 50], center=true);
         translate([4.5, 4.5, 0]) {
             rotate([0, 0, 45]) {
@@ -769,15 +769,11 @@ module daylight_spool (DEBUG = false) {
         }
     }
     difference () {
-        cylinder(r = 32/2, h = DaylightH, center=true);
-        cylinder(r = 32/2 - 1, h = DaylightH + 1, center=true);
+        cylinder(r = R(32), h = DaylightH - 0.2, center=true);
+        cylinder(r = R(32) - 1, h = DaylightH + 1, center=true);
         translate([0, 32/2, 0]) {
             cube([1.3, 10, 18], center=true);
         }
-    }
-    
-    if (DEBUG) {
-        color([0,0,1,0.5]) cylinder(r = 300, h = 16, center=true);
     }
 }
 
@@ -788,6 +784,7 @@ module centered_geared_motor (pos = [0, 0, 0], rot = [0, 0, 0]) {
 }
 
 module debug () {
+    DaylightZ = 11.5;
     //////
     panel([0, 0, -2.5]);
     translate([0, RollerY, 18]) rotate([180, 0, 0]) sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor");
@@ -799,13 +796,15 @@ module debug () {
     //////
     centered_geared_motor([0, RollerY, MotorZ], [180, 0, 180]);
     //feed
-    translate([-100,  50, 15]) daylight_spool();
-    translate([-100, -50, 15]) daylight_spool();
+    translate([-100,  50, DaylightZ]) daylight_spool();
+    translate([-100, -50, DaylightZ]) daylight_spool();
     //takeup
-    translate([100,  50, 15]) daylight_spool();
-    translate([100, -50, 15]) daylight_spool();
+    translate([100,  50, DaylightZ]) daylight_spool();
+    translate([100, -50, DaylightZ]) daylight_spool();
     centered_geared_motor([100,  50, MotorZ], [180, 0, 180]);
     centered_geared_motor([100, -50, MotorZ], [180, 0, 180]); 
+
+    translate([0, 0, DaylightZ]) color("red", 0.25) cube([250, 100, 16], center = true);
 }
 
 /**
@@ -815,9 +814,14 @@ module debug () {
 module idle_roller (pos = [0, 0, 0]) {
     $fn = 80;
     translate(pos) {
-        cylinder(r = R(16), h = 1, center = true);
-        translate([0, 0, 17]) cylinder(r = R(16), h = 1, center = true);
-        translate([0, 0, 17/2]) cylinder(r = R(12), h = 17, center = true);
+        difference () {
+            union () {
+                cylinder(r = R(16), h = 1, center = true);
+                translate([0, 0, 17]) cylinder(r = R(16), h = 1, center = true);
+                translate([0, 0, 17/2]) cylinder(r = R(12), h = 17, center = true);
+            }
+            //
+        }
     }
 }
 
@@ -832,14 +836,14 @@ module lamp (pos = [0, 0, 0]) {
 
 module panel (pos = [0, 0, 0]) {
     translate (pos) {
-        color("green") cube([250, 150, 5], center = true);
+        translate([20, 0, 0]) color("green") cube([200, 150, 5], center = true);
     }
 }
 
 PART = "";
 
 if (PART == "panel") {
-
+    panel();
 } else {
     debug();
 }
