@@ -74,7 +74,7 @@ module m3_nut_void (pos = [0, 0, 0], rot = [0, 0, 0], H = 20) {
     translate(pos) rotate(rot) {
         translate([0, 6, -4.25 + (2.75/2)]) cube([6, 12, 2.75], center = true);
         cylinder(r = R(3.25), h = H, center = true, $fn = 30);
-        translate([0, 0, -4.25]) hex(R(6), 2.75);
+        translate([0, 0, -4.25]) hex(6, 2.75);
         translate([0, 0, (H/2)-4.5]) cylinder(r = R(6), h = 5, center = true, $fn = 40);
     }
 }
@@ -89,7 +89,7 @@ module m3_bolt_void (pos = [0, 0, 0]) {
 module sprocketed_wheel_m3_nut_void (pos = [0, 0, 0]) {
     translate(pos) {
         cylinder(r = R(3.25), h = 40, center = true, $fn = 30);
-        hex(R(6.3), 4);
+        hex(6.3, 4);
     }
 }
 

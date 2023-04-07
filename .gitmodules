@@ -1,3 +1,6 @@
 [submodule "scad/common"]
 	path = scad/common
 	url = https://git.sixteenmillimeter.com/modules/common.git
+[submodule "scad/takeup"]
+	path = scad/takeup
+	url = https://git.sixteenmillimeter.com/modules/takeup.git
