@@ -154,7 +154,7 @@ module sprocketed_roller_body (pos = [0, 0, 0], rot = [0, 0, 0], sprockets = 8, 
     }
 }
 
-module sprocketed_roller (pos = [0, 0, 0], rot = [0, 0, 0], sprockets = 8, bevel = false, reinforced = false, , bolts = false, model = "") {
+module sprocketed_roller (pos = [0, 0, 0], rot = [0, 0, 0], sprockets = 8, bevel = false, reinforced = false, bolts = false, model = "") {
     D = (FrameC * sprockets) / PI;
     difference () {
         union () {

@@ -1,12 +1,18 @@
-include <16mm_sprocketed_roller_var.scad>
+include <./16mm_sprocketed_roller_var.scad>
 include <./lamp.scad>;
 include <./box_laser.scad>
 include <./common/common.scad>
+include <./common/motors.scad>
 
 IN = 25.4;
 
-DaylightW = 92;
+DaylightW = 92; 
 DaylightH = 18;
+
+PanelX = 200;
+PanelY = 150;
+PanelZ = 5;
+PanelDimensions = [PanelX, PanelY, PanelZ];
 
 MotorZ = -16;
 
@@ -836,7 +842,7 @@ module lamp (pos = [0, 0, 0]) {
 
 module panel (pos = [0, 0, 0]) {
     translate (pos) {
-        translate([20, 0, 0]) color("green") cube([200, 150, 5], center = true);
+        translate([20, 0, 0]) color("green") cube(PanelDimensions, center = true);
     }
 }
 
