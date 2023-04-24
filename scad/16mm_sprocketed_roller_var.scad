@@ -183,10 +183,11 @@ module sprocketed_roller_reinforced (pos = [0, 0, 0], rot = [0, 0, 0], sprockets
     }
 }
 
+LIBRARY = false;
 PART = "sprocketed_roller_reinforced";
-if (PART == "sprocketed_roller_reinforced") {
+if (!LIBRARY && PART == "sprocketed_roller_reinforced") {
     rotate([180, 0, 0]) sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor", reinforced = true, bolts = true);
-} else if (PART == "sprocketed_wheel") {
+} else if (!LIBRARY && PART == "sprocketed_wheel") {
     rotate([180, 0, 0]) color("red") sprocketed_roller_reinforced(sprockets = 18, bevel = false, model = "gearbox_motor", bolts = true);
 }
 

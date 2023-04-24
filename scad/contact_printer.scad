@@ -846,10 +846,13 @@ module panel (pos = [0, 0, 0]) {
     }
 }
 
-PART = "";
+PART = "sprocketed_roller_reinforced";
+LIBRARY = true;
 
 if (PART == "panel") {
     panel();
+} else if (PART == "sprocketed_roller_reinforced") {
+    sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor", reinforced = true);
 } else {
     debug();
 }
