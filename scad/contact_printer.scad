@@ -852,7 +852,7 @@ LIBRARY = true;
 if (PART == "panel") {
     panel();
 } else if (PART == "sprocketed_roller_reinforced") {
-    sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor", reinforced = true);
+    sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor", reinforced = true, bolts = true);
 } else {
     debug();
 }
