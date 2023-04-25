@@ -967,13 +967,15 @@ module panel (pos = [0, 0, 0]) {
     takeup_mount_panel([0, RollerY, -7], [0, 0, 90]);
 }
 
-PART = "sprocketed_roller_reinforcedx";
+PART = "x";
 LIBRARY = true;
 
 if (PART == "panel") {
     panel();
 } else if (PART == "sprocketed_roller_reinforced") {
     sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor", reinforced = true, bolts = true);
+} else if (PART == "2020_tslot_insert") {
+    2020_tslot_insert();
 } else {
     debug();
 }
