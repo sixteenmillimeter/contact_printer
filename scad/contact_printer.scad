@@ -1,17 +1,22 @@
-include <./16mm_sprocketed_roller_var.scad>
+include <./16mm_sprocketed_roller_var.scad>;
 include <./lamp.scad>;
-include <./box_laser.scad>
-include <./common/common.scad>
-include <./common/motors.scad>
-include <./common/2020T-Slot.scad>
+include <./box_laser.scad>;
+include <./common/common.scad>;
+include <./common/motors.scad>;
+include <./common/2020_tslot.scad>;
+include <./takeup/takeup.scad>;
 
 IN = 25.4;
+
+FrameX = 300;
+FrameY = 175;
+FrameZ = -16;
 
 DaylightW = 92; 
 DaylightH = 18;
 
-PanelX = 200;
-PanelY = 150;
+PanelX = 130;
+PanelY = 185;
 PanelZ = 5;
 PanelDimensions = [PanelX, PanelY, PanelZ];
 
@@ -21,10 +26,17 @@ RollerY = -20;
 
 LampY = 20;
 
+LampBoltX = 55;
+LampBoltY = 30;
+LampBoltH = 30;
+
 IdleRollerPrintX = 35;
 IdleRollerPrintY = -10;
 IdleRollerNegativeX = 55;
 IdleRollerNegativeY = 10;
+
+echo("Frame 2020 X (x2)", FrameX);
+echo("Frame 2020 Y (x2)", FrameY + 20);
 
 /*
 AT = 25.4 * 0.22;
@@ -794,14 +806,22 @@ module debug () {
     DaylightZ = 11.5;
     //////
     panel([0, 0, -2.5]);
-    translate([0, RollerY, 18]) rotate([180, 0, 0]) sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor");
+    
+    translate([0, RollerY, 18]) rotate([180, 0, 0]) difference () {
+        sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor", set_screw_top = true);
+        //translate([50, 0, 0]) cube([100, 100, 100], center = true);
+    }
+    
     lamp([0, LampY, 0]);
+    color("red") lamp_bolts_voids([0, LampY + 15, (LampBoltH/2) - 1.5 - 2.5]);
+    
+    //idle rollers
     idle_roller([ IdleRollerPrintX, IdleRollerPrintY, 3]);
     idle_roller([-IdleRollerPrintX, IdleRollerPrintY, 3]);
     idle_roller([ IdleRollerNegativeX, IdleRollerNegativeY, 3]);
     idle_roller([-IdleRollerNegativeX, IdleRollerNegativeY, 3]);
-    //////
-    centered_geared_motor([0, RollerY, MotorZ], [180, 0, 180]);
+    //active roller
+    //centered_geared_motor([0, RollerY, MotorZ], [180, 0, 90]);
     //feed
     translate([-100,  50, DaylightZ]) daylight_spool();
     translate([-100, -50, DaylightZ]) daylight_spool();
@@ -811,12 +831,40 @@ module debug () {
     centered_geared_motor([100,  50, MotorZ], [180, 0, 180]);
     centered_geared_motor([100, -50, MotorZ], [180, 0, 180]); 
 
-    translate([0, 0, DaylightZ]) color("red", 0.25) cube([250, 100, 16], center = true);
+    //translate([0, 0, DaylightZ]) color("red", 0.25) cube([250, 100, 16], center = true);
+    
+    //2020 frame
+    translate([0, FrameY/2, FrameZ]) rotate([0, 90, 0]) 2020_tslot(FrameX);
+    translate([0, -FrameY/2, FrameZ]) rotate([0, 90, 0]) 2020_tslot(FrameX);
+    translate([(FrameX/2) + 10, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY + 20);
+    translate([-(FrameX/2) - 10, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY + 20);
 }
 
 /**
  * CONTACT PRINTER MODULES
  **/
+
+module m3_panel_bolt_void (pos = [0, 0, 0], H = 10) {
+    translate(pos) {
+        cylinder(r = R(6), h = 5, center = true, $fn = 40);
+        translate([0, 0, -(H/2) - (5/2) + 0.01]) cylinder(r = R(3.25), h = H, center = true, $fn = 25);
+    }
+}
+
+module takeup_mount_panel (pos = [0, 0, 0], rot = [0, 0, 0]) {
+    translate(pos) rotate(rot) intersection() {
+        minimal_mount();
+        translate([10, 0, 0]) cube([50, 30, 10], center = true);
+    }
+}
+
+module panel_motor_mount_void (pos = [0, 0, 0]) {
+    H = 10;
+    D = 7.5 + 1.5;
+    translate(pos) {
+        cylinder(r = R(6), h = H, center = true, $fn = 40);
+    }
+}
 
 module idle_roller (pos = [0, 0, 0]) {
     $fn = 80;
@@ -832,22 +880,94 @@ module idle_roller (pos = [0, 0, 0]) {
     }
 }
 
+module lamp_bolt_void (pos = [0, 0, 0], H = LampBoltH) {
+    translate(pos) {
+        cylinder(r = R(4.25), h = H, center = true);
+        translate([0, 0, -H/2]) m4_nut();
+    }
+}
+
+module lamp_bolts_voids (pos = [0, 0, 0], H = 10) {
+    X = LampBoltX/2;
+    Y = LampBoltY/2;
+    $fn = 30;
+    translate(pos) {
+        lamp_bolt_void([X, Y, 0]);
+        lamp_bolt_void([-X, Y, 0]);
+        lamp_bolt_void([X, -Y, 0]);
+        lamp_bolt_void([-X, -Y, 0]);
+    }
+}
+
+module lamp_post (pos = [0, 0, 0]) {
+    $fn = 40;
+    H = 20;
+    translate(pos) difference () {
+        cylinder(r = R(8), h = H, center = true);
+        cylinder(r = R(4.25), h = H + 1, center = true);
+    }
+}
+
+module lamp_posts (pos = [0, 0, 0], H = 10) {
+    X = LampBoltX/2;
+    Y = LampBoltY/2;
+    $fn = 30;
+    translate(pos) {
+        lamp_post([X, Y, 0]);
+        lamp_post([-X, Y, 0]);
+        lamp_post([X, -Y, 0]);
+        lamp_post([-X, -Y, 0]);
+    }
+}
+
 module lamp (pos = [0, 0, 0]) {
     translate(pos) {
-        difference () {
-            cube([50, 50, 4], center = true);
-            translate([0, -40, 0]) cylinder(r = R(60), h = 4 + 1, center = true, $fn = 100);
+        intersection () {
+            difference () {
+                cube([70, 70, 4], center = true);
+                translate([0, -45, 0]) cylinder(r = R(60), h = 4 + 1, center = true, $fn = 100);
+                lamp_bolts_voids([0, 15, -2]);
+            }
+            translate([0, 45, 0]) cylinder(r = R(130), h = 4 + 1, center = true, $fn = 100);
         }
+        lamp_posts([0, 15, 10]);
     }
 }
 
 module panel (pos = [0, 0, 0]) {
-    translate (pos) {
-        translate([20, 0, 0]) color("green") cube(PanelDimensions, center = true);
+    BoltY = (PanelY-10)/2;
+    BoltX = (PanelX-30)/2;
+    MotorMountX = (GearedMotorMountX + 0.1) / 2;
+    MotorMountY = (GearedMotorMountY + 0.1) / 2;
+    color("green") translate (pos) difference() {
+        cube(PanelDimensions, center = true);
+        
+        //sprocketed roller
+        translate([0, RollerY, 0]) cylinder(r = R(15), h = PanelZ + 1, center = true, $fn = 60);
+        translate([0, -12.5, -4 + 2.5]) rotate([0, 0, 90]) {
+            panel_motor_mount_void([MotorMountX, MotorMountY, 0]);
+            panel_motor_mount_void([-MotorMountX, MotorMountY, 0]);
+            panel_motor_mount_void([MotorMountX, -MotorMountY, 0]);
+            panel_motor_mount_void([-MotorMountX, -MotorMountY, 0]);
+        }
+        
+        //panel bolts
+        m3_panel_bolt_void([0, BoltY, 3]);
+        m3_panel_bolt_void([0, -BoltY, 3]);
+        m3_panel_bolt_void([BoltX, BoltY, 3]);
+        m3_panel_bolt_void([BoltX, -BoltY, 3]);
+        m3_panel_bolt_void([-BoltX, BoltY, 3]);
+        m3_panel_bolt_void([-BoltX, -BoltY, 3]);
+        
+        //lamp
+        lamp_bolts_voids([0, LampY + 15, (LampBoltH/2) - 1.5]);
+        //
+        
     }
+    takeup_mount_panel([0, RollerY, -7], [0, 0, 90]);
 }
 
-PART = "sprocketed_roller_reinforced";
+PART = "sprocketed_roller_reinforcedx";
 LIBRARY = true;
 
 if (PART == "panel") {
