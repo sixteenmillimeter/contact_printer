@@ -3,6 +3,7 @@ include <./lamp.scad>;
 include <./box_laser.scad>
 include <./common/common.scad>
 include <./common/motors.scad>
+include <./common/2020T-Slot.scad>
 
 IN = 25.4;
 
