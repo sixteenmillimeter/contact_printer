@@ -154,7 +154,7 @@ module sprocketed_roller_body (pos = [0, 0, 0], rot = [0, 0, 0], sprockets = 8, 
     }
 }
 
-module sprocketed_roller (pos = [0, 0, 0], rot = [0, 0, 0], sprockets = 8, bevel = false, reinforced = false, bolts = false, model = "") {
+module sprocketed_roller (pos = [0, 0, 0], rot = [0, 0, 0], sprockets = 8, bevel = false, reinforced = false, bolts = false, model = "", set_screw_top = false) {
     D = (FrameC * sprockets) / PI;
     difference () {
         union () {
@@ -163,9 +163,14 @@ module sprocketed_roller (pos = [0, 0, 0], rot = [0, 0, 0], sprockets = 8, bevel
         }
         if (model == "gearbox_motor") {
             translate(pos) rotate(rot) translate([0, 0, 10]) gearbox_motor_shaft_void();
-            translate(pos) rotate(rot) m3_nut_void(pos=[D/4, 0, 8.5], rot = [90, 0, 90], H = D/2);
+            if (set_screw_top) {
+                translate(pos) rotate(rot) rotate([180, 0, 0]) m3_bolt_void([0, 0, -11]);
+            } else {
+                translate(pos) rotate(rot) m3_nut_void(pos=[D/4, 0, 8.5], rot = [90, 0, 90], H = D/2);
+            }
         }
     }
+    
 }
 
 module sprocketed_roller_reinforced (pos = [0, 0, 0], rot = [0, 0, 0], sprockets = 8, bevel = true, model = "", bolts = true) {
@@ -186,7 +191,7 @@ module sprocketed_roller_reinforced (pos = [0, 0, 0], rot = [0, 0, 0], sprockets
 LIBRARY = false;
 PART = "sprocketed_roller_reinforced";
 if (!LIBRARY && PART == "sprocketed_roller_reinforced") {
-    rotate([180, 0, 0]) sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor", reinforced = true, bolts = true);
+    rotate([180, 0, 0]) sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor", reinforced = true, bolts = true, set_screw_top = true);
 } else if (!LIBRARY && PART == "sprocketed_wheel") {
     rotate([180, 0, 0]) color("red") sprocketed_roller_reinforced(sprockets = 18, bevel = false, model = "gearbox_motor", bolts = true);
 }
