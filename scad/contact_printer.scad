@@ -1,10 +1,11 @@
-include <./16mm_sprocketed_roller_var.scad>;
+
 include <./lamp.scad>;
 include <./box_laser.scad>;
 include <./common/common.scad>;
 include <./common/motors.scad>;
 include <./common/2020_tslot.scad>;
 include <./takeup/takeup.scad>;
+include <./sprocketed_roller/sprocketed_roller_var.scad>;
 
 IN = 25.4;
 
