@@ -846,10 +846,10 @@ module debug () {
     //translate([0, 0, DaylightZ]) color("red", 0.25) cube([250, 100, 16], center = true);
     
     //2020 frame
-    translate([0, FrameY/2, FrameZ]) rotate([0, 90, 0]) 2020_tslot(FrameX);
-    translate([0, -FrameY/2, FrameZ]) rotate([0, 90, 0]) 2020_tslot(FrameX);
-    translate([(FrameX/2) + 10, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY + 20);
-    translate([-(FrameX/2) - 10, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY + 20);
+    translate([0, (FrameY/2) + 10, FrameZ]) rotate([0, 90, 0]) 2020_tslot(FrameX + 20);
+    translate([0, -(FrameY/2) - 10, FrameZ]) rotate([0, 90, 0]) 2020_tslot(FrameX + 20);
+    translate([FrameX/2, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
+    translate([-FrameX/2, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
 }
 
 /**
