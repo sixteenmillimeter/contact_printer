@@ -820,9 +820,9 @@ module debug () {
         sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor", set_screw_top = true);
         //translate([50, 0, 0]) cube([100, 100, 100], center = true);
     }
-    
+    //lamp
     lamp([0, LampY, 0 + 2]);
-    color("green") lamp_cover([0, LampY + 15, 23]);
+    //color("green") lamp_cover([0, LampY + 15, 23]);
     color("red") lamp_bolts_voids([0, LampY + 15, (LampBoltH/2) - 1.5 - 2.5]);
     //gates
     translate([-5.35, LampY -7, 11 + 1 + .1]) rotate([0, 0, 7]) color("blue") picture_gate();
@@ -937,9 +937,9 @@ module lamp_gate_bracket (pos = [0, 0, 0], rot = [0, 0, 0]) {
     translate(pos) rotate(rot) {
         difference () { 
             cube([X, 15, 18], center = true);
-            translate([0, 3, 1]) cube([X-4, 15, 18], center = true);
-            translate([0, -3, 1]) cube([X-5, 15, 18], center = true);
-            translate([0, -6, 0]) cube([X-4, 1, 18.01], center = true);
+            translate([0, 4, 1]) cube([X-4, 15, 18], center = true);
+            translate([0, -3, 1]) cube([X-7, 15, 18], center = true);
+            translate([0, -5.25, 0]) cube([X-4, 1.5, 18.01], center = true);
         }
     }
 }
@@ -966,12 +966,12 @@ module sound_gate_bracket (pos = [0, 0, 0], rot = [0, 0, 0]) {
 module gate_blank () {
     X = LampGateX;
     //front
-    translate([0, -6, 0]) cube([X-4.1, .9, 20], center = true);
+    translate([0, -6, 0]) cube([X-7.1, 1.4, 20], center = true);
     //backing
-    translate([0, -5.1, -0.5]) cube([X-5.1, 1, 16.8], center = true);
+    translate([0, -5.1, -0.5]) cube([X-4.1, 1.4, 16.8], center = true);
 }
 //standard, super, full, sound
-module picture_gate (pos = [0, 0, 0], rot = [0, 0, 0], Type = "full", Width = 3) {
+module picture_gate (pos = [0, 0, 0], rot = [0, 0, 0], Type = "full", Width = 2) {
     X = LampGateX;
     translate(pos) rotate(rot) {
         difference () {
@@ -1072,7 +1072,7 @@ module panel (pos = [0, 0, 0]) {
     takeup_mount_panel([0, RollerY, -7], [0, 0, 90]);
 }
 
-PART = "";
+PART = "lamp";
 LIBRARY = true;
 
 if (PART == "panel") {
