@@ -1073,6 +1073,9 @@ module panel (pos = [0, 0, 0]) {
     MotorMountX = (GearedMotorMountX + 0.1) / 2;
     MotorMountY = (GearedMotorMountY + 0.1) / 2;
     
+    LampBoltsZ = (LampBoltH/2) - 1.5;
+    IdleRollerBoltsZ = (IdleRollerBoltH/2) - 1.5;
+    
     SprocketedRollerZ = -5;
     
     color("green") translate (pos) difference() {
@@ -1096,13 +1099,13 @@ module panel (pos = [0, 0, 0]) {
         m3_panel_bolt_void([-BoltX, BoltY2, 3]);
         
         //idle roller posts
-        idle_roller_bolt_void([ IdleRollerPrintX, IdleRollerPrintY, 3]);
-        idle_roller_bolt_void([-IdleRollerPrintX, IdleRollerPrintY, 3]);
-        idle_roller_bolt_void([ IdleRollerNegativeX, IdleRollerNegativeY, 3]);
-        idle_roller_bolt_void([-IdleRollerNegativeX, IdleRollerNegativeY, 3]);
+        idle_roller_bolt_void([ IdleRollerPrintX, IdleRollerPrintY, IdleRollerBoltsZ]);
+        idle_roller_bolt_void([-IdleRollerPrintX, IdleRollerPrintY, IdleRollerBoltsZ]);
+        idle_roller_bolt_void([ IdleRollerNegativeX, IdleRollerNegativeY, IdleRollerBoltsZ]);
+        idle_roller_bolt_void([-IdleRollerNegativeX, IdleRollerNegativeY, IdleRollerBoltsZ]);
         
         //lamp
-        lamp_bolts_voids([0, LampY + 15, (LampBoltH/2) - 1.5]);
+        lamp_bolts_voids([0, LampY + 15, LampBoltsZ]);
         //lamp wire voids
         translate([0, LampY, 0]) {
             translate([LampWireX, LampWireY, 0]) cylinder(r = R(10), h = 10, center = true);
