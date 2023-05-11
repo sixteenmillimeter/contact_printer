@@ -811,6 +811,14 @@ module daylight_spool (DEBUG = false) {
     }
 }
 
+module four_hundred_foot_spool (pos = [0, 0, 0]) {
+    W = 175;
+    H = 18;
+    translate(pos) { 
+        cylinder(r = R(W), h = H, center = true, $fn = 200);
+    }
+}
+
 module centered_geared_motor (pos = [0, 0, 0], rot = [0, 0, 0]) {
     translate(pos) rotate(rot) {
         translate([8.25, 0, 0]) geared_motor();
@@ -1116,7 +1124,7 @@ module panel (pos = [0, 0, 0]) {
     takeup_mount_panel([0, RollerY, SprocketedRollerZ], [0, 0, 90]);
 }
 
-PART = "panel";
+PART = "";
 LIBRARY = true;
 
 if (PART == "panel") {
