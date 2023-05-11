@@ -1,6 +1,6 @@
 
 //include <./lamp.scad>;
-include <./box_laser.scad>;
+//include <./box_laser.scad>;
 include <./common/common.scad>;
 include <./common/motors.scad>;
 include <./common/2020_tslot.scad>;
@@ -16,6 +16,13 @@ FrameX = 300;
 FrameY = 175;
 FrameZ = -16;
 
+Sprockets = 18;
+SprocketedRollerBevel = false;
+SprocketedRollerModel = "gearbox_motor";
+SprocketedRollerSetScrewTop = true;
+SprocketedRollerSetScrewSide = true;
+SprocketedRollerBolts = true;
+
 DaylightW = 92; 
 DaylightH = 18;
 
@@ -26,6 +33,7 @@ PanelYOffset = 10;
 PanelDimensions = [PanelX, PanelY, PanelZ];
 
 MotorZ = -16;
+TakeupMotorZ = -26;
 
 RollerY = -20;
 
@@ -49,6 +57,9 @@ IdleRollerBoltH = 30;
 
 PictureTakeupMotorRotationZ = -70;
 StockTakeupMotorRotationZ = 180-70;
+
+ReelX = 100;
+ReelY = 50;
 
 echo("Frame 2020 X (x2)", FrameX + 20);
 echo("Frame 2020 Y (x4)", FrameY);
@@ -827,11 +838,13 @@ module centered_geared_motor (pos = [0, 0, 0], rot = [0, 0, 0]) {
 
 module debug () {
     DaylightZ = 11.5;
+    PanelOffsetZ = -2.5;
     //////
-    panel([0, 0, -2.5]);
+    panel([0, 0, PanelOffsetZ]);
+    UseDaylight = true;
     
     translate([0, RollerY, 18]) rotate([180, 0, 0]) difference () {
-        sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor", set_screw_top = true);
+        sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts);
         //translate([50, 0, 0]) cube([100, 100, 100], center = true);
     }
     //lamp
@@ -851,14 +864,29 @@ module debug () {
     idle_roller([-IdleRollerNegativeX, IdleRollerNegativeY, 3]);
     //active roller
     centered_geared_motor([0, RollerY, MotorZ], [180, 0, 90]);
-    //feed
-    //translate([-100,  50, DaylightZ]) daylight_spool();
-    //translate([-100, -50, DaylightZ]) daylight_spool();
+    
+    if (UseDaylight) {
+        //feed
+        translate([-ReelX,  ReelY, DaylightZ]) daylight_spool();
+        translate([-ReelX, -ReelY, DaylightZ]) daylight_spool();
+        //takeup
+        //translate([ReelX,  ReelY, DaylightZ]) daylight_spool();
+        //translate([ReelX, -ReelY, DaylightZ]) daylight_spool();
+    } else {
+        four_hundred_foot_spool([-ReelX,  ReelY, DaylightZ]);
+        four_hundred_foot_spool([-ReelX, -ReelY, DaylightZ]);
+        //takeup
+        four_hundred_foot_spool([ReelX,  ReelY, DaylightZ]);
+        four_hundred_foot_spool([ReelX, -ReelY, DaylightZ]);
+    }
+    
     //takeup
-    //translate([100,  50, DaylightZ]) daylight_spool();
-    //translate([100, -50, DaylightZ]) daylight_spool();
-    centered_geared_motor([100,  50, MotorZ], [180, 0, PictureTakeupMotorRotationZ]);
-    centered_geared_motor([100, -50, MotorZ], [180, 0, StockTakeupMotorRotationZ]); 
+    takeup_panel_picture([ReelX,  ReelY, PanelOffsetZ+1]);
+    translate([ReelX,  ReelY, -10]) magnetic_coupling();
+    translate([ReelX,  ReelY, -10]) slip_coupling();
+    
+    centered_geared_motor([ReelX,  ReelY, TakeupMotorZ], [180, 0, PictureTakeupMotorRotationZ]);
+    centered_geared_motor([ReelX, -ReelY, TakeupMotorZ], [180, 0, StockTakeupMotorRotationZ]); 
 
     //translate([0, 0, DaylightZ]) color("red", 0.25) cube([250, 100, 16], center = true);
     
@@ -1073,7 +1101,7 @@ module lamp_cover (pos = [0, 0, 0]) {
 }
 
 module panel (pos = [0, 0, 0]) {
-    BoltX = (PanelX-10)/2;
+    BoltX = (PanelX-20)/2;
     BoltY2 = (PanelY)/2;
     
     BoltY1 = 30;
@@ -1124,6 +1152,25 @@ module panel (pos = [0, 0, 0]) {
     takeup_mount_panel([0, RollerY, SprocketedRollerZ], [0, 0, 90]);
 }
 
+module takeup_panel_picture (pos = [0, 0, 0]) {
+    TakeupPanelX = 95;
+    TakeupPanelY = 90;
+    OtherX = 25;
+    OtherY = 45;
+    translate(pos) {
+        union(){
+            translate([12.5, 10, 0]) cube([TakeupPanelX, TakeupPanelY, PanelZ], center = true);
+            translate([-(TakeupPanelX/2), (TakeupPanelY/2)-12.5, 0]) cube([OtherX, OtherY, PanelZ], center = true);
+        }
+    }
+}
+
+module takeup_panel_stock (pos = [0, 0, 0]) {
+    translate(pos) {
+    
+    }
+}
+
 PART = "";
 LIBRARY = true;
 
@@ -1134,7 +1181,7 @@ if (PART == "panel") {
 } else if (PART == "picture_gate") {
     rotate([-90, 0, 0]) picture_gate(Type = "standard");
 } else if (PART == "sprocketed_roller_reinforced") {
-    sprocketed_roller(sprockets = 18, bevel = false, model = "gearbox_motor", reinforced = true, bolts = true);
+    sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, reinforced = true);
 } else if (PART == "2020_tslot_insert") {
     2020_tslot_insert();
 } else {
