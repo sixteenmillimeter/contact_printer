@@ -61,6 +61,9 @@ StockTakeupMotorRotationZ = 180-70;
 ReelX = 100;
 ReelY = 50;
 
+BearingOuterDiameter = 22.1 - .5;
+BearingInnerDiameter = 8.05;
+
 echo("Frame 2020 X (x2)", FrameX + 20);
 echo("Frame 2020 Y (x4)", FrameY);
 
@@ -906,6 +909,18 @@ module debug () {
  * CONTACT PRINTER MODULES
  **/
 
+module bearing (pos = [0, 0, 0], width= 8, hole = true) {
+	fuzz = 0.1;
+	translate (pos) {
+		difference () {
+			cylinder(r = R(BearingOuterDiameter) + fuzz, h = width, center = true);
+			if (hole) {
+				cylinder(r = R(BearingInnerDiameter) - fuzz, h = width, center = true);
+			}
+		}
+	}
+}
+
 module m3_panel_bolt_void (pos = [0, 0, 0], H = 10) {
     translate(pos) {
         cylinder(r = R(6), h = 5, center = true, $fn = 40);
@@ -1157,11 +1172,16 @@ module takeup_panel_picture (pos = [0, 0, 0]) {
     TakeupPanelY = 90;
     OtherX = 25;
     OtherY = 45;
-    translate(pos) {
+    CenterVoidD = 47;
+    CenterColumnD = 55;
+    CenterColumnZ = 12;
+    translate(pos) difference() {
         union(){
             translate([12.5, 10, 0]) cube([TakeupPanelX, TakeupPanelY, PanelZ], center = true);
             translate([-(TakeupPanelX/2), (TakeupPanelY/2)-12.5, 0]) cube([OtherX, OtherY, PanelZ], center = true);
+            translate([0, 0, -(PanelZ/2) - (CenterColumnZ/2)]) cylinder(r = R(CenterColumnD), h = CenterColumnZ, center = true, $fn = 100);
         }
+        cylinder(r = R(CenterVoidD), h = 50, center = true, $fn = 100);
     }
 }
 
