@@ -509,7 +509,7 @@ module takeup_panel_stock (pos = [0, 0, 0]) {
     }
 }
 
-PART = "2020_tslot_insert";
+PART = "picture_gate";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -519,7 +519,7 @@ if (PART == "panel") {
 } else if (PART == "picture_gate") {
     rotate([-90, 0, 0]) picture_gate(Type = "standard");
 } else if (PART == "sprocketed_roller_reinforced") {
-    sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase, reinforced = true);
+    rotate([180, 0, 0]) sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase, reinforced = true);
 } else if (PART == "2020_tslot_insert") {
     2020_tslot_insert();
 } else {
