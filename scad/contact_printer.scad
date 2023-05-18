@@ -46,6 +46,11 @@ TakeupPanelPictureX = 100;
 TakeupPanelPictureY = 50;
 
 TakeupPanelPictureOffsetX = ReelX - TakeupPanelPictureX;
+TakeupPanelX = 95;
+TakeupPanelY = 90;
+TakeupCenterVoidD = 47;
+TakeupCenterColumnD = 55;
+TakeupCenterColumnZ = 12;
 
 RollerY = -20;
 
@@ -71,8 +76,8 @@ BearingOuterDiameter = 22.1 - .5;
 BearingInnerDiameter = 8.05;
 
 BearingY = (55/2) + 6;
-BearingZ = -6.5;
-BearingH = 8;
+BearingZ = -7;
+BearingH = 9;
 
 BearingRotateZ1 = 45;
 BearingRotateZ2 = -45;
@@ -469,33 +474,57 @@ module panel (pos = [0, 0, 0]) {
     takeup_mount_panel([0, RollerY, SprocketedRollerZ], [0, 0, 90]);
 }
 
+module takeup_panel_bearings_voids (pos = [0, 0, 0]) {
+    translate(pos) {
+        rotate([0, 0, BearingRotateZ1]) bearing_void([0, BearingY, BearingZ], BearingH);
+        rotate([0, 0, BearingRotateZ2]) bearing_void([0, BearingY, BearingZ], BearingH);
+        rotate([0, 0, BearingRotateZ3]) bearing_void([0, BearingY, BearingZ], BearingH);
+        rotate([0, 0, BearingRotateZ4]) bearing_void([0, BearingY, BearingZ], BearingH);
+    }
+}
+
 module takeup_panel_picture (pos = [0, 0, 0]) {
-    TakeupPanelX = 95;
-    TakeupPanelY = 90;
     OtherX = 25;
     OtherY = 45;
-    CenterVoidD = 47;
-    CenterColumnD = 55;
-    CenterColumnZ = 12;
+
     translate(pos) {
         difference() {
             union(){
                 translate([12.5, 10, 0]) cube([TakeupPanelX, TakeupPanelY, PanelZ], center = true);
                 translate([-(TakeupPanelX/2) + 2.5, (TakeupPanelY/2)-12.5, 0]) cube([OtherX, OtherY, PanelZ], center = true);
-                translate([TakeupPanelPictureOffsetX, 0, -(PanelZ/2) - (CenterColumnZ/2)]) cylinder(r = R(CenterColumnD), h = CenterColumnZ, center = true, $fn = 100);
+
             }
-            translate([TakeupPanelPictureOffsetX, 0, 0]) cylinder(r = R(CenterVoidD), h = 50, center = true, $fn = 100);
+            translate([TakeupPanelPictureOffsetX, 0, 0]) cylinder(r = R(TakeupCenterVoidD), h = 50, center = true, $fn = 100);
             //bearings
-            translate([TakeupPanelPictureOffsetX, 0, 0]) rotate([0, 0, BearingRotateZ1]) bearing_void([0, BearingY, BearingZ], BearingH);
-            translate([TakeupPanelPictureOffsetX, 0, 0]) rotate([0, 0, BearingRotateZ2]) bearing_void([0, BearingY, BearingZ], BearingH);
-            translate([TakeupPanelPictureOffsetX, 0, 0]) rotate([0, 0, BearingRotateZ3]) bearing_void([0, BearingY, BearingZ], BearingH);
-            translate([TakeupPanelPictureOffsetX, 0, 0]) rotate([0, 0, BearingRotateZ4]) bearing_void([0, BearingY, BearingZ], BearingH);
+            takeup_panel_bearings_voids([TakeupPanelPictureOffsetX, 0, 0]);
         }
-        takeup_mount_panel([TakeupPanelPictureOffsetX, 0, -21], [0, 0, PictureTakeupMotorRotationZ]);
-        translate([TakeupPanelPictureOffsetX, 0, -16]) difference () {
-            cylinder(r = R(CenterColumnD), h = 3, center = true, $fn = 100);
-            cylinder(r = R(21), h = 3 + 1, center = true, $fn = 100);
+    }
+}
+
+module takeup_panel_picture_motor_mount (pos = [0, 0, 0] ) {
+    translate(pos) {
+        translate([TakeupPanelPictureOffsetX, 0, 0]) {
+            difference () {
+                union () {
+                    translate([0, 0, -(PanelZ/2) - (TakeupCenterColumnZ/2)]) cylinder(r = R(TakeupCenterColumnD), h = TakeupCenterColumnZ, center = true, $fn = 100);
+                    translate([0, 0, -16]) cylinder(r = R(TakeupCenterColumnD), h = 3, center = true, $fn = 100);
+                }
+                translate([0, 0, -16]) cylinder(r = R(21), h = 3 + 1, center = true, $fn = 100);
+                translate([0, 0, -8]) cylinder(r = R(TakeupCenterVoidD), h = TakeupCenterColumnZ, center = true, $fn = 100);
+                //motor shaft void
+                translate([0, 0, 0]) cylinder(r = R(18), h = 50, center = true, $fn = 100);
+                 //bearings
+                takeup_panel_bearings_voids();
+            }
+            takeup_mount_panel([0, 0, -21], [0, 0, PictureTakeupMotorRotationZ]);
         }
+        
+    }
+}
+
+module takeup_panel_stock (pos = [0, 0, 0]) {
+    translate(pos) {
+    
     }
 }
 
@@ -518,16 +547,6 @@ module corner_foot (pos = [0, 0, 0]) {
     }
 }
 
-module takeup_panel_picture_motor_mount () {
-    
-}
-
-module takeup_panel_stock (pos = [0, 0, 0]) {
-    translate(pos) {
-    
-    }
-}
-
 PART = "takeup_panel_picture";
 LIBRARY = true;
 
@@ -537,12 +556,15 @@ if (PART == "panel") {
     lamp_dual();
 } else if (PART == "takeup_panel_picture"){
     takeup_panel_picture();
+    color("blue") takeup_panel_picture_motor_mount([0, 0, -1]);
 } else if (PART == "picture_gate") {
     rotate([-90, 0, 0]) picture_gate(Type = "standard");
 } else if (PART == "sprocketed_roller_reinforced") {
     rotate([180, 0, 0]) sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase, reinforced = true);
 } else if (PART == "magnetic_coupling") {
     magnetic_coupling();
+} else if (PART == "slip_coupling"){
+    slip_coupling();
 } else if (PART == "corner_foot") {
     rotate([180, 0, 0]) corner_foot();
 } else if (PART == "2020_tslot_insert") {
