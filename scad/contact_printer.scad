@@ -528,23 +528,21 @@ module takeup_panel_stock (pos = [0, 0, 0]) {
     }
 }
 
-PART = "magnetic_coupling";
+PART = "takeup_panel_picture";
 LIBRARY = true;
 
 if (PART == "panel") {
     rotate([180, 0, 0]) panel();
 } else if (PART == "lamp_dual") {
     lamp_dual();
+} else if (PART == "takeup_panel_picture"){
+    takeup_panel_picture();
 } else if (PART == "picture_gate") {
     rotate([-90, 0, 0]) picture_gate(Type = "standard");
 } else if (PART == "sprocketed_roller_reinforced") {
     rotate([180, 0, 0]) sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase, reinforced = true);
 } else if (PART == "2020_tslot_insert") {
     2020_tslot_insert();
-} else if (PART == "magnetic_coupling") {
-    magnetic_coupling();
-} else if (PART == "corner_foot") {
-    rotate([180, 0, 0]) corner_foot();
 } else {
     debug();
 }
