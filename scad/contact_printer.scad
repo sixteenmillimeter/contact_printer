@@ -84,6 +84,9 @@ BearingRotateZ2 = -45;
 BearingRotateZ3 = 180+45;
 BearingRotateZ4 = 180-45;
 
+MotorMountX = (GearedMotorMountX + 0.1) / 2;
+MotorMountY = (GearedMotorMountY + 0.1) / 2;
+
 echo("Frame 2020 X (x2)", FrameX + 20);
 echo("Frame 2020 Y (x4)", FrameY);
 
@@ -428,9 +431,6 @@ module panel (pos = [0, 0, 0]) {
     
     BoltY1 = 30;
     
-    MotorMountX = (GearedMotorMountX + 0.1) / 2;
-    MotorMountY = (GearedMotorMountY + 0.1) / 2;
-    
     LampBoltsZ = (LampBoltH/2) - 1.5;
     IdleRollerBoltsZ = (IdleRollerBoltH/2) - 1.5;
     
@@ -474,12 +474,37 @@ module panel (pos = [0, 0, 0]) {
     takeup_mount_panel([0, RollerY, SprocketedRollerZ], [0, 0, 90]);
 }
 
+module takeup_panel_motor_mount_bolt_void (pos = [0, 0, 0]) {
+    cap = 20;
+    bolt = 10;
+    translate(pos) {
+        translate([0, 0, -bolt / 2]) cylinder(r = R(3.25), h = bolt, center = true, $fn = 30);
+        translate([0, 0, cap / 2]) cylinder(r = R(6), h = cap, center = true, $fn = 30);
+    }
+}
+
 module takeup_panel_bearings_voids (pos = [0, 0, 0]) {
     translate(pos) {
         rotate([0, 0, BearingRotateZ1]) bearing_void([0, BearingY, BearingZ], BearingH);
         rotate([0, 0, BearingRotateZ2]) bearing_void([0, BearingY, BearingZ], BearingH);
         rotate([0, 0, BearingRotateZ3]) bearing_void([0, BearingY, BearingZ], BearingH);
         rotate([0, 0, BearingRotateZ4]) bearing_void([0, BearingY, BearingZ], BearingH);
+    }
+}
+
+module takeup_panel_bearings_post (pos = [0, 0, 0]) {
+    translate(pos) {
+        cylinder(r = R(14.2), h = 0.5, center = true);
+        translate([0, 0, - (0.5 / 2) - (8 / 2)]) cylinder(r = R(BearingInnerDiameter) - 0.4, h = 8, center = true);
+    }
+}
+
+module takeup_panel_bearings_posts (pos = [0, 0, 0]) {
+    translate(pos) {
+        rotate([0, 0, BearingRotateZ1]) takeup_panel_bearings_post([0, BearingY, BearingZ]);
+        rotate([0, 0, BearingRotateZ2]) takeup_panel_bearings_post([0, BearingY, BearingZ]);
+        rotate([0, 0, BearingRotateZ3]) takeup_panel_bearings_post([0, BearingY, BearingZ]);
+        rotate([0, 0, BearingRotateZ4]) takeup_panel_bearings_post([0, BearingY, BearingZ]);
     }
 }
 
@@ -492,11 +517,12 @@ module takeup_panel_picture (pos = [0, 0, 0]) {
             union(){
                 translate([12.5, 10, 0]) cube([TakeupPanelX, TakeupPanelY, PanelZ], center = true);
                 translate([-(TakeupPanelX/2) + 2.5, (TakeupPanelY/2)-12.5, 0]) cube([OtherX, OtherY, PanelZ], center = true);
-
+                takeup_panel_bearings_posts([TakeupPanelPictureOffsetX, 0, 4.25]);
             }
             translate([TakeupPanelPictureOffsetX, 0, 0]) cylinder(r = R(TakeupCenterVoidD), h = 50, center = true, $fn = 100);
             //bearings
-            takeup_panel_bearings_voids([TakeupPanelPictureOffsetX, 0, 0]);
+            //takeup_panel_bearings_voids([TakeupPanelPictureOffsetX, 0, 0]);
+            
         }
     }
 }
@@ -515,6 +541,12 @@ module takeup_panel_picture_motor_mount (pos = [0, 0, 0] ) {
                 translate([0, 0, 0]) cylinder(r = R(18), h = 50, center = true, $fn = 100);
                  //bearings
                 takeup_panel_bearings_voids();
+                translate([3, -7, -17]) rotate([0, 0, PictureTakeupMotorRotationZ]) {
+                    takeup_panel_motor_mount_bolt_void([MotorMountX, MotorMountY, 0]);
+                    takeup_panel_motor_mount_bolt_void([-MotorMountX, MotorMountY, 0]);
+                    takeup_panel_motor_mount_bolt_void([MotorMountX, -MotorMountY, 0]);
+                    takeup_panel_motor_mount_bolt_void([-MotorMountX, -MotorMountY, 0]);
+                }
             }
             takeup_mount_panel([0, 0, -21], [0, 0, PictureTakeupMotorRotationZ]);
         }
