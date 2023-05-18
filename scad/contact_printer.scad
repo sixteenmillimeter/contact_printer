@@ -499,6 +499,25 @@ module takeup_panel_picture (pos = [0, 0, 0]) {
     }
 }
 
+module corner_foot (pos = [0, 0, 0]) {
+    H = 20;
+    D1 = 12;
+    D2 = 24;
+    translate(pos) {
+        difference () {
+            union() {
+                translate([0, 20, 0]) cube([20, 60, 6], center = true);
+                translate([20, 0, 0]) cube([60, 20, 6], center = true);
+            }
+            rotate([180, 0, 0]) m3_panel_bolt_void([20, 0, 1]);
+            rotate([180, 0, 0])m3_panel_bolt_void([40, 0, 1]);
+            translate([0, 20, 0]) rotate([180, 0, 0]) m3_panel_bolt_void([0, 0, 1]);
+            translate([0, 40, 0]) rotate([180, 0, 0]) m3_panel_bolt_void([0, 0, 1]);
+        }
+        translate([0 , 0, -(6/2) - (H / 2)]) rotate([0, 0, 45]) cylinder(r1 = R(D1), r2 = R(D2), h = H, center = true, $fn = 4);
+    }
+}
+
 module takeup_panel_picture_motor_mount () {
     
 }
@@ -509,7 +528,7 @@ module takeup_panel_stock (pos = [0, 0, 0]) {
     }
 }
 
-PART = "picture_gate";
+PART = "magnetic_coupling";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -522,6 +541,10 @@ if (PART == "panel") {
     rotate([180, 0, 0]) sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase, reinforced = true);
 } else if (PART == "2020_tslot_insert") {
     2020_tslot_insert();
+} else if (PART == "magnetic_coupling") {
+    magnetic_coupling();
+} else if (PART == "corner_foot") {
+    rotate([180, 0, 0]) corner_foot();
 } else {
     debug();
 }
