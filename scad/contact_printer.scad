@@ -509,13 +509,15 @@ module takeup_panel_stock (pos = [0, 0, 0]) {
     }
 }
 
-PART = "picture_gate";
+PART = "takeup_panel_picture";
 LIBRARY = true;
 
 if (PART == "panel") {
     rotate([180, 0, 0]) panel();
 } else if (PART == "lamp_dual") {
     lamp_dual();
+} else if (PART == "takeup_panel_picture"){
+    takeup_panel_picture();
 } else if (PART == "picture_gate") {
     rotate([-90, 0, 0]) picture_gate(Type = "standard");
 } else if (PART == "sprocketed_roller_reinforced") {
