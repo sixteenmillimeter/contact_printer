@@ -37,7 +37,7 @@ ReelX = 102.5;
 ReelY = 50;
 
 MotorZ = -16;
-TakeupMotorZ = -35;
+TakeupMotorZ = -40;
 
 PictureTakeupMotorRotationZ = -70;
 StockTakeupMotorRotationZ = 180-70;
@@ -55,7 +55,7 @@ TakeupPanelX = 95;
 TakeupPanelY = 90;
 TakeupCenterVoidD = 47;
 TakeupCenterColumnD = 55;
-TakeupCenterColumnZ = 12;
+TakeupCenterColumnZ = 24.25;
 
 TakeupMotorMountX = 31;
 TakeupMotorMountY = 31;
@@ -83,7 +83,7 @@ IdleRollerBoltH = 30;
 BearingOuterDiameter = 22.1 - .5;
 BearingInnerDiameter = 8.05;
 
-BearingY = (55/2) + 6;
+BearingY = (55/2) + 6 - 0.2;
 BearingZ = -7;
 BearingH = 9;
 
@@ -239,7 +239,7 @@ module debug () {
  **/
 
 module bearing_void (pos = [0, 0, 0], width= 8) {
-	fuzz = 0.3;
+	fuzz = 0.5;
 	translate (pos) {
 		difference () {
 			cylinder(r = R(BearingOuterDiameter) + fuzz, h = width, center = true);
@@ -491,7 +491,7 @@ module panel (pos = [0, 0, 0]) {
 }
 
 module takeup_panel_motor_mount_bolt_void (pos = [0, 0, 0]) {
-    cap = 20;
+    cap = 25;
     bolt = 10;
     translate(pos) {
         translate([0, 0, -bolt / 2]) cylinder(r = R(3.5), h = bolt, center = true, $fn = 30);
@@ -511,7 +511,7 @@ module takeup_panel_bearings_voids (pos = [0, 0, 0]) {
 module takeup_panel_bearings_post (pos = [0, 0, 0]) {
     translate(pos) {
         cylinder(r = R(12), h = 0.5, center = true);
-        translate([0, 0, - (0.5 / 2) - (8 / 2)]) cylinder(r = R(BearingInnerDiameter) - 0.4, h = 8, center = true);
+        translate([0, 0, - (0.5 / 2) - (8 / 2)]) cylinder(r = R(BearingInnerDiameter) - 0.1, h = 8, center = true);
     }
 }
 
@@ -546,6 +546,7 @@ module takeup_panel_motor_mount_m4_bolt_void (pos = [0, 0, 0], rot = [0, 0, 0], 
     translate(pos) rotate(rot) {
         cylinder(r = R(4.25), h = H, center = true);
         translate([0, 0, H/2]) m4_nut();
+        translate([0, 0, -12.01]) cylinder(r = R(8.5), h = 25, center = true, $fn = 60);
     }
 }
 
@@ -596,8 +597,6 @@ module takeup_panel_picture (pos = [0, 0, 0]) {
             
             takeup_panel_motor_mount_m4_bolts_voids([TakeupPanelPictureOffsetX, 0, -8.99]);
         }
-
-
     }
 }
 
@@ -610,20 +609,23 @@ module takeup_panel_picture_motor_mount (pos = [0, 0, 0] ) {
                     translate([0, 0, -16]) cylinder(r = R(TakeupCenterColumnD), h = 3, center = true, $fn = 100);
                     takeup_panel_motor_mount_pads([0, 0, -5.5]);
                 }
-                translate([0, 0, -16]) cylinder(r = R(15), h = 3 + 1, center = true, $fn = 100);
-                translate([0, 0, -8]) cylinder(r = R(TakeupCenterVoidD), h = TakeupCenterColumnZ, center = true, $fn = 100);
+                translate([0, 0, -16]) cylinder(r = R(15), h = TakeupCenterColumnZ, center = true, $fn = 100);
+                translate([0, 0, -9]) cylinder(r = R(TakeupCenterVoidD), h = TakeupCenterColumnZ, center = true, $fn = 100);
 
                  //bearings
                 takeup_panel_bearings_voids();
-                translate([2.55, -7.1, -17]) rotate([0, 0, PictureTakeupMotorRotationZ]) {
+                translate([2.55, -7.1, -17-6]) rotate([0, 0, PictureTakeupMotorRotationZ]) {
                     takeup_panel_motor_mount_bolt_void([MotorMountX, MotorMountY, 0]);
                     takeup_panel_motor_mount_bolt_void([-MotorMountX, MotorMountY, 0]);
                     takeup_panel_motor_mount_bolt_void([MotorMountX, -MotorMountY, 0]);
                     takeup_panel_motor_mount_bolt_void([-MotorMountX, -MotorMountY, 0]);
                 }
                 takeup_panel_motor_mount_m4_bolts_voids([0, 0, -8.99]);
+                translate([0, 0, -29]) rotate([0, 0, PictureTakeupMotorRotationZ]){
+                    translate([5, 0, 0]) cube([50, 27, 10], center = true);
+                }
             }
-            takeup_mount_panel([0, 0, -20], [0, 0, PictureTakeupMotorRotationZ]);
+            takeup_mount_panel([0, 0, -26], [0, 0, PictureTakeupMotorRotationZ]);
         }
     }
 }
@@ -703,7 +705,7 @@ module corner_foot (pos = [0, 0, 0], rot = [0, 0, 0]) {
     }
 }
 
-PART = "corner_foot";
+PART = "takeup_panel_picture_motor_mount";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -731,5 +733,11 @@ if (PART == "panel") {
 } else if (PART == "2020_tslot_insert") {
     2020_tslot_insert();
 } else {
-    debug();
+    //debug();
+
+    PanelOffsetZ = -2.5;
+    takeup_panel_picture([TakeupPanelPictureX,  TakeupPanelPictureY, PanelOffsetZ]);
+    takeup_panel_picture_motor_mount([TakeupPanelPictureX,  TakeupPanelPictureY, PanelOffsetZ]);
+
+    //centered_geared_motor([ReelX,  ReelY, TakeupMotorZ], [180, 0, PictureTakeupMotorRotationZ]);
 }
