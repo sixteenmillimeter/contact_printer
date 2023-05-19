@@ -220,6 +220,9 @@ module debug () {
     //inner rails
     translate([(PanelX/2) - 10, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
     translate([-(PanelX/2) + 10, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
+
+    //feet
+    corner_foot([FrameX/2, (FrameY/2) + 10, -26], [0, 0, 180]);
 }
 
 /**
@@ -622,26 +625,26 @@ module takeup_panel_stock (pos = [0, 0, 0]) {
     }
 }
 
-module corner_foot (pos = [0, 0, 0]) {
-    H = 20;
-    D1 = 12;
-    D2 = 24;
-    translate(pos) {
+module corner_foot (pos = [0, 0, 0], rot = [0, 0, 0]) {
+    H = 30;
+    D1 = 16;
+    D2 = 26;
+    translate(pos) rotate(rot) {
         difference () {
             union() {
                 translate([0, 20, 0]) cube([20, 60, 6], center = true);
                 translate([20, 0, 0]) cube([60, 20, 6], center = true);
             }
-            rotate([180, 0, 0]) m3_panel_bolt_void([20, 0, 1]);
-            rotate([180, 0, 0]) m3_panel_bolt_void([40, 0, 1]);
-            translate([0, 20, 0]) rotate([180, 0, 0]) m3_panel_bolt_void([0, 0, 1]);
-            translate([0, 40, 0]) rotate([180, 0, 0]) m3_panel_bolt_void([0, 0, 1]);
+            rotate([180, 0, 0]) m3_panel_bolt_void([20, 0, 3]);
+            rotate([180, 0, 0]) m3_panel_bolt_void([40, 0, 3]);
+            translate([0, 20, 0]) rotate([180, 0, 0]) m3_panel_bolt_void([0, 0, 3]);
+            translate([0, 40, 0]) rotate([180, 0, 0]) m3_panel_bolt_void([0, 0, 3]);
         }
         translate([0 , 0, -(6/2) - (H / 2)]) rotate([0, 0, 45]) cylinder(r1 = R(D1), r2 = R(D2), h = H, center = true, $fn = 4);
     }
 }
 
-PART = "takeup_panel_picture_motor_mount";
+PART = "corner_foot";
 LIBRARY = true;
 
 if (PART == "panel") {
