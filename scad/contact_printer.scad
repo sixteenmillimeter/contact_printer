@@ -482,7 +482,7 @@ module takeup_panel_motor_mount_bolt_void (pos = [0, 0, 0]) {
     cap = 20;
     bolt = 10;
     translate(pos) {
-        translate([0, 0, -bolt / 2]) cylinder(r = R(3.25), h = bolt, center = true, $fn = 30);
+        translate([0, 0, -bolt / 2]) cylinder(r = R(3.5), h = bolt, center = true, $fn = 30);
         translate([0, 0, cap / 2]) cylinder(r = R(6), h = cap, center = true, $fn = 30);
     }
 }
@@ -598,13 +598,12 @@ module takeup_panel_picture_motor_mount (pos = [0, 0, 0] ) {
                     translate([0, 0, -16]) cylinder(r = R(TakeupCenterColumnD), h = 3, center = true, $fn = 100);
                     takeup_panel_motor_mount_pads([0, 0, -5.5]);
                 }
-                translate([0, 0, -16]) cylinder(r = R(21), h = 3 + 1, center = true, $fn = 100);
+                translate([0, 0, -16]) cylinder(r = R(15), h = 3 + 1, center = true, $fn = 100);
                 translate([0, 0, -8]) cylinder(r = R(TakeupCenterVoidD), h = TakeupCenterColumnZ, center = true, $fn = 100);
-                //motor shaft void
-                translate([0, 0, 0]) cylinder(r = R(18), h = 50, center = true, $fn = 100);
+
                  //bearings
                 takeup_panel_bearings_voids();
-                translate([3, -7, -17]) rotate([0, 0, PictureTakeupMotorRotationZ]) {
+                translate([2.55, -7.1, -17]) rotate([0, 0, PictureTakeupMotorRotationZ]) {
                     takeup_panel_motor_mount_bolt_void([MotorMountX, MotorMountY, 0]);
                     takeup_panel_motor_mount_bolt_void([-MotorMountX, MotorMountY, 0]);
                     takeup_panel_motor_mount_bolt_void([MotorMountX, -MotorMountY, 0]);
@@ -612,7 +611,7 @@ module takeup_panel_picture_motor_mount (pos = [0, 0, 0] ) {
                 }
                 takeup_panel_motor_mount_m4_bolts_voids([0, 0, -8.99]);
             }
-            takeup_mount_panel([0, 0, -21], [0, 0, PictureTakeupMotorRotationZ]);
+            takeup_mount_panel([0, 0, -20], [0, 0, PictureTakeupMotorRotationZ]);
         }
     }
 }
