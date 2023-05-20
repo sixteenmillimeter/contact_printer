@@ -686,6 +686,15 @@ module takeup_panel_stock_motor_mount (pos = [0, 0, 0] ) {
     }
 }
 
+module bearing_post_nut (pos = [0, 0, 0]) {
+    translate(pos) difference() {
+        cylinder(r = R(11), h = 5, center = true, $fn = 70);
+        cylinder(r = R(3.5), h = 5 + 1, center = true, $fn = 30);
+        translate([0, 0, -2]) m3_nut(2);
+        translate([0, 0, 3.25]) cylinder(r = R(BearingInnerDiameter) + 0.1, h = 5, center = true, $fn = 50);
+    }
+}
+
 module corner_foot (pos = [0, 0, 0], rot = [0, 0, 0]) {
     H = 30;
     D1 = 16;
@@ -705,7 +714,7 @@ module corner_foot (pos = [0, 0, 0], rot = [0, 0, 0]) {
     }
 }
 
-PART = "takeup_panel_picture_motor_mount";
+PART = "bearing_post_nut";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -732,6 +741,8 @@ if (PART == "panel") {
     rotate([180, 0, 0]) corner_foot();
 } else if (PART == "2020_tslot_insert") {
     2020_tslot_insert();
+} else if (PART == "bearing_post_nut"){
+    bearing_post_nut();
 } else {
     //debug();
 
@@ -740,4 +751,17 @@ if (PART == "panel") {
     takeup_panel_picture_motor_mount([TakeupPanelPictureX,  TakeupPanelPictureY, PanelOffsetZ]);
 
     //centered_geared_motor([ReelX,  ReelY, TakeupMotorZ], [180, 0, PictureTakeupMotorRotationZ]);
+
+    translate([ReelX,  ReelY, PanelOffsetZ+1]) {
+        rotate([0, 0, BearingRotateZ1]) color("blue") bearing([0, BearingY, BearingZ-.75], 7.25);
+        rotate([0, 0, BearingRotateZ2]) color("blue") bearing([0, BearingY, BearingZ-.75], 7.25);
+        rotate([0, 0, BearingRotateZ3]) color("blue") bearing([0, BearingY, BearingZ-.75], 7.25);
+        rotate([0, 0, BearingRotateZ4]) color("blue") bearing([0, BearingY, BearingZ-.75], 7.25);
+    }
+    translate([ReelX,  ReelY, PanelOffsetZ+1-5]) {
+        rotate([0, 0, BearingRotateZ1]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
+        rotate([0, 0, BearingRotateZ2]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
+        rotate([0, 0, BearingRotateZ3]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
+        rotate([0, 0, BearingRotateZ4]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
+    }
 }
