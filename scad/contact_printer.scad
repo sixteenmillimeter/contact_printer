@@ -767,7 +767,7 @@ module corner_foot (pos = [0, 0, 0], rot = [0, 0, 0]) {
     }
 }
 
-PART = "takeup_panel_stock";
+PART = "feed_panel_picture";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -780,7 +780,6 @@ if (PART == "panel") {
     takeup_panel_picture_motor_mount();
 } else if (PART == "takeup_panel_stock"){
     takeup_panel_stock();
-    takeup_panel_stock_motor_mount();
 } else if (PART == "takeup_panel_stock_motor_mount") {
     takeup_panel_stock_motor_mount();
 } else if (PART == "feed_panel_picture") {
@@ -799,6 +798,8 @@ if (PART == "panel") {
     2020_tslot_insert();
 } else if (PART == "bearing_post_nut"){
     bearing_post_nut();
+} else if (PART == "daylight_spool_insert_reinforced_nut") {
+    daylight_spool_insert_reinforced_nut();
 } else {
     debug();
 }
