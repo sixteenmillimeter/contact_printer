@@ -800,6 +800,8 @@ if (PART == "panel") {
     bearing_post_nut();
 } else if (PART == "daylight_spool_insert_reinforced_nut") {
     daylight_spool_insert_reinforced_nut();
+} else if (PART == "daylight_spool_insert_reinforced") {
+    daylight_spool_insert_reinforced();
 } else {
     debug();
 }
