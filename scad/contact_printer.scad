@@ -216,6 +216,8 @@ module debug () {
     feed_panel_picture([FeedPanelPictureX,  FeedPanelPictureY, PanelOffsetZ]);
     //takeup_panel_picture_motor_mount([FeedPanelPictureX,  FeedPanelPictureY, PanelOffsetZ]);
 
+    feed_panel_stock([FeedPanelStockX,  FeedPanelStockY, PanelOffsetZ]);
+
     difference() {
         union(){
             translate([ReelX,  ReelY, -10]) magnetic_coupling();
@@ -293,15 +295,43 @@ module panel_motor_mount_void (pos = [0, 0, 0]) {
 }
 
 module idle_roller (pos = [0, 0, 0]) {
-    $fn = 80;
+    H = 17.5;
+    InnerD = 5;
+    BaseD = 18;
+
+    $fn = 100;
+    Picture = 11;
     translate(pos) {
         difference () {
             union () {
-                cylinder(r = R(16), h = 1, center = true);
-                translate([0, 0, 17]) cylinder(r = R(16), h = 1, center = true);
-                translate([0, 0, 17/2]) cylinder(r = R(12), h = 17, center = true);
+                cylinder(r = R(BaseD), h = 1.5, center = true);
+                translate([0, 0, H]) cylinder(r = R(BaseD), h = 1.5, center = true);
+                translate([0, 0, H/2]) cylinder(r = R(12), h = H, center = true);
+                translate([0, 0, (H - Picture)/4]) cylinder(r1 = R(12), r2 = R(13.5), h = (H - Picture) / 2, center = true);
+                translate([0, 0, H - ((H - Picture)/4)]) cylinder(r1 = R(13.5), r2 = R(12), h = (H - Picture) / 2, center = true);
             }
-            cylinder(r = R(4.5), h = 20, center = true);
+            cylinder(r = R(InnerD), h = 40, center = true);
+        }
+    }
+}
+
+module idle_roller_half (pos = [0, 0, 0], rot = [0, 0, 0], flip = false) {
+    CutZ = -1.275;
+    translate(pos) rotate(rot) difference () {
+        idle_roller();
+        translate([0, 0, 25 + (1/2) + (17.5 / 2) + 2 + CutZ]) cube([50, 50, 50], center = true);
+        difference () {
+            translate([0, 24.9, 25 + (1/2) + (17.5 / 2) + CutZ]) cube([50, 50, 50], center = true);
+            if (flip) {
+                translate([4.25, -0.2, 25 + (1/2) + (17.5 / 2) + CutZ]) rotate([0, 0, 45]) cube([3, 3, 50], center = true);
+            } else {
+                translate([-4.25, -0.2, 25 + (1/2) + (17.5 / 2) + CutZ]) rotate([0, 0, 45]) cube([3, 3, 50], center = true); 
+            }
+        }
+        if (flip) {
+            translate([-4.25, 0, 25 + (1/2) + (17.5 / 2) + CutZ]) rotate([0, 0, 45]) cube([3, 3, 50], center = true);
+        } else {
+            translate([4.25, 0, 25 + (1/2) + (17.5 / 2) + CutZ]) rotate([0, 0, 45]) cube([3, 3, 50], center = true);   
         }
     }
 }
@@ -677,8 +707,6 @@ module takeup_panel_stock (pos = [0, 0, 0]) {
             
             takeup_panel_motor_mount_m4_bolts_voids([TakeupPanelStockOffsetX, 0, -8.99], [0, 0, 180]);
         }
-
-
     }
 }
 
@@ -739,6 +767,34 @@ module feed_panel_picture (pos = [0, 0, 0]) {
     }
 }
 
+module feed_panel_stock (pos = [0, 0, 0]) {
+    OtherX = 25;
+    OtherY = 45;
+
+    translate(pos) {
+        difference() {
+            union(){
+                translate([-12.5, -12.5, 0]) cube([TakeupPanelX, TakeupPanelY, PanelZ], center = true);
+                translate([(TakeupPanelX/2) - 2.5, -(TakeupPanelY/2) + 10, 0]) cube([OtherX, OtherY, PanelZ], center = true);
+            }
+            translate([FeedPanelPictureOffsetX, 0, 0]) cylinder(r = R(TakeupCenterVoidD), h = 50, center = true, $fn = 100);
+            //bolts
+            //bottom center
+            takeup_panel_bearings_bolt_void([FeedPanelPictureOffsetX, -(TakeupPanelY / 2) - 2.5, 0]);
+            //bottom right
+            takeup_panel_bearings_bolt_void([FeedPanelPictureOffsetX + (TakeupPanelX / 2), -(TakeupPanelY / 2) - 2.5, 0]);
+            //bottom left
+            takeup_panel_bearings_bolt_void([FeedPanelPictureOffsetX - (TakeupPanelX / 2), -(TakeupPanelY / 2) - 2.5, 0]);
+            //bottom left
+            takeup_panel_bearings_bolt_void([FeedPanelPictureOffsetX - (TakeupPanelX / 2), -2.5 + 20, 0]);
+            //center right
+            takeup_panel_bearings_bolt_void([FeedPanelPictureOffsetX + (TakeupPanelX / 2), -2.5 - 20, 0]);
+            
+            takeup_panel_motor_mount_m4_bolts_voids([FeedPanelPictureOffsetX, 0, -8.99], [0, 0, 180]);
+        }
+    }
+}
+
 module bearing_post_nut (pos = [0, 0, 0]) {
     translate(pos) difference() {
         cylinder(r = R(10), h = 5, center = true, $fn = 70);
@@ -767,7 +823,34 @@ module corner_foot (pos = [0, 0, 0], rot = [0, 0, 0]) {
     }
 }
 
-PART = "feed_panel_picture";
+module l289N_mount (pos = [0, 0, 0]) {
+    $fn = 60;
+    DISTANCE = 36.5;
+    H = 4;
+    THICKNESS = 3;
+    module stand () {
+        difference () {
+            cylinder(r1 = 4, r2 = 3, h = H, center = true);
+            cylinder(r = 1.5, h = H + 1, center = true);
+        }
+    }
+    translate(pos) {
+        translate([0, 0, 0]) stand();
+        translate([DISTANCE, 0, 0]) stand();
+        translate([DISTANCE, DISTANCE, 0]) stand();
+        translate([0, DISTANCE, 0]) stand();
+        difference () {
+            translate([DISTANCE/2, DISTANCE/2, -3]) rounded_cube([DISTANCE + 8, DISTANCE + 8, THICKNESS], 8, center = true); //base
+            translate([DISTANCE/2, DISTANCE/2, -3]) rounded_cube([DISTANCE - 5, DISTANCE - 5, THICKNESS + 1], 10, center = true); //base
+            translate([0, 0, 0]) cylinder(r = 1.5, h = H * 5, center = true);
+            translate([DISTANCE, 0, 0]) cylinder(r = 1.5, h = H * 5, center = true);
+            translate([DISTANCE, DISTANCE, 0]) cylinder(r = 1.5, h = H * 5, center = true);
+            translate([0, DISTANCE, 0]) cylinder(r = 1.5, h = H * 5, center = true);
+        }
+    }
+}
+
+PART = "idle_roller_half_a";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -784,6 +867,8 @@ if (PART == "panel") {
     takeup_panel_stock_motor_mount();
 } else if (PART == "feed_panel_picture") {
     feed_panel_picture();
+} else if (PART == "feed_panel_stock") {
+    feed_panel_stock();
 } else if (PART == "picture_gate") {
     rotate([-90, 0, 0]) picture_gate(Type = "standard");
 } else if (PART == "sprocketed_roller_reinforced") {
@@ -802,6 +887,10 @@ if (PART == "panel") {
     daylight_spool_insert_reinforced_nut();
 } else if (PART == "daylight_spool_insert_reinforced") {
     daylight_spool_insert_reinforced();
+} else if (PART == "idle_roller_half_a") {
+    idle_roller_half();
+} else if (PART == "idle_roller_half_b") {
+    idle_roller_half(flip = true);
 } else {
     debug();
 }
