@@ -373,7 +373,7 @@ module lamp_post (pos = [0, 0, 0]) {
     H = 20;
     translate(pos) difference () {
         cylinder(r = R(8), h = H, center = true);
-        cylinder(r = R(4.25), h = H + 1, center = true);
+        cylinder(r = R(4.4), h = H + 1, center = true);
     }
 }
 
@@ -509,10 +509,10 @@ module panel (pos = [0, 0, 0]) {
     LampBoltsZ = (LampBoltH/2) - 1.5;
     IdleRollerBoltsZ = (IdleRollerBoltH/2) - 1.5;
     
-    SprocketedRollerZ = -5;
+    SprocketedRollerZ = -2.5;
     
     color("green") translate (pos) difference() {
-        translate([0, PanelYOffset, 0]) cube(PanelDimensions, center = true);
+        translate([0, PanelYOffset, 0]) cube([PanelDimensions[0], PanelDimensions[1], PanelDimensions[2]], center = true);
         
         //sprocketed roller
         translate([0, RollerY, 0]) cylinder(r = R(15), h = PanelZ + 1, center = true, $fn = 60);
@@ -544,9 +544,11 @@ module panel (pos = [0, 0, 0]) {
             translate([LampWireX, LampWireY, 0]) cylinder(r = R(10), h = 10, center = true);
             translate([-LampWireX, LampWireY, 0]) cylinder(r = R(10), h = 10, center = true);
         }
-        
+        //voids for motor pad
+        translate([0, RollerY + 7.4, SprocketedRollerZ]) cube([27, 43, 6], center = true);
     }
     takeup_mount_panel([0, RollerY, SprocketedRollerZ], [0, 0, 90]);
+
 }
 
 module takeup_panel_motor_mount_bolt_void (pos = [0, 0, 0]) {
@@ -744,6 +746,7 @@ module takeup_panel_stock_motor_mount (pos = [0, 0, 0] ) {
         }
     }
 }
+
 module feed_panel_motor_mount_pad (pos = [0, 0, 0], rot = [0, 0, 0]) {
     translate(pos) rotate(rot) {
         cylinder(r = R(10), h = 17, center = true, $fn = 60);
@@ -908,7 +911,7 @@ module l289N_mount (pos = [0, 0, 0]) {
     }
 }
 
-PART = "feed_panel_motor_mount";
+PART = "panel";
 LIBRARY = true;
 
 if (PART == "panel") {
