@@ -263,6 +263,8 @@ module debug () {
 
     //feet
     corner_foot([FrameX/2, (FrameY/2) + 10, -26], [0, 0, 180]);
+
+    motor_controller_panel([0, -75, PanelOffsetZ]);
 }
 
 /**
@@ -303,7 +305,9 @@ module panel_motor_mount_void (pos = [0, 0, 0]) {
 module idle_roller (pos = [0, 0, 0]) {
     H = 17.5;
     InnerD = 5;
-    BaseD = 18;
+    BaseD = 20;
+    D1 = 14;
+    D2 = D1 + 1.5;
 
     $fn = 100;
     Picture = 11;
@@ -312,9 +316,9 @@ module idle_roller (pos = [0, 0, 0]) {
             union () {
                 cylinder(r = R(BaseD), h = 1.5, center = true);
                 translate([0, 0, H]) cylinder(r = R(BaseD), h = 1.5, center = true);
-                translate([0, 0, H/2]) cylinder(r = R(12), h = H, center = true);
-                translate([0, 0, (H - Picture)/4]) cylinder(r1 = R(12), r2 = R(13.5), h = (H - Picture) / 2, center = true);
-                translate([0, 0, H - ((H - Picture)/4)]) cylinder(r1 = R(13.5), r2 = R(12), h = (H - Picture) / 2, center = true);
+                translate([0, 0, H/2]) cylinder(r = R(D1), h = H, center = true);
+                translate([0, 0, (H - Picture)/4]) cylinder(r1 = R(D1), r2 = R(D2), h = (H - Picture) / 2, center = true);
+                translate([0, 0, H - ((H - Picture)/4)]) cylinder(r1 = R(D2), r2 = R(D1), h = (H - Picture) / 2, center = true);
             }
             cylinder(r = R(InnerD), h = 40, center = true);
         }
@@ -396,7 +400,7 @@ module lamp_gate_bracket (pos = [0, 0, 0], rot = [0, 0, 0]) {
             cube([X, 15, 18], center = true);
             translate([0, 4, 1]) cube([X-4, 15, 18], center = true);
             translate([0, -3, 1]) cube([X-7, 15, 18], center = true);
-            translate([0, -5.25, 0]) cube([X-4, 1.5, 18.01], center = true);
+            translate([0, -5.25, 0]) cube([X-3.5, 1.6, 18.01], center = true);
         }
     }
 }
@@ -884,7 +888,7 @@ module corner_foot (pos = [0, 0, 0], rot = [0, 0, 0]) {
     }
 }
 
-module l289N_mount (pos = [0, 0, 0]) {
+module l289N_mount (pos = [0, 0, 0], rot = [0, 0, 0]) {
     $fn = 60;
     DISTANCE = 36.5;
     H = 4;
@@ -895,7 +899,7 @@ module l289N_mount (pos = [0, 0, 0]) {
             cylinder(r = 1.5, h = H + 1, center = true);
         }
     }
-    translate(pos) {
+    translate(pos) rotate(rot) {
         translate([0, 0, 0]) stand();
         translate([DISTANCE, 0, 0]) stand();
         translate([DISTANCE, DISTANCE, 0]) stand();
@@ -911,7 +915,19 @@ module l289N_mount (pos = [0, 0, 0]) {
     }
 }
 
-PART = "panel";
+module motor_controller_panel (pos = [0, 0, 0]) {
+    translate(pos) difference() {
+        union () {
+            translate([-5, 17, 0]) rounded_cube([110, 50, 3], d = 4, center = true, $fn = 30);
+            l289N_mount([5, 0, 6]);
+            l289N_mount([-52, 0, 6]);
+        }
+        translate([23, 18, 0]) rounded_cube([28, 28, 10], d = 4, center = true, $fn = 30);
+        translate([-34, 18, 0]) rounded_cube([28, 28, 10], d = 4, center = true, $fn = 30);
+    }
+}
+
+PART = "idle_roller_half_b";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -954,6 +970,8 @@ if (PART == "panel") {
     idle_roller_half();
 } else if (PART == "idle_roller_half_b") {
     idle_roller_half(flip = true);
+} else if (PART == "motor_controller_panel") {
+    motor_controller_panel();
 } else {
     debug();
 }
