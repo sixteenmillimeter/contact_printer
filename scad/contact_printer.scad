@@ -85,9 +85,9 @@ LampWireY = 20;
 LampGateX = 11;
 
 IdleRollerPrintX = 55;
-IdleRollerPrintY = 5;
-IdleRollerNegativeX = 35;
-IdleRollerNegativeY = -10;
+IdleRollerPrintY = 0;
+IdleRollerStockX = 35;
+IdleRollerStockY = -16;
 
 IdleRollerBoltH = 30;
 
@@ -168,10 +168,11 @@ module debug () {
     panel([0, 0, PanelOffsetZ]);
     UseDaylight = true;
     
-    /*translate([0, RollerY, 18]) rotate([180, 0, 0]) difference () {
+    translate([0, RollerY, 18]) rotate([180, 0, 0]) difference () {
         sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model =     SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase);
         //translate([50, 0, 0]) cube([100, 100, 100], center = true);
-    }*/
+    }
+    //centered_geared_motor([0, RollerY, MotorZ], [180, 0, 90]);
     //lamp
     //difference () {
         //lamp_dual([0, LampY, 0 + 1]);
@@ -186,10 +187,13 @@ module debug () {
     //idle rollers
     idle_roller([ IdleRollerPrintX, IdleRollerPrintY, 3]);
     idle_roller([-IdleRollerPrintX, IdleRollerPrintY, 3]);
-    idle_roller([ IdleRollerNegativeX, IdleRollerNegativeY, 3]);
-    idle_roller([-IdleRollerNegativeX, IdleRollerNegativeY, 3]);
-    //active roller
-    //centered_geared_motor([0, RollerY, MotorZ], [180, 0, 90]);
+    idle_roller([ IdleRollerStockX, IdleRollerStockY, 3]);
+    idle_roller([-IdleRollerStockX, IdleRollerStockY, 3]);
+
+
+    //idle roller path
+    translate([0, IdleRollerPrintY - 8, 10]) cube([200, .1, 16], center = true);
+    translate([0, IdleRollerStockY + 8, 10]) cube([200, .1, 16], center = true);
     
     if (UseDaylight) {
         //feed
@@ -569,8 +573,8 @@ module panel (pos = [0, 0, 0]) {
             //idle roller posts
             idle_roller_bolt_void([ IdleRollerPrintX, IdleRollerPrintY, IdleRollerBoltsZ]);
             idle_roller_bolt_void([-IdleRollerPrintX, IdleRollerPrintY, IdleRollerBoltsZ]);
-            idle_roller_bolt_void([ IdleRollerNegativeX, IdleRollerNegativeY, IdleRollerBoltsZ]);
-            idle_roller_bolt_void([-IdleRollerNegativeX, IdleRollerNegativeY, IdleRollerBoltsZ]);
+            idle_roller_bolt_void([ IdleRollerStockX, IdleRollerStockY, IdleRollerBoltsZ]);
+            idle_roller_bolt_void([-IdleRollerStockX, IdleRollerStockY, IdleRollerBoltsZ]);
             
             //lamp
             lamp_bolts_voids([0, LampY + 15, LampBoltsZ]);
