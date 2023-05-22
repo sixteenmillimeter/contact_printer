@@ -959,7 +959,27 @@ module motor_controller_panel (pos = [0, 0, 0]) {
     }
 }
 
-PART = "panelx";
+module sprocketed_roller_upright (pos = [0, 0, 0]) {
+    translate (pos) {
+        sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase, reinforced = true);
+    }
+}
+
+module sprocketed_roller_invert (pos = [0, 0, 0]) {
+    D = (FrameC * Sprockets) / PI;
+    translate(pos) difference () {
+        sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = "", set_screw_top = false, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase, reinforced = true);
+        translate([0, 0, 1]) gearbox_motor_shaft_void();
+        if (SprocketedRollerSetScrewTop) {
+            m3_bolt_void([0, 0, 1]);
+        }
+        if (SprocketedRollerSetScrewSide) {
+            m3_nut_void(pos=[D/4, 0, 8.5], rot = [90, 0, 90], H = D/2);
+        }
+    }
+}
+
+PART = "sprocketed_roller";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -968,6 +988,8 @@ if (PART == "panel") {
     lamp_dual();
 } else if (PART == "lamp_single") {
     lamp_single();
+} else if (PART == "lamp_cover") {
+    lamp_cover();
 } else if (PART == "takeup_panel_picture"){
     takeup_panel_picture();
 } else if (PART == "takeup_panel_picture_motor_mount") {
@@ -984,8 +1006,14 @@ if (PART == "panel") {
     feed_panel_motor_mount();
 } else if (PART == "picture_gate") {
     rotate([-90, 0, 0]) picture_gate(Type = "standard");
-} else if (PART == "sprocketed_roller_reinforced") {
-    rotate([180, 0, 0]) sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase, reinforced = true);
+} else if (PART == "full_gate") {
+    rotate([-90, 0, 0]) picture_gate(Type = "full");
+} else if (PART == "super_gate") {
+    rotate([-90, 0, 0]) picture_gate(Type = "super16");
+} else if (PART == "sprocketed_roller") {
+    rotate([180, 0, 0]) sprocketed_roller_upright();
+} else if (PART == "sprocketed_roller_invert") {
+    sprocketed_roller_invert();
 } else if (PART == "magnetic_coupling") {
     magnetic_coupling();
 } else if (PART == "slip_coupling"){
