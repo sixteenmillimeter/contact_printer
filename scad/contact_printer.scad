@@ -10,7 +10,13 @@ include <./sprocketed_roller/sprocketed_roller_var.scad>;
 IN = 25.4;
 
 16mmFilmStandard = 10.26;
+16mmFilmStandardZ = -0.7;
 16mmFilmFull = 16;
+16mmFilmFullZ = -1.1;
+16mmFilmSuper = 13.25;
+16mmFilmSuperZ = -(16 - 16mmFilmSuper) + 0.7;
+16mmFilmSound = 16mmFilmSuper - 16mmFilmStandard;
+16mmFilmSoundZ = -7.75;
 
 FrameX = 300;
 FrameY = 175;
@@ -450,11 +456,13 @@ module picture_gate (pos = [0, 0, 0], rot = [0, 0, 0], Type = "full", Width = 2)
                 gate_blank();
             }
             if (Type == "standard") {
-                translate([0, -6, -0.7]) cube([Width, 10, 16mmFilmStandard], center = true);
+                translate([0, -6, 16mmFilmStandardZ]) cube([Width, 10, 16mmFilmStandard], center = true);
             } else if (Type == "full") {
-                translate([0, -6, -1.1]) cube([Width, 10, 16mmFilmFull], center = true);
-            } else if (Type == "super") {
-
+                translate([0, -6, 16mmFilmFullZ]) cube([Width, 10, 16mmFilmFull], center = true);
+            } else if (Type == "super16") {
+                translate([0, -6, 16mmFilmSuperZ]) cube([Width, 10, 16mmFilmSuper], center = true);
+            } else if (Type == "sound") {
+                translate([0, -6, 16mmFilmSoundZ]) cube([Width, 10, 16mmFilmSound], center = true);
             }
         }
     }
@@ -547,7 +555,7 @@ module panel (pos = [0, 0, 0]) {
     LampBoltsZ = (LampBoltH/2) - 1.5;
     IdleRollerBoltsZ = (IdleRollerBoltH/2) - 1.5;
     
-    SprocketedRollerZ = -2.5;
+    SprocketedRollerZ = -3.5;
     
     color("green") translate (pos) {
         difference() {
@@ -983,7 +991,35 @@ module sprocketed_roller_invert (pos = [0, 0, 0]) {
     }
 }
 
-PART = "sprocketed_roller";
+module lamp_LEDs (pos = [0, 0, 0], rot = [0, 0, 0]) {
+    D = 5.1;
+    X = LampGateX;
+    translate(pos) rotate(rot) {
+        difference () { 
+            cube([X-4.2, 10, 16], center = true);
+            rotate([90, 0, 0]) cylinder(r = R(D), h = 11, center = true);
+            translate([0, 0, 5.2]) rotate([90, 0, 0]) cylinder(r = R(D), h = 11, center = true);
+            translate([0, 0, -5.2]) rotate([90, 0, 0]) cylinder(r = R(D), h = 11, center = true);
+            
+            translate([0, -6, 0]) cube([5.2, 10, 16 + 1], center = true);
+        }
+    }
+    
+}
+
+module gate_holder () {
+    X = LampGateX;
+    difference () { 
+        translate([0, 2.5, -1]) cube([X, 20, 20], center = true);
+
+        translate([0, 0, 1]) cube([X-7, 20 + 10, 18], center = true);
+        for ( i = [0 : 5] ) {
+            translate([0, -5.25 + (i * 4), 0]) cube([X-3.5, 1.6, 18.01], center = true);
+        }
+    }
+}
+
+PART = "lamp_LEDs";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -1014,6 +1050,8 @@ if (PART == "panel") {
     rotate([-90, 0, 0]) picture_gate(Type = "full");
 } else if (PART == "super_gate") {
     rotate([-90, 0, 0]) picture_gate(Type = "super16");
+} else if (PART == "sound_gate") {
+    rotate([-90, 0, 0]) picture_gate(Type = "sound"); 
 } else if (PART == "sprocketed_roller") {
     rotate([180, 0, 0]) sprocketed_roller_upright();
 } else if (PART == "sprocketed_roller_invert") {
@@ -1038,6 +1076,10 @@ if (PART == "panel") {
     idle_roller_half(flip = true);
 } else if (PART == "motor_controller_panel") {
     motor_controller_panel();
+} else if (PART == "gate_holder") {
+    gate_holder();
+} else if (PART == "lamp_LEDs") {
+    lamp_LEDs();
 } else {
     debug();
 }
