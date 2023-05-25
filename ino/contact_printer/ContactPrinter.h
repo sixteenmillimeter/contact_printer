@@ -10,14 +10,21 @@ class ContactPrinter {
 	const uint16_t serial_delay = 5;
 	const uint16_t baud = 57600;
 	const uint8_t drive_pin = 7;
-	const uint8_t takeup_picture_pin = 8;
-	const uint8_t takeup_stock_pin = 9;
+	const uint8_t takeup_picture_pin_cw = 8;
+	const uint8_t takeup_picture_pin_ccw = 9;
+	const uint8_t takeup_stock_pin_cw = 10;
+	const uint8_t takeup_stock_pin_ccw = 11;
 
 	volatile float drive_speed = 1f;
 	volatile float takeup_speed = 1f;
 
 	volatile uint16_t drive_pwm;
 	volatile uint16_t takeup_pwm;
+
+	volatile bool takeup_picture_cw = false;
+	volatile bool takeup_picture_ccw = true;
+
+	volatile uint16_t takeup_ramp_time = 500;
 
 	volatile bool running = false;
 
