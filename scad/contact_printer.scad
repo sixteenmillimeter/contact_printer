@@ -175,9 +175,10 @@ module debug () {
     UseDaylight = true;
     
     translate([0, RollerY, 18]) rotate([180, 0, 0]) difference () {
-        sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model =     SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase);
+        sprocketed_roller_upright();
         //translate([50, 0, 0]) cube([100, 100, 100], center = true);
     }
+    translate([0, RollerY, 18]) rotate([180, 0, 0]) sprocketed_roller_reinforced(sprockets = 18, bevel = true, model = "gearbox_motor", nuts = true);
     //centered_geared_motor([0, RollerY, MotorZ], [180, 0, 90]);
     //lamp
     //difference () {
@@ -1019,7 +1020,7 @@ module gate_holder () {
     }
 }
 
-PART = "lamp_LEDs";
+PART = "sprocketed_wheel";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -1056,6 +1057,8 @@ if (PART == "panel") {
     rotate([180, 0, 0]) sprocketed_roller_upright();
 } else if (PART == "sprocketed_roller_invert") {
     sprocketed_roller_invert();
+} else if (PART == "sprocketed_wheel") {
+    rotate([180, 0, 0]) sprocketed_roller_reinforced(sprockets = 18, bevel = true, model = "gearbox_motor", nuts = true);
 } else if (PART == "magnetic_coupling") {
     magnetic_coupling();
 } else if (PART == "slip_coupling"){
