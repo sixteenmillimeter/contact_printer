@@ -27,7 +27,9 @@
 
 volatile int posi = 0; // specify posi as volatile
 const long maxTime = 10000;
-const int maxPulses = 660;
+const int ppr = 11;
+const float ratio = 62.0;
+const int maxPulses = (int) round((float) ppr * ratio);
 const int speed = 40;
 volatile long start = 0;
 volatile bool done  = false;
@@ -44,6 +46,14 @@ void setup() {
   pinMode(MOTORB, OUTPUT);
   
   attachInterrupt(digitalPinToInterrupt(ENCA), readEncoder,RISING);
+
+  Serial.println("Connected");
+  Serial.print("PPR:    ");
+  Serial.println(ppr);
+  Serial.print("Ratio:  ");
+  Serial.println(ratio);
+  Serial.print("Pulses: ");
+  Serial.println(maxPulses);
 
 }
 
