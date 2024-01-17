@@ -26,7 +26,7 @@ Sprockets = 18;
 SprocketedRollerBevel = false;
 SprocketedRollerModel = "gearbox_motor";
 SprocketedRollerSetScrewTop = true;
-SprocketedRollerSetScrewSide = true;
+SprocketedRollerSetScrewSide = false;
 SprocketedRollerBolts = true;
 SprocketedRollerAdjustBase = -3;
 
@@ -97,7 +97,7 @@ IdleRollerStockY = -16;
 
 IdleRollerBoltH = 30;
 
-BearingOuterDiameter = 22.1 - .5;
+BearingOuterDiameter = 22.1 - .3;
 BearingInnerDiameter = 8.05;
 
 BearingY = (55/2) + 6 - 0.2;
@@ -154,130 +154,15 @@ module centered_geared_motor (pos = [0, 0, 0], rot = [0, 0, 0]) {
     }
 }
 
-module bearing (pos = [0, 0, 0], width= 8, hole = true) {
-	fuzz = 0.1;
+module bearing (pos = [0, 0, 0], width = 8, hole = true, padding = 0.1) {
 	translate (pos) {
 		difference () {
-			cylinder(r = R(BearingOuterDiameter) + fuzz, h = width, center = true);
+			cylinder(r = R(BearingOuterDiameter) + padding, h = width, center = true);
 			if (hole) {
-				cylinder(r = R(BearingInnerDiameter) - fuzz, h = width + 1, center = true);
+				cylinder(r = R(BearingInnerDiameter) - padding, h = width + 1, center = true);
 			}
 		}
 	}
-}
-
-module debug () {
-    DaylightZ = 11.5;
-    PanelOffsetZ = -2.5;
-    BearingOffsetZ = -2.5;
-    //////
-    panel([0, 0, PanelOffsetZ]);
-    UseDaylight = true;
-    
-    translate([0, RollerY, 18]) rotate([180, 0, 0]) difference () {
-        sprocketed_roller_upright();
-        //translate([50, 0, 0]) cube([100, 100, 100], center = true);
-    }
-    translate([0, RollerY, 18]) rotate([180, 0, 0]) sprocketed_roller_reinforced(sprockets = 18, bevel = true, model = "gearbox_motor", nuts = true);
-    //centered_geared_motor([0, RollerY, MotorZ], [180, 0, 90]);
-    //lamp
-    //difference () {
-        //lamp_dual([0, LampY, 0 + 1]);
-        lamp_single([0, LampY, 0 + 1]);
-    //    translate([45, LampY, 0 + 2]) cube([100, 100, 100], center = true);
-    //}
-    //color("green") lamp_cover([0, LampY + 15, 21]);
-    color("red") lamp_bolts_voids([0, LampY + 15, (LampBoltH/2) - 1.5 - 2.5]);
-    //gates
-    translate([-5.35, LampY -7.1, 11 + 1 + .1]) rotate([0, 0, 7]) color("blue") picture_gate();
-    
-    //idle rollers
-    idle_roller([ IdleRollerPrintX, IdleRollerPrintY, 3]);
-    idle_roller([-IdleRollerPrintX, IdleRollerPrintY, 3]);
-    idle_roller([ IdleRollerStockX, IdleRollerStockY, 3]);
-    idle_roller([-IdleRollerStockX, IdleRollerStockY, 3]);
-
-
-    //idle roller path
-    translate([0, IdleRollerPrintY - 8, 10]) cube([200, .1, 16], center = true);
-    translate([0, IdleRollerStockY + 8, 10]) cube([200, .1, 16], center = true);
-    
-    if (UseDaylight) {
-        //feed
-        //translate([-ReelX,  ReelY, DaylightZ]) daylight_spool();
-        //translate([-ReelX, -ReelY, DaylightZ]) daylight_spool();
-        //takeup
-        //translate([ReelX,  ReelY, DaylightZ]) daylight_spool();
-        //translate([ReelX, -ReelY, DaylightZ]) daylight_spool();
-    } else {
-        four_hundred_foot_spool([-ReelX,  ReelY, DaylightZ]);
-        four_hundred_foot_spool([-ReelX, -ReelY, DaylightZ]);
-        //takeup
-        four_hundred_foot_spool([ReelX,  ReelY, DaylightZ]);
-        four_hundred_foot_spool([ReelX, -ReelY, DaylightZ]);
-    }
-    
-    //takeup
-    takeup_panel_picture([TakeupPanelPictureX,  TakeupPanelPictureY, PanelOffsetZ]);
-    takeup_panel_picture_motor_mount([TakeupPanelPictureX,  TakeupPanelPictureY, PanelOffsetZ]);
-
-    takeup_panel_stock([TakeupPanelStockX,  TakeupPanelStockY, PanelOffsetZ]);
-    takeup_panel_stock_motor_mount([TakeupPanelStockX,  TakeupPanelStockY, PanelOffsetZ]);
-    
-    //feed
-    
-    feed_panel_picture([FeedPanelPictureX,  FeedPanelPictureY, PanelOffsetZ]);
-    feed_panel_motor_mount([FeedPanelPictureX,  FeedPanelPictureY, PanelOffsetZ]);
-
-    feed_panel_stock([FeedPanelStockX,  FeedPanelStockY, PanelOffsetZ]);
-
-    difference() {
-        union(){
-            translate([ReelX,  ReelY, -10]) magnetic_coupling();
-            translate([ReelX,  ReelY, -8]) slip_coupling();
-        }
-        translate([ReelX + 50,  ReelY, -10]) cube([100, 100, 100], center = true);
-    }
-    difference() {
-        union(){
-            translate([-ReelX,  ReelY, -8]) slip_coupling();
-        }
-        translate([-ReelX + 50,  ReelY, -10]) cube([100, 100, 100], center = true);
-    }
-    translate([ReelX,  ReelY, BearingOffsetZ+1]) {
-        rotate([0, 0, BearingRotateZ1]) color("blue") bearing([0, BearingY, BearingZ]);
-        rotate([0, 0, BearingRotateZ2]) color("blue") bearing([0, BearingY, BearingZ]);
-        rotate([0, 0, BearingRotateZ3]) color("blue") bearing([0, BearingY, BearingZ]);
-        rotate([0, 0, BearingRotateZ4]) color("blue") bearing([0, BearingY, BearingZ]);
-    }
-    
-    translate([ReelX,  ReelY, BearingOffsetZ+1-5]) {
-        rotate([0, 0, BearingRotateZ1]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
-        rotate([0, 0, BearingRotateZ2]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
-        rotate([0, 0, BearingRotateZ3]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
-        rotate([0, 0, BearingRotateZ4]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
-    }
-    
-    //centered_geared_motor([ReelX,  ReelY, TakeupMotorZ], [180, 0, PictureTakeupMotorRotationZ]);
-    //centered_geared_motor([ReelX, -ReelY, TakeupMotorZ], [180, 0, StockTakeupMotorRotationZ]); 
-
-    //translate([0, 0, DaylightZ]) color("red", 0.25) cube([250, 100, 16], center = true);
-    
-    //2020 frame
-    //top/bottom
-    translate([0, (FrameY/2) + 10, FrameZ]) rotate([0, 90, 0]) 2020_tslot(FrameX + 20);
-    translate([0, -(FrameY/2) - 10, FrameZ]) rotate([0, 90, 0]) 2020_tslot(FrameX + 20);
-    //far sides
-    translate([FrameX/2, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
-    translate([-FrameX/2, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
-    //inner rails
-    translate([(PanelX/2) - 10, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
-    translate([-(PanelX/2) + 10, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
-
-    //feet
-    corner_foot([FrameX/2, (FrameY/2) + 10, -26], [0, 0, 180]);
-
-    //motor_controller_panel([0, -75, PanelOffsetZ]);
 }
 
 /**
@@ -546,6 +431,21 @@ module lamp_cover (pos = [0, 0, 0]) {
         lamp_bolts_voids([0, 0, 0]);
     }
 }
+module takeup_mount_bearing_plug (pos = [0, 0, 0]) {
+    H = 6.75 + 1;
+    translate(pos) difference() {
+        translate([0, 0, -7 / 8]) cylinder(r = R(16), h = H, center = true);
+        translate([0, 0, -H + 1]) cylinder(r = R(13.5), h = H, center = true);
+        cylinder(r = R(7), h = H * 2, center = true);
+    }
+}
+
+module panel_bearing_void (pos = [0, 0, 0]) {
+    translate(pos) difference () {
+        cylinder(r = R(24), h = 2, center = true);
+        cylinder(r = R(12), h = 2 + 1, center = true);
+    }
+}
 
 module panel (pos = [0, 0, 0]) {
     BoltX = (PanelX-20)/2;
@@ -556,7 +456,9 @@ module panel (pos = [0, 0, 0]) {
     LampBoltsZ = (LampBoltH/2) - 1.5;
     IdleRollerBoltsZ = (IdleRollerBoltH/2) - 1.5;
     
-    SprocketedRollerZ = -3.5;
+    SprocketedRollerZ = -3.5 - 1;
+    
+    MotorMountZ = 0;
     
     color("green") translate (pos) {
         difference() {
@@ -594,10 +496,16 @@ module panel (pos = [0, 0, 0]) {
             }
             //voids for motor pad
             translate([0, RollerY + 7.4, SprocketedRollerZ]) cube([27, 43, 6], center = true);
+            panel_bearing_void([0, RollerY, 2.5]);
         }
-        takeup_mount_panel([0, RollerY, SprocketedRollerZ], [0, 0, 90]);
+        difference () {
+            union () {
+                takeup_mount_panel([0, RollerY, SprocketedRollerZ], [0, 0, 90]);
+                takeup_mount_bearing_plug([0, RollerY, -0.5]);
+            }
+            panel_bearing_void([0, RollerY, 2.5]);
+        }
     }
-
 }
 
 module takeup_panel_motor_mount_bolt_void (pos = [0, 0, 0]) {
@@ -974,7 +882,10 @@ module motor_controller_panel (pos = [0, 0, 0]) {
 
 module sprocketed_roller_upright (pos = [0, 0, 0]) {
     translate (pos) {
-        sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase, reinforced = true);
+        difference () {
+            sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase, reinforced = true);
+            bearing([0, 0, 12.4 + 0.3], hole = true, padding = 0.2);
+        }
     }
 }
 
@@ -988,6 +899,35 @@ module sprocketed_roller_invert (pos = [0, 0, 0]) {
         }
         if (SprocketedRollerSetScrewSide) {
             m3_nut_void(pos=[D/4, 0, 8.5], rot = [90, 0, 90], H = D/2);
+        }
+    }
+}
+
+module sprocketed_roller_upright_solid (pos = [0, 0, 0]) {
+    OverhangD = 42.85;
+    OverhangH = 2.5;
+    ChannelD = 1;
+    translate (pos) {
+        difference () {
+            sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = SprocketedRollerModel, set_screw_top = SprocketedRollerSetScrewTop, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase, reinforced = false);
+            bearing([0, 0, 12.4 + 0.3], hole = true, padding = 0.2);
+            
+            //to be printed in resin
+            translate([0, 0, 16.2]) {
+                for (i = [0 : 3]) {
+                    rotate([0, 0, i * 90]) {
+                        rotate([90, 0, 0]) translate([0, 0, 60]) cylinder(r = R(ChannelD), h = 100, center = true, $fn = 20);
+                        translate([7, 0, 0]) cylinder(r = R(ChannelD), h = 40, center = true, $fn = 20);
+                    }
+                }
+            }
+        }
+        
+        
+        //reinforce overhang
+        translate([0, 0, 2.6]) difference () {
+            cylinder(r1 = R(OverhangD), r2 = R(OverhangD - (OverhangH * 2)), h = OverhangH, center = true);
+            cylinder(r = R(20), h = OverhangH + 1, center = true);
         }
     }
 }
@@ -1020,11 +960,133 @@ module gate_holder () {
     }
 }
 
-PART = "sprocketed_wheel";
+module debug () {
+    DaylightZ = 11.5;
+    PanelOffsetZ = -2.5;
+    BearingOffsetZ = -2.5;
+    //////
+    panel([0, 0, PanelOffsetZ]);
+    UseDaylight = true;
+    
+    translate([0, RollerY, 18]) rotate([180, 0, 0]) difference () {
+        sprocketed_roller_upright();
+        //translate([50, 0, 0]) cube([100, 100, 100], center = true);
+    }
+    translate([0, RollerY, 18]) rotate([180, 0, 0]) sprocketed_roller_reinforced(sprockets = 18, bevel = true, model = "gearbox_motor", nuts = true);
+    //centered_geared_motor([0, RollerY, MotorZ], [180, 0, 90]);
+    //lamp
+    //difference () {
+        //lamp_dual([0, LampY, 0 + 1]);
+        lamp_single([0, LampY, 0 + 1]);
+    //    translate([45, LampY, 0 + 2]) cube([100, 100, 100], center = true);
+    //}
+    //color("green") lamp_cover([0, LampY + 15, 21]);
+    color("red") lamp_bolts_voids([0, LampY + 15, (LampBoltH/2) - 1.5 - 2.5]);
+    //gates
+    translate([-5.35, LampY -7.1, 11 + 1 + .1]) rotate([0, 0, 7]) color("blue") picture_gate();
+    
+    //idle rollers
+    idle_roller([ IdleRollerPrintX, IdleRollerPrintY, 3]);
+    idle_roller([-IdleRollerPrintX, IdleRollerPrintY, 3]);
+    idle_roller([ IdleRollerStockX, IdleRollerStockY, 3]);
+    idle_roller([-IdleRollerStockX, IdleRollerStockY, 3]);
+
+
+    //idle roller path
+    translate([0, IdleRollerPrintY - 8, 10]) cube([200, .1, 16], center = true);
+    translate([0, IdleRollerStockY + 8, 10]) cube([200, .1, 16], center = true);
+    
+    if (UseDaylight) {
+        //feed
+        //translate([-ReelX,  ReelY, DaylightZ]) daylight_spool();
+        //translate([-ReelX, -ReelY, DaylightZ]) daylight_spool();
+        //takeup
+        //translate([ReelX,  ReelY, DaylightZ]) daylight_spool();
+        //translate([ReelX, -ReelY, DaylightZ]) daylight_spool();
+    } else {
+        four_hundred_foot_spool([-ReelX,  ReelY, DaylightZ]);
+        four_hundred_foot_spool([-ReelX, -ReelY, DaylightZ]);
+        //takeup
+        four_hundred_foot_spool([ReelX,  ReelY, DaylightZ]);
+        four_hundred_foot_spool([ReelX, -ReelY, DaylightZ]);
+    }
+    
+    //takeup
+    takeup_panel_picture([TakeupPanelPictureX,  TakeupPanelPictureY, PanelOffsetZ]);
+    takeup_panel_picture_motor_mount([TakeupPanelPictureX,  TakeupPanelPictureY, PanelOffsetZ]);
+
+    takeup_panel_stock([TakeupPanelStockX,  TakeupPanelStockY, PanelOffsetZ]);
+    takeup_panel_stock_motor_mount([TakeupPanelStockX,  TakeupPanelStockY, PanelOffsetZ]);
+    
+    //feed
+    
+    feed_panel_picture([FeedPanelPictureX,  FeedPanelPictureY, PanelOffsetZ]);
+    feed_panel_motor_mount([FeedPanelPictureX,  FeedPanelPictureY, PanelOffsetZ]);
+
+    feed_panel_stock([FeedPanelStockX,  FeedPanelStockY, PanelOffsetZ]);
+
+    difference() {
+        union(){
+            translate([ReelX,  ReelY, -10]) magnetic_coupling();
+            translate([ReelX,  ReelY, -8]) slip_coupling();
+        }
+        translate([ReelX + 50,  ReelY, -10]) cube([100, 100, 100], center = true);
+    }
+    difference() {
+        union(){
+            translate([-ReelX,  ReelY, -8]) slip_coupling();
+        }
+        translate([-ReelX + 50,  ReelY, -10]) cube([100, 100, 100], center = true);
+    }
+    translate([ReelX,  ReelY, BearingOffsetZ+1]) {
+        rotate([0, 0, BearingRotateZ1]) color("blue") bearing([0, BearingY, BearingZ]);
+        rotate([0, 0, BearingRotateZ2]) color("blue") bearing([0, BearingY, BearingZ]);
+        rotate([0, 0, BearingRotateZ3]) color("blue") bearing([0, BearingY, BearingZ]);
+        rotate([0, 0, BearingRotateZ4]) color("blue") bearing([0, BearingY, BearingZ]);
+    }
+    
+    translate([ReelX,  ReelY, BearingOffsetZ+1-5]) {
+        rotate([0, 0, BearingRotateZ1]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
+        rotate([0, 0, BearingRotateZ2]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
+        rotate([0, 0, BearingRotateZ3]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
+        rotate([0, 0, BearingRotateZ4]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
+    }
+    
+    //centered_geared_motor([ReelX,  ReelY, TakeupMotorZ], [180, 0, PictureTakeupMotorRotationZ]);
+    //centered_geared_motor([ReelX, -ReelY, TakeupMotorZ], [180, 0, StockTakeupMotorRotationZ]); 
+
+    //translate([0, 0, DaylightZ]) color("red", 0.25) cube([250, 100, 16], center = true);
+    
+    //2020 frame
+    //top/bottom
+    translate([0, (FrameY/2) + 10, FrameZ]) rotate([0, 90, 0]) 2020_tslot(FrameX + 20);
+    translate([0, -(FrameY/2) - 10, FrameZ]) rotate([0, 90, 0]) 2020_tslot(FrameX + 20);
+    //far sides
+    translate([FrameX/2, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
+    translate([-FrameX/2, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
+    //inner rails
+    translate([(PanelX/2) - 10, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
+    translate([-(PanelX/2) + 10, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
+
+    //feet
+    corner_foot([FrameX/2, (FrameY/2) + 10, -26], [0, 0, 180]);
+
+    //motor_controller_panel([0, -75, PanelOffsetZ]);
+}
+
+module debug2 () {
+    panel();
+    //translate([0, -20, 30]) rotate([180, 0, 0]) sprocketed_roller_upright_solid();
+}
+
+PART = "sprocketed_roller_solid";
 LIBRARY = true;
 
 if (PART == "panel") {
-    rotate([180, 0, 0]) panel();
+    intersection () {
+        rotate([180, 0, 0]) panel();
+        translate([0, -RollerY - 8, 0]) cube([30, 50, 50], center = true);
+    }
 } else if (PART == "lamp_dual") {
     lamp_dual();
 } else if (PART == "lamp_single") {
@@ -1055,6 +1117,8 @@ if (PART == "panel") {
     rotate([-90, 0, 0]) picture_gate(Type = "sound"); 
 } else if (PART == "sprocketed_roller") {
     rotate([180, 0, 0]) sprocketed_roller_upright();
+} else if (PART == "sprocketed_roller_solid") {
+    rotate([180, 0, 0]) sprocketed_roller_upright_solid();
 } else if (PART == "sprocketed_roller_invert") {
     sprocketed_roller_invert();
 } else if (PART == "sprocketed_wheel") {
@@ -1084,5 +1148,5 @@ if (PART == "panel") {
 } else if (PART == "lamp_LEDs") {
     lamp_LEDs();
 } else {
-    debug();
+    debug2();
 }
