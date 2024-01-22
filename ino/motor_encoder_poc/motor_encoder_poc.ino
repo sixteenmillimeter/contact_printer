@@ -33,7 +33,7 @@ const float ratio = 62.0 / 1.0;
 const int maxPulses = (int) round((float) ppr * ratio);
 const int speed = 230;
 const int framesPerRotation = 18;
-const int pulsesPerFrame = (int) round((float) maxPulses / (float) framesPerRotation);
+const float pulsesPerFrame = (float) maxPulses / (float) framesPerRotation;
 volatile long start = 0;
 volatile bool done  = false;
 volatile bool stop = false;
@@ -84,19 +84,19 @@ void loop() {
     pos = posi;
   }
 
-  if (pos != lastRotationPosition && abs(pos) % maxPulses == 0) {
-    lastRotationPosition = pos;
-    rotations++;
+  rotations = (int) floor((float) pos / (float) maxPulses);
+  if (pos != lastRotationPosition) {
+    lastRotationPosition = rotations;
     frames = rotations * framesPerRotation;
 
   }
-  if (pos != lastFramePosition && abs(pos) % pulsesPerFrame == 0) {
-    lastFramePosition = pos;
-    frames++;
+  frames = (int) floor((float) pos / pulsesPerFrame);
+  if (frames != lastFramePosition) {
+    lastFramePosition = frames;
     Serial.print("Frames:    ");
-    Serial.print(frames);
-    Serial.print("@");
-    Serial.println(String(pos));
+    Serial.println(frames);
+    //Serial.print("@");
+    //Serial.println(pos);
   }
 
   if (abs(pos) >= maxPulses * maxRotations) {
@@ -111,8 +111,8 @@ void loop() {
   } else if ((stop || millis() - start >= maxTime) && !done) {
     digitalWrite(MOTORA, LOW);
     digitalWrite(MOTORB, LOW);
-    Serial.print("Final:  ");
-    Serial.println(pos);
+    //Serial.print("Final:  ");
+    //Serial.println(pos);
     Serial.print("Time:   ");
     Serial.println(millis() - start);
     rpm = calculateRPM(millis() - start) * (float) (rotations + 1);
