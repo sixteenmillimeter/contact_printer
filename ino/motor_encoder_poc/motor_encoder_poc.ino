@@ -119,7 +119,7 @@ void loop() {
     total = millis() - start;
     Serial.println(total);
     rpm = calculateRPM(total) * (float) (rotations + 1);
-    fps = calculateFPS(total, 18);
+    fps = calculateFPS(total, frames);
     Serial.print("RPM:    ");
     Serial.println(rpm);
     Serial.print("FPS:    ");
