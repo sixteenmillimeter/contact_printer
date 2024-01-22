@@ -87,7 +87,7 @@ void loop() {
   }
 
   rotations = (int) floor((float) pos / (float) maxPulses);
-  if (pos != lastRotationPosition) {
+  if (rotations != lastRotationPosition) {
     lastRotationPosition = rotations;
     frames = rotations * framesPerRotation;
 
