@@ -47,7 +47,7 @@ volatile int lastFramePosition = 0;
 volatile int frames = 0;
 
 float calculateFPS (long timeLength, int frames) {
-  return (float) frames / (float) timeLength;
+  return 1000.0 / ((float) frames / (float) timeLength);
 }
 float calculateRPM (long rotationLength) {
   return 60000.0 / (float) (rotationLength);
