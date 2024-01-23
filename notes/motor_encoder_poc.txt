@@ -1,0 +1,376 @@
+Connected
+  11
+Ratio:  62.00
+Pulses: 682
+Frames per Rotation: 18
+Pulses per Frame: 37.89
+Connected
+PPR:    11
+Ratio:  62.00
+Pulses: 682
+Frames per Rotation: 18
+Pulses per Frame: 37.89
+Time:   7124
+RPM:    92.64
+FPS:    39577.78
+Rotations: 11
+Frames: 180
+------------------------
+
+Connected
+PPR:    11
+Ratio:  62.00
+Pulses: 682
+Frames per Rotation: 18
+Pulses per Frame: 37.89
+Connected
+PPR:    11
+Ratio:  62.00
+Pulses: 682
+Frames per Rotation: 18
+Pulses per Frame: 37.89
+Frames:    20 = 0
+Frames:    21 = 12
+Frames:    22 = 60
+Frames:    23 = 107
+Frames:    24 = 156
+Frames:    25 = 203
+Frames:    26 = 250
+Frames:    27 = 296
+Frames:    28 = 343
+Frames:    29 = 389
+Frames:    30 = 435
+Frames:    31 = 480
+Frames:    32 = 526
+Frames:    33 = 572
+Frames:    34 = 618
+Frames:    35 = 664
+Frames:    36 = 710
+Frames:    37 = 757
+Frames:    38 = 804
+Frames:    39 = 853
+Frames:    40 = 901
+Frames:    41 = 950
+Frames:    42 = 998
+Frames:    43 = 1046
+Frames:    44 = 1094
+Frames:    45 = 1139
+Frames:    46 = 1186
+Frames:    47 = 1232
+Frames:    48 = 1277
+Frames:    49 = 1324
+Frames:    50 = 1369
+Frames:    51 = 1415
+Frames:    52 = 1461
+Frames:    53 = 1507
+Frames:    54 = 1552
+Frames:    55 = 1599
+Frames:    56 = 1646
+Frames:    57 = 1693
+Frames:    58 = 1741
+Frames:    59 = 1789
+Frames:    60 = 1838
+Frames:    61 = 1886
+Frames:    62 = 1934
+Frames:    63 = 1979
+Frames:    64 = 2026
+Frames:    65 = 2072
+Frames:    66 = 2117
+Frames:    67 = 2163
+Frames:    68 = 2208
+Frames:    69 = 2254
+Frames:    70 = 2300
+Frames:    71 = 2347
+Frames:    72 = 2392
+Frames:    73 = 2440
+Frames:    74 = 2487
+Frames:    75 = 2535
+Frames:    76 = 2582
+Frames:    77 = 2631
+Frames:    78 = 2679
+Frames:    79 = 2727
+Frames:    80 = 2775
+Frames:    81 = 2821
+Frames:    82 = 2868
+Frames:    83 = 2914
+Frames:    84 = 2959
+Frames:    85 = 3005
+Frames:    86 = 3051
+Frames:    87 = 3096
+Frames:    88 = 3142
+Frames:    89 = 3188
+Frames:    90 = 3234
+Frames:    91 = 3281
+Frames:    92 = 3329
+Frames:    93 = 3377
+Frames:    94 = 3424
+Frames:    95 = 3472
+Frames:    96 = 3521
+Frames:    97 = 3569
+Frames:    98 = 3616
+Frames:    99 = 3662
+Frames:    100 = 3708
+Frames:    101 = 3755
+Frames:    102 = 3801
+Frames:    103 = 3846
+Frames:    104 = 3892
+Frames:    105 = 3938
+Frames:    106 = 3983
+Frames:    107 = 4029
+Frames:    108 = 4074
+Frames:    109 = 4121
+Frames:    110 = 4169
+Frames:    111 = 4216
+Frames:    112 = 4264
+Frames:    113 = 4313
+Frames:    114 = 4361
+Frames:    115 = 4409
+Frames:    116 = 4457
+Frames:    117 = 4503
+Frames:    118 = 4549
+Frames:    119 = 4595
+Frames:    120 = 4641
+Frames:    121 = 4686
+Frames:    122 = 4732
+Frames:    123 = 4779
+Frames:    124 = 4824
+Frames:    125 = 4870
+Frames:    126 = 4915
+Frames:    127 = 4962
+Frames:    128 = 5009
+Frames:    129 = 5057
+Frames:    130 = 5105
+Frames:    131 = 5153
+Frames:    132 = 5201
+Frames:    133 = 5250
+Frames:    134 = 5298
+Frames:    135 = 5344
+Frames:    136 = 5390
+Frames:    137 = 5436
+Frames:    138 = 5482
+Frames:    139 = 5527
+Frames:    140 = 5573
+Frames:    141 = 5619
+Frames:    142 = 5665
+Frames:    143 = 5710
+Frames:    144 = 5755
+Frames:    145 = 5803
+Frames:    146 = 5850
+Frames:    147 = 5897
+Frames:    148 = 5945
+Frames:    149 = 5992
+Frames:    150 = 6040
+Frames:    151 = 6089
+Frames:    152 = 6136
+Frames:    153 = 6182
+Frames:    154 = 6230
+Frames:    155 = 6276
+Frames:    156 = 6321
+Frames:    157 = 6367
+Frames:    158 = 6413
+Frames:    159 = 6458
+Frames:    160 = 6504
+Frames:    161 = 6550
+Frames:    162 = 6595
+Frames:    163 = 6642
+Frames:    164 = 6689
+Frames:    165 = 6737
+Frames:    166 = 6785
+Frames:    167 = 6834
+Frames:    168 = 6882
+Frames:    169 = 6930
+Frames:    170 = 6978
+Frames:    171 = 7023
+Frames:    172 = 7070
+Frames:    173 = 7116
+Frames:    174 = 7162
+Frames:    175 = 7207
+Frames:    176 = 7254
+Frames:    177 = 7299
+Frames:    178 = 7345
+Frames:    179 = 7391
+Frames:    180 = 7435
+Time:   7436
+RPM:    88.76
+FPS:    24.21
+     Min: 24.21
+     Max: 1750.00
+Rotations: 10
+Frames: 180
+-------------------------------
+FPS avg
+Connected
+PPR:    11
+Ratio:  62.00
+Pulses: 682
+Frames per Rotation: 18
+Pulses per Frame: 37.89
+Frames:    20 = 20000.00
+Frames:    21 = 1500.00
+Frames:    22 = 354.84
+Frames:    23 = 209.09
+Frames:    24 = 151.90
+Frames:    25 = 120.77
+Frames:    26 = 101.96
+Frames:    27 = 89.70
+Frames:    28 = 80.46
+Frames:    29 = 73.60
+Frames:    30 = 68.18
+Frames:    31 = 63.92
+Frames:    32 = 60.26
+Frames:    33 = 57.19
+Frames:    34 = 54.57
+Frames:    35 = 52.24
+Frames:    36 = 50.35
+Frames:    37 = 48.49
+Frames:    38 = 46.86
+Frames:    39 = 45.45
+Frames:    40 = 44.15
+Frames:    41 = 42.93
+Frames:    42 = 41.87
+Frames:    43 = 40.87
+Frames:    44 = 40.04
+Frames:    45 = 39.27
+Frames:    46 = 38.56
+Frames:    47 = 37.93
+Frames:    48 = 37.35
+Frames:    49 = 36.81
+Frames:    50 = 36.34
+Frames:    51 = 35.86
+Frames:    52 = 35.42
+Frames:    53 = 35.01
+Frames:    54 = 34.64
+Frames:    55 = 34.25
+Frames:    56 = 33.88
+Frames:    57 = 33.51
+Frames:    58 = 33.16
+Frames:    59 = 32.83
+Frames:    60 = 32.52
+Frames:    61 = 32.21
+Frames:    62 = 31.93
+Frames:    63 = 31.69
+Frames:    64 = 31.45
+Frames:    65 = 31.22
+Frames:    66 = 31.02
+Frames:    67 = 30.83
+Frames:    68 = 30.64
+Frames:    69 = 30.46
+Frames:    70 = 30.29
+Frames:    71 = 30.12
+Frames:    72 = 29.98
+Frames:    73 = 29.81
+Frames:    74 = 29.65
+Frames:    75 = 29.48
+Frames:    76 = 29.33
+Frames:    77 = 29.17
+Frames:    78 = 29.02
+Frames:    79 = 28.87
+Frames:    80 = 28.74
+Frames:    81 = 28.62
+Frames:    82 = 28.50
+Frames:    83 = 28.40
+Frames:    84 = 28.30
+Frames:    85 = 28.20
+Frames:    86 = 28.10
+Frames:    87 = 28.01
+Frames:    88 = 27.91
+Frames:    89 = 27.83
+Frames:    90 = 27.74
+Frames:    91 = 27.66
+Frames:    92 = 27.56
+Frames:    93 = 27.47
+Frames:    94 = 27.38
+Frames:    95 = 27.29
+Frames:    96 = 27.20
+Frames:    97 = 27.10
+Frames:    98 = 27.02
+Frames:    99 = 26.95
+Frames:    100 = 26.88
+Frames:    101 = 26.81
+Frames:    102 = 26.76
+Frames:    103 = 26.70
+Frames:    104 = 26.64
+Frames:    105 = 26.59
+Frames:    106 = 26.53
+Frames:    107 = 26.48
+Frames:    108 = 26.44
+Frames:    109 = 26.37
+Frames:    110 = 26.32
+Frames:    111 = 26.26
+Frames:    112 = 26.20
+Frames:    113 = 26.15
+Frames:    114 = 26.09
+Frames:    115 = 26.03
+Frames:    116 = 25.97
+Frames:    117 = 25.92
+Frames:    118 = 25.88
+Frames:    119 = 25.83
+Frames:    120 = 25.80
+Frames:    121 = 25.76
+Frames:    122 = 25.72
+Frames:    123 = 25.68
+Frames:    124 = 25.65
+Frames:    125 = 25.61
+Frames:    126 = 25.58
+Frames:    127 = 25.54
+Frames:    128 = 25.50
+Frames:    129 = 25.46
+Frames:    130 = 25.42
+Frames:    131 = 25.38
+Frames:    132 = 25.34
+Frames:    133 = 25.29
+Frames:    134 = 25.25
+Frames:    135 = 25.22
+Frames:    136 = 25.19
+Frames:    137 = 25.16
+Frames:    138 = 25.13
+Frames:    139 = 25.10
+Frames:    140 = 25.07
+Frames:    141 = 25.05
+Frames:    142 = 25.02
+Frames:    143 = 25.00
+Frames:    144 = 24.97
+Frames:    145 = 24.95
+Frames:    146 = 24.92
+Frames:    147 = 24.89
+Frames:    148 = 24.86
+Frames:    149 = 24.83
+Frames:    150 = 24.79
+Frames:    151 = 24.76
+Frames:    152 = 24.73
+Frames:    153 = 24.70
+Frames:    154 = 24.68
+Frames:    155 = 24.65
+Frames:    156 = 24.63
+Frames:    157 = 24.61
+Frames:    158 = 24.60
+Frames:    159 = 24.57
+Frames:    160 = 24.55
+Frames:    161 = 24.53
+Frames:    162 = 24.52
+Frames:    163 = 24.50
+Frames:    164 = 24.48
+Frames:    165 = 24.45
+Frames:    166 = 24.43
+Frames:    167 = 24.40
+Frames:    168 = 24.38
+Frames:    169 = 24.36
+Frames:    170 = 24.33
+Frames:    171 = 24.31
+Frames:    172 = 24.29
+Frames:    173 = 24.27
+Frames:    174 = 24.25
+Frames:    175 = 24.24
+Frames:    176 = 24.23
+Frames:    177 = 24.21
+Frames:    178 = 24.20
+Frames:    179 = 24.18
+Frames:    180 = 24.17
+Time:   7448
+RPM:    88.61
+FPS:    24.17
+     Min: 24.17
+     Max: 1500.00
+Rotations: 10
+Frames: 180
+

@@ -31,7 +31,7 @@ const int maxRotations = 10;
 const int ppr = 11;
 const float ratio = 62.0 / 1.0;
 const int maxPulses = (int) round((float) ppr * ratio);
-const int speed = 220;
+const int speed = 210;
 const int framesPerRotation = 18;
 const float pulsesPerFrame = (float) maxPulses / (float) framesPerRotation;
 volatile long start = 0;
@@ -41,13 +41,15 @@ volatile bool stop = false;
 volatile int incoming;
 volatile float rpm;
 volatile float fps;
+volatile float fpsMax = -1.0;
+volatile float fpsMin = 100000.0;
 volatile int rotations = 0;
 volatile int lastRotationPosition = 0;
 volatile int lastFramePosition = 0;
 volatile int frames = 0;
 
 float calculateFPS (long timeLength, int frames) {
-  return 1000.0 / ((float) frames / (float) timeLength);
+  return 1000.0 / ((float) timeLength / (float) frames);
 }
 float calculateRPM (long rotationLength) {
   return 60000.0 / (float) (rotationLength);
@@ -95,8 +97,19 @@ void loop() {
   frames = (int) floor((float) pos / pulsesPerFrame);
   if (frames != lastFramePosition) {
     lastFramePosition = frames;
+    total = millis() - start;
+    fps = calculateFPS(total, frames);
+    if (fps < 10000.0 && fps > fpsMax) {
+      fpsMax = fps;
+    }
+    if (fps < fpsMin) {
+      fpsMin = fps;
+    }
     Serial.print("Frames:    ");
-    Serial.println(frames);
+    Serial.print(frames);
+    Serial.print(" = ");
+    //Serial.println(total);
+    Serial.println(fps);
     //Serial.print("@");
     //Serial.println(pos);
   }
@@ -124,8 +137,12 @@ void loop() {
     Serial.println(rpm);
     Serial.print("FPS:    ");
     Serial.println(fps);
+    Serial.print("     Min: ");
+    Serial.println(fpsMin);
+    Serial.print("     Max: ");
+    Serial.println(fpsMax);
     Serial.print("Rotations: ");
-    Serial.println(rotations + 1);
+    Serial.println(rotations);
     Serial.print("Frames: ");
     Serial.println(frames);
     done = true;
