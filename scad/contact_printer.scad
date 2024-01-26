@@ -23,7 +23,7 @@ FrameY = 175;
 FrameZ = -16;
 
 Sprockets = 18;
-SprocketedRollerBevel = false;
+SprocketedRollerBevel = true;
 SprocketedRollerModel = "gearbox_motor";
 SprocketedRollerSetScrewTop = true;
 SprocketedRollerSetScrewSide = false;
@@ -923,6 +923,17 @@ module sprocketed_roller_upright_solid (pos = [0, 0, 0]) {
             }
         }
         
+        //reinforce space abover motor shaft
+        translate([0, 0, 4]) difference () {
+            cylinder(r = R(10.5), h = 9, center = true, $fn = 80);
+            cylinder(r = R(3), h = 9 + 1, center = true, $fn = 40);
+        }
+        
+        //offset bearing
+        translate([0, 0, 8.5]) difference () {
+            cylinder(r = R(23), h = 2, center = true, $fn = 80);
+            cylinder(r = R(19.8), h = 2 + 1, center = true, $fn = 40);
+        }
         
         //reinforce overhang
         translate([0, 0, 2.6]) difference () {

@@ -25,28 +25,28 @@
 #define MOTORA 10
 #define MOTORB 11
 
-volatile int64_t posi = 0; // specify posi as volatile
+volatile int32_t posi = 0; // specify posi as volatile
 const long maxTime = 100000;
-const int maxRotations = 10;
+const int32_t maxRotations = 10;
 const int ppr = 11;
-const float ratio = 62.0 / 1.0;
+const float ratio = 187.0 / 3.0;
 const int maxPulses = (int) round((float) ppr * ratio);
-const int speed = 210;
+const int speed = 255;
 const int framesPerRotation = 18;
 const float pulsesPerFrame = (float) maxPulses / (float) framesPerRotation;
 volatile long start = 0;
 volatile long total;
 volatile bool done  = false;
 volatile bool stop = false;
-volatile int incoming;
+volatile int32_t incoming;
 volatile float rpm;
 volatile float fps;
 volatile float fpsMax = -1.0;
 volatile float fpsMin = 100000.0;
-volatile int rotations = 0;
-volatile int lastRotationPosition = 0;
-volatile int lastFramePosition = 0;
-volatile int frames = 0;
+volatile int32_t rotations = 0;
+volatile int32_t lastRotationPosition = 0;
+volatile int32_t lastFramePosition = 0;
+volatile int32_t frames = 0;
 
 float calculateFPS (long timeLength, int frames) {
   return 1000.0 / ((float) timeLength / (float) frames);
@@ -79,7 +79,7 @@ void setup() {
 }
 
 void loop() {
-  int64_t pos;
+  int32_t pos;
   // Read the position in an atomic block to avoid a potential
   // misread if the interrupt coincides with this code running
   // see: https://www.arduino.cc/reference/en/language/variables/variable-scope-qualifiers/volatile/
@@ -92,7 +92,10 @@ void loop() {
   if (rotations != lastRotationPosition) {
     lastRotationPosition = rotations;
     frames = rotations * framesPerRotation;
-
+    Serial.print("Rotations:  ");
+    Serial.print(rotations);
+    Serial.print(" = ");
+    Serial.println(millis() - start);
   }
   frames = (int) floor((float) pos / pulsesPerFrame);
   if (frames != lastFramePosition) {
@@ -105,11 +108,11 @@ void loop() {
     if (fps < fpsMin) {
       fpsMin = fps;
     }
-    Serial.print("Frames:    ");
-    Serial.print(frames);
-    Serial.print(" = ");
+    //Serial.print("Frames:    ");
+    //Serial.print(frames);
+    //Serial.print(" = ");
     //Serial.println(total);
-    Serial.println(fps);
+    //Serial.println(fps);
     //Serial.print("@");
     //Serial.println(pos);
   }
@@ -123,7 +126,7 @@ void loop() {
     digitalWrite(MOTORB, LOW);
     start = millis();
     rotations = 0;
-  } else if ((stop || millis() - start >= maxTime) && !done) {
+  } else if (stop && !done) {
     digitalWrite(MOTORA, LOW);
     digitalWrite(MOTORB, LOW);
     //Serial.print("Final:  ");
