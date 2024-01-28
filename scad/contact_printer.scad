@@ -1085,19 +1085,11 @@ module debug () {
     //motor_controller_panel([0, -75, PanelOffsetZ]);
 }
 
-module debug2 () {
-    panel();
-    //translate([0, -20, 30]) rotate([180, 0, 0]) sprocketed_roller_upright_solid();
-}
-
-PART = "sprocketed_roller_solid";
+PART = "panel";
 LIBRARY = true;
 
 if (PART == "panel") {
-    intersection () {
-        rotate([180, 0, 0]) panel();
-        translate([0, -RollerY - 8, 0]) cube([30, 50, 50], center = true);
-    }
+    rotate([180, 0, 0]) panel();
 } else if (PART == "lamp_dual") {
     lamp_dual();
 } else if (PART == "lamp_single") {
@@ -1159,5 +1151,5 @@ if (PART == "panel") {
 } else if (PART == "lamp_LEDs") {
     lamp_LEDs();
 } else {
-    debug2();
+    debug();
 }
