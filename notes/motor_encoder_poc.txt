@@ -374,3 +374,120 @@ FPS:    24.17
 Rotations: 10
 Frames: 180
 
+-------------------
+switch to 187/3
+-------------------
+
+Connected
+PPR:    11
+Ratio:  62.33
+Pulses: 686
+Frames per Rotation: 18
+Pulses per Frame: 38.11
+Rotations:  1 = 0
+Rotations:  2 = 470
+Rotations:  3 = 1189
+Rotations:  4 = 1910
+Rotations:  5 = 2631
+Rotations:  6 = 3352
+Rotations:  7 = 4071
+Rotations:  8 = 4791
+Rotations:  9 = 5511
+Rotations:  10 = 6232
+Rotations:  11 = 6950
+Rotations:  12 = 7670
+Rotations:  13 = 8388
+Rotations:  14 = 9109
+Rotations:  15 = 9828
+Rotations:  16 = 10548
+Rotations:  17 = 11267
+Rotations:  18 = 11988
+Rotations:  19 = 12707
+Rotations:  20 = 13427
+Rotations:  21 = 14145
+Rotations:  22 = 14866
+Rotations:  23 = 15585
+Rotations:  24 = 16304
+Rotations:  25 = 17021
+Rotations:  26 = 17742
+Rotations:  27 = 18461
+Rotations:  28 = 19180
+Rotations:  29 = 19898
+Rotations:  30 = 20619
+Rotations:  31 = 21336
+Rotations:  32 = 22053
+Rotations:  33 = 22772
+Rotations:  34 = 23493
+Rotations:  35 = 24212
+Rotations:  36 = 24931
+Rotations:  37 = 25651
+Rotations:  38 = 26371
+Rotations:  39 = 27088
+Rotations:  40 = 27806
+Rotations:  41 = 28527
+Rotations:  42 = 29244
+Rotations:  43 = 29963
+Rotations:  44 = 30681
+Rotations:  45 = 31401
+Rotations:  46 = 32118
+Rotations:  47 = 32837
+Rotations:  48 = 33556
+Rotations:  49 = 34277
+Rotations:  50 = 34995
+Rotations:  51 = 35712
+Rotations:  52 = 36431
+Rotations:  53 = 37149
+Rotations:  54 = 37867
+Rotations:  55 = 38586
+Rotations:  56 = 39306
+Rotations:  57 = 40024
+Rotations:  58 = 40741
+Rotations:  59 = 41461
+Rotations:  60 = 42182
+Rotations:  61 = 42899
+Rotations:  62 = 43617
+Rotations:  63 = 44338
+Rotations:  64 = 45057
+Rotations:  65 = 45775
+Rotations:  66 = 46492
+Rotations:  67 = 47213
+Rotations:  68 = 47934
+Rotations:  69 = 48655
+Rotations:  70 = 49379
+Rotations:  71 = 50100
+Rotations:  72 = 50819
+Rotations:  73 = 51538
+Rotations:  74 = 52258
+Rotations:  75 = 52976
+Rotations:  76 = 53694
+Rotations:  77 = 54414
+Rotations:  78 = 55132
+Rotations:  79 = 55849
+Rotations:  80 = 56568
+Rotations:  81 = 57286
+Rotations:  82 = 58004
+Rotations:  83 = 58723
+Rotations:  84 = 59443
+Rotations:  85 = 60161
+Rotations:  86 = 60879
+Rotations:  87 = 61600
+Rotations:  88 = 62318
+Rotations:  89 = 63035
+Rotations:  90 = 63754
+Rotations:  91 = 64471
+Rotations:  92 = 65187
+Rotations:  93 = 65903
+Rotations:  94 = 66623
+Rotations:  95 = 67340
+Rotations:  96 = 68057
+Rotations:  97 = 68774
+Rotations:  98 = 69492
+Rotations:  99 = 70209
+Rotations:  100 = 70926
+Time:   70927
+RPM:    85.44
+FPS:    25.38
+     Min: 25.38
+     Max: 961.54
+Rotations: 100
+Frames: 1800
