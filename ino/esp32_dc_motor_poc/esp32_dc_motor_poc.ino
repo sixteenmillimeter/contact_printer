@@ -14,7 +14,7 @@ int enable1Pin = 14;
 const int freq = 30000;
 const int pwmChannel = 0;
 const int resolution = 8;
-int dutyCycle = 200;
+int dutyCycle = 250;
 
 void setup() {
   // sets the pins as outputs:
@@ -27,6 +27,8 @@ void setup() {
   
   // attach the channel to the GPIO to be controlled
   ledcAttachPin(enable1Pin, pwmChannel);
+
+  ledcWrite(pwmChannel, dutyCycle); 
 
   Serial.begin(115200);
 
@@ -59,15 +61,4 @@ void loop() {
   digitalWrite(motor1Pin2, LOW);
   delay(1000);
 
-  // Move DC motor forward with increasing speed
-  digitalWrite(motor1Pin1, HIGH);
-  digitalWrite(motor1Pin2, LOW);
-  while (dutyCycle <= 255){
-    ledcWrite(pwmChannel, dutyCycle);   
-    Serial.print("Forward with duty cycle: ");
-    Serial.println(dutyCycle);
-    dutyCycle = dutyCycle + 5;
-    delay(500);
-  }
-  dutyCycle = 200;
 }
