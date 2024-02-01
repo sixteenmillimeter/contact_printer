@@ -1,18 +1,18 @@
 #include "ContactPrinter.h" 
 
 ContactPrinter::ContactPrinter () {
-	SetDriveSpeed(drive_speed);
+	SetSpeedDrive(drive_speed);
 	SetSpeedTakeup(takeup_speed);
 }
 
 void ContactPrinter::Setup () {
-	pinMode(drive_pin, OUTPUT);
 	pinMode(takeup_picture_pin_cw, OUTPUT);
 	pinMode(takeup_picture_pin_ccw, OUTPUT);
 	pinMode(takeup_stock_pin_cw, OUTPUT);
 	pinMode(takeup_stock_pin_ccw, OUTPUT);
 
-	digitalWrite(drive_pin, LOW);
+	drive_motor.Setup();
+
 	digitalWrite(takeup_picture_pin_cw, LOW);
 	digitalWrite(takeup_picture_pin_ccw, LOW);
 	digitalWrite(takeup_stock_pin_cw, LOW);
@@ -22,11 +22,11 @@ void ContactPrinter::Setup () {
 void ContactPrinter::Start () {
 	RampTakeup(0, takeup_pwm, takeup_ramp_time);
 	delay(100);
-	analogWrite(drive_pin, drive_pwm);
+	//drive_motor.Start();
 }
 
 void ContactPrinter::Stop () {
-	analogWrite(drive_pin, 0);
+	//drive_motor.Start();
 	delay(100);
 	RampTakeup(takeup_pwm, 0, takeup_ramp_time);
 
@@ -38,8 +38,7 @@ void ContactPrinter::SetSpeedTakeup(float speed) {
 }
 
 void ContactPrinter::SetSpeedDrive(float speed) {
-	drive_speed = speed;
-	drive_pwm = round(speed * 255);
+	//drive_motor.SetSpeed();
 }
 
 void ContactPrinter::SetDirectionStock(bool clockwise) {
