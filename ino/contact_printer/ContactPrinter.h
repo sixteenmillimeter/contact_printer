@@ -11,18 +11,25 @@ class ContactPrinter {
 	EncoderMotor drive_motor;
 
 	const uint16_t serial_delay = 5;
-	const uint16_t baud = 57600;
+	const uint16_t baud = 115200;
 
+	const uint8_t takeup_picture_pin_enable = 7;
 	const uint8_t takeup_picture_pin_cw = 8;
 	const uint8_t takeup_picture_pin_ccw = 9;
+
+	const uint8_t takeup_stock_pin_enable = 12;
 	const uint8_t takeup_stock_pin_cw = 10;
 	const uint8_t takeup_stock_pin_ccw = 11;
+
+	const uint32_t pwm_frequency = 30000;
+	const uint8_t takeup_picture_pwm_channel = 1;
+	const uint8_t takeup_stock_pwm_channel = 2;
+	const uint8_t pwm_resolution = 8;
 
 	volatile float drive_speed = 1.0; //calculated rpm
 	volatile float takeup_speed = 1.0; //estimated rpm
 
-	volatile uint16_t drive_pwm;
-	volatile uint16_t takeup_pwm;
+	volatile uint16_t takeup_pwm_duty_cycle = 255;
 
 	volatile bool takeup_picture_cw = false;
 	volatile bool takeup_picture_ccw = true;

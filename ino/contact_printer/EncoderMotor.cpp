@@ -20,4 +20,7 @@ void EncoderMotor::Setup () {
 	ledcSetup(pwm_channel, pwm_frequency, pwm_resolution);
 	ledcAttachPin(enable_pin, pwm_channel);
 	ledcWrite(pwm_channel, pwm_duty_cycle);
+
+	digitalWrite(forward_pin, LOW);
+	digitalWrite(backward_pin, LOW);
 }
