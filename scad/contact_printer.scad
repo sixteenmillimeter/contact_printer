@@ -18,8 +18,8 @@ IN = 25.4;
 16mmFilmSound = 16mmFilmSuper - 16mmFilmStandard;
 16mmFilmSoundZ = -7.75;
 
-FrameX = 300;
-FrameY = 175;
+FrameX = 400;
+FrameY = 260;
 FrameZ = -16;
 
 Sprockets = 18;
@@ -39,8 +39,8 @@ PanelZ = 5;
 PanelYOffset = 10;
 PanelDimensions = [PanelX, PanelY, PanelZ];
 
-ReelX = 102.5;
-ReelY = 50;
+ReelX = 145;
+ReelY = 90;
 
 MotorZ = -16;
 TakeupMotorZ = -40;
@@ -48,17 +48,18 @@ TakeupMotorZ = -40;
 PictureTakeupMotorRotationZ = -70;
 StockTakeupMotorRotationZ = 180-70;
 
+//Offsets the takeup panels by x,y
 TakeupPanelPictureX = 100;
-TakeupPanelPictureY = 50;
+TakeupPanelPictureY = 90;
 
 TakeupPanelStockX = 100;
-TakeupPanelStockY = -50;
+TakeupPanelStockY = -90;
 
 FeedPanelPictureX = -100;
-FeedPanelPictureY = 50;
+FeedPanelPictureY = 90;
 
 FeedPanelStockX = -100;
-FeedPanelStockY = -50;
+FeedPanelStockY = -90;
 
 TakeupPanelPictureOffsetX = ReelX - TakeupPanelPictureX;
 TakeupPanelStockOffsetX = ReelX - TakeupPanelPictureX;
@@ -144,7 +145,7 @@ module four_hundred_foot_spool (pos = [0, 0, 0]) {
     W = 175;
     H = 18;
     translate(pos) { 
-        cylinder(r = R(W), h = H, center = true, $fn = 200);
+        color() cylinder(r = R(W), h = H, center = true, $fn = 200);
     }
 }
 
@@ -977,7 +978,8 @@ module debug () {
     BearingOffsetZ = -2.5;
     //////
     panel([0, 0, PanelOffsetZ]);
-    UseDaylight = true;
+    UseDaylight = false;
+    UseAll = true;
     
     translate([0, RollerY, 18]) rotate([180, 0, 0]) difference () {
         sprocketed_roller_upright();
@@ -1009,17 +1011,21 @@ module debug () {
     
     if (UseDaylight) {
         //feed
-        //translate([-ReelX,  ReelY, DaylightZ]) daylight_spool();
-        //translate([-ReelX, -ReelY, DaylightZ]) daylight_spool();
-        //takeup
-        //translate([ReelX,  ReelY, DaylightZ]) daylight_spool();
-        //translate([ReelX, -ReelY, DaylightZ]) daylight_spool();
+        translate([-ReelX,  ReelY, DaylightZ]) daylight_spool();
+        if (UseAll) {
+            translate([-ReelX, -ReelY, DaylightZ]) daylight_spool();
+            //takeup
+            translate([ReelX,  ReelY, DaylightZ]) daylight_spool();
+            translate([ReelX, -ReelY, DaylightZ]) daylight_spool();
+        }
     } else {
         four_hundred_foot_spool([-ReelX,  ReelY, DaylightZ]);
-        four_hundred_foot_spool([-ReelX, -ReelY, DaylightZ]);
-        //takeup
-        four_hundred_foot_spool([ReelX,  ReelY, DaylightZ]);
-        four_hundred_foot_spool([ReelX, -ReelY, DaylightZ]);
+        if (UseAll) {
+            four_hundred_foot_spool([-ReelX, -ReelY, DaylightZ]);
+            //takeup
+            four_hundred_foot_spool([ReelX,  ReelY, DaylightZ]);
+            four_hundred_foot_spool([ReelX, -ReelY, DaylightZ]);
+        }
     }
     
     //takeup
@@ -1085,7 +1091,7 @@ module debug () {
     //motor_controller_panel([0, -75, PanelOffsetZ]);
 }
 
-PART = "panel";
+PART = "panelx";
 LIBRARY = true;
 
 if (PART == "panel") {
