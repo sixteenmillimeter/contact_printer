@@ -1,4 +1,10 @@
 #include "ContactPrinter.h";
 
-void setup () {}
-void loop () {}
+ContactPrinter contact_printer;
+
+void setup () {
+	contact_printer.Setup();
+}
+void loop () {
+	contact_printer.Loop();
+}

@@ -24,3 +24,7 @@ void EncoderMotor::Setup () {
 	digitalWrite(forward_pin, LOW);
 	digitalWrite(backward_pin, LOW);
 }
+
+void EncoderMotor::Loop () {
+	
+}

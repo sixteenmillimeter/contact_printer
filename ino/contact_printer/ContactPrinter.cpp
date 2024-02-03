@@ -100,3 +100,7 @@ void ContactPrinter::RampTakeup(uint16_t start, uint16_t end, uint16_t time) {
 bool ContactPrinter::IsRunning () {
 	return running;
 }
+
+void ContactPrinter::Loop () {
+	drive_motor.Loop();
+}
