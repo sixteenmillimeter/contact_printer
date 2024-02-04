@@ -49,16 +49,16 @@ PictureTakeupMotorRotationZ = -70;
 StockTakeupMotorRotationZ = 180-70;
 
 //Offsets the takeup panels by x,y
-TakeupPanelPictureX = 100;
+TakeupPanelPictureX = 130;
 TakeupPanelPictureY = 90;
 
-TakeupPanelStockX = 100;
+TakeupPanelStockX = 130;
 TakeupPanelStockY = -90;
 
-FeedPanelPictureX = -100;
+FeedPanelPictureX = -130;
 FeedPanelPictureY = 90;
 
-FeedPanelStockX = -100;
+FeedPanelStockX = -130;
 FeedPanelStockY = -90;
 
 TakeupPanelPictureOffsetX = ReelX - TakeupPanelPictureX;
@@ -67,8 +67,8 @@ TakeupPanelStockOffsetX = ReelX - TakeupPanelPictureX;
 FeedPanelPictureOffsetX = -ReelX - FeedPanelPictureX;
 FeedPanelStockOffsetX = -ReelX - FeedPanelPictureX;
 
-TakeupPanelX = 95;
-TakeupPanelY = 90;
+TakeupPanelX = 145;
+TakeupPanelY = 100;
 TakeupCenterVoidD = 47;
 TakeupCenterColumnD = 55;
 TakeupCenterColumnZ = 23.25;
@@ -924,13 +924,13 @@ module sprocketed_roller_upright_solid (pos = [0, 0, 0]) {
             }
         }
         
-        //reinforce space abover motor shaft
+        //reinforce space above motor shaft
         translate([0, 0, 4]) difference () {
             cylinder(r = R(10.5), h = 9, center = true, $fn = 80);
             cylinder(r = R(3), h = 9 + 1, center = true, $fn = 40);
         }
         
-        //offset bearing
+        //offset bearing = 0.8
         translate([0, 0, 8.5]) difference () {
             cylinder(r = R(23), h = 2, center = true, $fn = 80);
             cylinder(r = R(19.8), h = 2 + 1, center = true, $fn = 40);
@@ -940,6 +940,56 @@ module sprocketed_roller_upright_solid (pos = [0, 0, 0]) {
         translate([0, 0, 2.6]) difference () {
             cylinder(r1 = R(OverhangD), r2 = R(OverhangD - (OverhangH * 2)), h = OverhangH, center = true);
             cylinder(r = R(20), h = OverhangH + 1, center = true);
+        }
+    }
+}
+
+module sprocketed_roller_invert_solid (pos = [0, 0, 0]) {
+    D = (FrameC * Sprockets) / PI;
+    OverhangD = 42.85;
+    OverhangH = 2.5;
+    ChannelD = 1;
+    translate(pos) {
+        difference () {
+            union () {
+                sprocketed_roller(sprockets = Sprockets, bevel = SprocketedRollerBevel, model = "", set_screw_top = false, set_screw_side = SprocketedRollerSetScrewSide, bolts = SprocketedRollerBolts, adjust_base = SprocketedRollerAdjustBase, reinforced = false);
+                translate([0, 0, -2]) cylinder(r = R(D), h = 1.5, center = true);
+            }
+            translate([0, 0, 1]) gearbox_motor_shaft_void();
+            bearing([0, 0, 12.4 + 0.3 - 11.7], hole = true, padding = 0.2);
+            if (SprocketedRollerSetScrewTop) {
+                m3_bolt_void([0, 0, 1]);
+            }
+            if (SprocketedRollerSetScrewSide) {
+                m3_nut_void(pos=[D/4, 0, 8.5], rot = [90, 0, 90], H = D/2);
+            }
+            //to be printed in resin
+            translate([0, 0, 16.2]) {
+                for (i = [0 : 3]) {
+                    rotate([0, 0, i * 90]) {
+                        rotate([90, 0, 0]) translate([0, 0, 20]) cylinder(r = R(ChannelD), h = 100, center = true, $fn = 20);
+                        translate([7, 0, 0]) cylinder(r = R(ChannelD), h = 40, center = true, $fn = 20);
+                    }
+                }
+            }
+        }
+
+        //reinforce space above motor shaft
+        translate([0, 0, 9]) difference () {
+            cylinder(r = R(10.5), h = 9, center = true, $fn = 80);
+            cylinder(r = R(3), h = 9 + 1, center = true, $fn = 40);
+        }
+
+        //offset bearing
+        translate([0, 0, 8.5 - 2.5 - 0.8]) difference () {
+            cylinder(r = R(23), h = 2, center = true, $fn = 80);
+            cylinder(r = R(19.8), h = 2 + 1, center = true, $fn = 40);
+        }
+
+        //reinforce overhang
+        translate([0, 0, 2.6]) difference () {
+            cylinder(r1 = R(OverhangD), r2 = R(OverhangD - (OverhangH * 2)), h = OverhangH, center = true);
+            cylinder(r = R(25), h = OverhangH + 1, center = true);
         }
     }
 }
@@ -978,14 +1028,14 @@ module debug () {
     BearingOffsetZ = -2.5;
     //////
     panel([0, 0, PanelOffsetZ]);
-    UseDaylight = false;
-    UseAll = true;
+    UseDaylight = true;
+    UseAll = false;
     
     translate([0, RollerY, 18]) rotate([180, 0, 0]) difference () {
         sprocketed_roller_upright();
         //translate([50, 0, 0]) cube([100, 100, 100], center = true);
     }
-    translate([0, RollerY, 18]) rotate([180, 0, 0]) sprocketed_roller_reinforced(sprockets = 18, bevel = true, model = "gearbox_motor", nuts = true);
+    translate([0, RollerY, 18]) rotate([180, 0, 0]) sprocketed_roller_upright_solid();
     //centered_geared_motor([0, RollerY, MotorZ], [180, 0, 90]);
     //lamp
     //difference () {
@@ -1091,7 +1141,18 @@ module debug () {
     //motor_controller_panel([0, -75, PanelOffsetZ]);
 }
 
-PART = "panelx";
+module debug2 () {
+    translate([30, 0, 18]) difference() {
+        rotate([180, 0, 0]) sprocketed_roller_upright_solid();
+        translate([0, 40, 0]) cube([80, 80, 40], center = true);
+    }
+    translate([0, 1, 3.2+1.4]) difference() {
+        sprocketed_roller_invert_solid();
+        translate([0, 40, 0]) cube([80, 80, 40], center = true);
+    }
+}
+
+PART = "sprocketed_roller_invert_solid";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -1130,6 +1191,8 @@ if (PART == "panel") {
     rotate([180, 0, 0]) sprocketed_roller_upright_solid();
 } else if (PART == "sprocketed_roller_invert") {
     sprocketed_roller_invert();
+} else if (PART == "sprocketed_roller_invert_solid") {
+    sprocketed_roller_invert_solid();
 } else if (PART == "sprocketed_wheel") {
     rotate([180, 0, 0]) sprocketed_roller_reinforced(sprockets = 18, bevel = true, model = "gearbox_motor", nuts = true);
 } else if (PART == "magnetic_coupling") {
@@ -1157,5 +1220,6 @@ if (PART == "panel") {
 } else if (PART == "lamp_LEDs") {
     lamp_LEDs();
 } else {
-    debug();
+    //debug();
+    debug2();
 }
