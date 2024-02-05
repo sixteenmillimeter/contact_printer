@@ -949,6 +949,7 @@ module sprocketed_roller_invert_solid (pos = [0, 0, 0]) {
     OverhangD = 42.85;
     OverhangH = 2.5;
     ChannelD = 1;
+    BearingZ = 12.4 + 0.3 - 11.7 - 0.5;
     translate(pos) {
         difference () {
             union () {
@@ -956,7 +957,7 @@ module sprocketed_roller_invert_solid (pos = [0, 0, 0]) {
                 translate([0, 0, -2]) cylinder(r = R(D), h = 1.5, center = true);
             }
             translate([0, 0, 1]) gearbox_motor_shaft_void();
-            bearing([0, 0, 12.4 + 0.3 - 11.7], hole = true, padding = 0.2);
+            bearing([0, 0, BearingZ], hole = true, padding = 0.2);
             if (SprocketedRollerSetScrewTop) {
                 m3_bolt_void([0, 0, 1]);
             }
@@ -976,12 +977,12 @@ module sprocketed_roller_invert_solid (pos = [0, 0, 0]) {
 
         //reinforce space above motor shaft
         translate([0, 0, 9]) difference () {
-            cylinder(r = R(10.5), h = 9, center = true, $fn = 80);
+            cylinder(r = R(10.5), h = 8.5, center = true, $fn = 80);
             cylinder(r = R(3), h = 9 + 1, center = true, $fn = 40);
         }
 
         //offset bearing
-        translate([0, 0, 8.5 - 2.5 - 0.8]) difference () {
+        translate([0, 0, 8.5 - 2.5 - 0.8 - 0.5]) difference () {
             cylinder(r = R(23), h = 2, center = true, $fn = 80);
             cylinder(r = R(19.8), h = 2 + 1, center = true, $fn = 40);
         }
