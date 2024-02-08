@@ -73,7 +73,7 @@ TakeupPanelStockOffsetY = -ReelY - TakeupPanelStockY;
 FeedPanelPictureOffsetX = -ReelX - FeedPanelPictureX;
 FeedPanelStockOffsetX = -ReelX - FeedPanelStockX;
 
-FeedPanelPictureOffsetY = -ReelY - FeedPanelPictureY;
+FeedPanelPictureOffsetY = ReelY - FeedPanelPictureY;
 FeedPanelStockOffsetY = -ReelY - FeedPanelStockY;
 
 TakeupPanelBoltsOffsetX = -17.5;
@@ -529,9 +529,12 @@ module panel (pos = [0, 0, 0]) {
 }
 
 module panel_corner (pos = [0, 0, 0], rot = 0) {
-    translate(pos) rotate([0, 0, rot]) difference() {
-        translate([10, 10, 0]) cube([20, 20, 20], center = true);
-        cylinder(r = R(20), h = 20 + 1, center = true, $fn = 60);
+    D = 20;
+    translate([pos[0] - R(D), pos[1] - R(D), pos[2]]) rotate([0, 0, rot]) difference() {
+        cube([D * 2, D * 2, 10], center = true);
+        cylinder(r = R(D), h = 10 + 1, center = true, $fn = 60);
+        translate([-D, -D / 2, 0]) cube([D * 2, D * 2, 10 + 1], center = true);
+        translate([-D / 2, -D, 0]) cube([D * 2, D * 2, 10 + 1], center = true);
     }
 }
 
@@ -632,7 +635,7 @@ module takeup_panel_picture (pos = [0, 0, 0]) {
             }
             //void for motor
             translate([TakeupPanelPictureOffsetX, TakeupPanelPictureOffsetY, 0]) cylinder(r = R(TakeupCenterVoidD), h = 50, center = true, $fn = 100);
-            panel_corner([(TakeupPanelX / 2) + 2.5, (TakeupPanelY / 2) + 2.5, 0]);
+            panel_corner([(TakeupPanelX / 2), (TakeupPanelY / 2), 0]);
             //bearings bolts voids
             takeup_panel_bearings_bolts_voids([TakeupPanelPictureOffsetX, TakeupPanelPictureOffsetY, 5]);
             //bolts
@@ -654,6 +657,7 @@ module takeup_panel_picture (pos = [0, 0, 0]) {
             
             takeup_panel_motor_mount_m4_bolts_voids([TakeupPanelPictureOffsetX, TakeupPanelPictureOffsetY, -8.99]);
         }
+        
     }
 }
 
@@ -701,7 +705,7 @@ module takeup_panel_stock (pos = [0, 0, 0]) {
             }
             //motor void
             translate([TakeupPanelStockOffsetX, TakeupPanelStockOffsetY, 0]) cylinder(r = R(TakeupCenterVoidD), h = 50, center = true, $fn = 100);
-            panel_corner([(TakeupPanelX / 2) + 2.5, -(TakeupPanelY / 2) - 2.5, 0], -90);
+            panel_corner([(TakeupPanelX / 2), -(TakeupPanelY / 2) + 20, 0], -90);
             //bearings
             //takeup_panel_bearings_voids([TakeupPanelStockOffsetX, 0, 0]);
             takeup_panel_bearings_bolts_voids([TakeupPanelStockOffsetX, TakeupPanelStockOffsetY, 5]);
@@ -718,6 +722,8 @@ module takeup_panel_stock (pos = [0, 0, 0]) {
             takeup_panel_bearings_m3_bolt_void([-BoltX, BoltY, 0]);
             //center left
             takeup_panel_bearings_m3_bolt_void([-BoltX, -BoltY + 20, 0]);
+            //center right
+            takeup_panel_bearings_m3_bolt_void([BoltX, -BoltY + 20, 0]);
             
             takeup_panel_motor_mount_m4_bolts_voids([TakeupPanelStockOffsetX, TakeupPanelStockOffsetY, -8.99], [0, 0, 180]);
         }
@@ -783,65 +789,69 @@ module feed_panel_motor_mount_m4_bolts_voids (pos = [0, 0, 0], rot = [0, 0, 0]) 
 }
 
 module feed_panel_picture (pos = [0, 0, 0]) {
+    BoltX = (TakeupPanelX / 2) - 10;
+    BoltY = (TakeupPanelY / 2) - 10;
     OtherX = 25;
     OtherY = 45;
 
     translate(pos) {
         difference() {
-            union(){
-                translate([-12.5, 12.5, 0]) cube([TakeupPanelX, TakeupPanelY, PanelZ], center = true);
-                translate([(TakeupPanelX/2) - 2.5, 12.5, 0]) cube([OtherX, TakeupPanelY, PanelZ], center = true);
-            }
+            cube([TakeupPanelX, TakeupPanelY, PanelZ], center = true);
+
             //motor void
-            translate([FeedPanelPictureOffsetX, 0, 0]) cylinder(r = R(TakeupCenterVoidD), h = 50, center = true, $fn = 100);
-            panel_corner([-(TakeupPanelX / 2) - 2.5, (TakeupPanelY / 2) + 2.5, 0], 90);
+            translate([FeedPanelPictureOffsetX, FeedPanelPictureOffsetY, 0]) cylinder(r = R(TakeupCenterVoidD), h = 50, center = true, $fn = 100);
+            panel_corner([-(TakeupPanelX / 2) + 20, (TakeupPanelY / 2), 0], 90);
             //bolts
             //top center
-            takeup_panel_bearings_m3_bolt_void([FeedPanelBoltsOffsetX + FeedPanelPictureOffsetX, (TakeupPanelY / 2) + 2.5, 0]);
+            takeup_panel_bearings_m3_bolt_void([0, BoltY, 0]);
             //top right
-            takeup_panel_bearings_m3_bolt_void([FeedPanelBoltsOffsetX + FeedPanelPictureOffsetX + (TakeupPanelX / 2), (TakeupPanelY / 2) + 2.5, 0]);
+            takeup_panel_bearings_m3_bolt_void([BoltX, BoltY, 0]);
             //top left
-            takeup_panel_bearings_m3_bolt_void([FeedPanelBoltsOffsetX + FeedPanelPictureOffsetX - (TakeupPanelX / 2), (TakeupPanelY / 2) + 2.5, 0]);
+            takeup_panel_bearings_m3_bolt_void([-BoltX, BoltY, 0]);
             //bottom left
-            takeup_panel_bearings_m3_bolt_void([FeedPanelBoltsOffsetX + FeedPanelPictureOffsetX - (TakeupPanelX / 2), 2.5 - 20, 0]);
+            takeup_panel_bearings_m3_bolt_void([-BoltX, -BoltY, 0]);
             //bottom right
-            takeup_panel_bearings_m3_bolt_void([FeedPanelBoltsOffsetX + FeedPanelPictureOffsetX + (TakeupPanelX / 2), 2.5 - 20, 0]);
+            takeup_panel_bearings_m3_bolt_void([BoltX, -BoltY, 0]);
             //center right
-            takeup_panel_bearings_m3_bolt_void([FeedPanelBoltsOffsetX + FeedPanelPictureOffsetX + (TakeupPanelX / 2), 2.5 + 20, 0]);
+            takeup_panel_bearings_m3_bolt_void([BoltX, BoltY - 20, 0]);
+            //center left
+            takeup_panel_bearings_m3_bolt_void([-BoltX, BoltY - 20, 0]);
             
-            takeup_panel_motor_mount_m4_bolts_voids([FeedPanelPictureOffsetX, 0, -8.99]);
+            takeup_panel_motor_mount_m4_bolts_voids([FeedPanelPictureOffsetX, FeedPanelPictureOffsetY, -8.99]);
         }
     }
 }
 
 module feed_panel_stock (pos = [0, 0, 0]) {
+    BoltX = (TakeupPanelX / 2) - 10;
+    BoltY = (TakeupPanelY / 2) - 10;
     OtherX = 25;
     OtherY = 45;
 
     translate(pos) {
         difference() {
-            union(){
-                translate([-12.5, -12.5, 0]) cube([TakeupPanelX, TakeupPanelY, PanelZ], center = true);
-                translate([(TakeupPanelX/2) - 2.5, -12.5, 0]) cube([OtherX, TakeupPanelY, PanelZ], center = true);
-            }
+            cube([TakeupPanelX, TakeupPanelY, PanelZ], center = true);
+
             //motor void
-            translate([FeedPanelPictureOffsetX, 0, 0]) cylinder(r = R(TakeupCenterVoidD), h = 50, center = true, $fn = 100);
-            panel_corner([-(TakeupPanelX / 2) - 2.5, -(TakeupPanelY / 2) - 2.5, 0], 180);
+            translate([FeedPanelStockOffsetX, FeedPanelStockOffsetY, 0]) cylinder(r = R(TakeupCenterVoidD), h = 50, center = true, $fn = 100);
+            panel_corner([-(TakeupPanelX / 2) + 20, -(TakeupPanelY / 2) + 20, 0], 180);
             //bolts
             //bottom center
-            takeup_panel_bearings_m3_bolt_void([FeedPanelBoltsOffsetX + FeedPanelPictureOffsetX, -(TakeupPanelY / 2) - 2.5, 0]);
+            takeup_panel_bearings_m3_bolt_void([0, -BoltY, 0]);
             //bottom right
-            takeup_panel_bearings_m3_bolt_void([FeedPanelBoltsOffsetX + FeedPanelPictureOffsetX + (TakeupPanelX / 2), -(TakeupPanelY / 2) - 2.5, 0]);
+            takeup_panel_bearings_m3_bolt_void([BoltX, -BoltY, 0]);
             //bottom left
-            takeup_panel_bearings_m3_bolt_void([FeedPanelBoltsOffsetX + FeedPanelPictureOffsetX - (TakeupPanelX / 2), -(TakeupPanelY / 2) - 2.5, 0]);
+            takeup_panel_bearings_m3_bolt_void([-BoltX, -BoltY, 0]);
             //top left
-            takeup_panel_bearings_m3_bolt_void([FeedPanelBoltsOffsetX + FeedPanelPictureOffsetX - (TakeupPanelX / 2), -2.5 + 20, 0]);
+            takeup_panel_bearings_m3_bolt_void([-BoltX, BoltY, 0]);
             //top right
-            takeup_panel_bearings_m3_bolt_void([FeedPanelBoltsOffsetX + FeedPanelPictureOffsetX + (TakeupPanelX / 2), -2.5 + 20, 0]);
+            takeup_panel_bearings_m3_bolt_void([BoltX, BoltY, 0]);
             //center right
-            takeup_panel_bearings_m3_bolt_void([FeedPanelBoltsOffsetX + FeedPanelPictureOffsetX + (TakeupPanelX / 2), -2.5 - 20, 0]);
+            takeup_panel_bearings_m3_bolt_void([BoltX, -BoltY + 20, 0]);
+            //center left
+            takeup_panel_bearings_m3_bolt_void([-BoltX, -BoltY + 20, 0]);
             
-            takeup_panel_motor_mount_m4_bolts_voids([FeedPanelPictureOffsetX, 0, -8.99], [0, 0, 180]);
+            takeup_panel_motor_mount_m4_bolts_voids([FeedPanelStockOffsetX, FeedPanelStockOffsetY, -8.99], [0, 0, 180]);
         }
     }
 }
@@ -1197,7 +1207,7 @@ module debug () {
     //motor_controller_panel([0, -75, PanelOffsetZ]);
 }
 
-PART = "takeup_panel_stockx";
+PART = "feed_panel_stock";
 LIBRARY = true;
 
 if (PART == "panel") {
