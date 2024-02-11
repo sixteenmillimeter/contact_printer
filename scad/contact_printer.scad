@@ -1180,7 +1180,7 @@ module electronics_panel (pos = [0, 0, 0], rot = [0, 0, 0]) {
     WallY = Y - 20;
     WallZ = 20;
     ESP32PostsOffsetY = 10;
-    ESP32PostsZ = 23;
+    ESP32PostsZ = 23 + 15;
     L298NModuleOffsetY = 5;
     DCJackZ = 45;
     translate(pos) rotate(rot) {
