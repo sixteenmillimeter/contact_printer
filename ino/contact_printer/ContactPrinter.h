@@ -29,7 +29,7 @@ class ContactPrinter {
 	volatile float drive_speed = 1.0;  //calculated rpm
 	volatile float takeup_speed = 1.0; //estimated rpm
 
-	volatile uint16_t takeup_pwm_duty_cycle = 255;
+	volatile uint16_t takeup_pwm_duty_cycle = 0;
 
 	volatile bool takeup_picture_cw = false;
 	volatile bool takeup_picture_ccw = true;
