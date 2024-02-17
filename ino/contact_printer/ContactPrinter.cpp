@@ -10,6 +10,7 @@ void ContactPrinter::Setup () {
 	pinMode(takeup_picture_pin_ccw, OUTPUT);
 	pinMode(takeup_stock_pin_cw, OUTPUT);
 	pinMode(takeup_stock_pin_ccw, OUTPUT);
+	pinMode(start_button_pin, INPUT_PULLUP);
 
 	drive_motor.Setup();
 
@@ -26,18 +27,22 @@ void ContactPrinter::Setup () {
 	digitalWrite(takeup_picture_pin_ccw, LOW);
 	digitalWrite(takeup_stock_pin_cw, LOW);
 	digitalWrite(takeup_stock_pin_ccw, LOW);
+
+	SetSpeedTakeup(0.4);
+	//SetSpeedDrive(1.0);
 }
 
 void ContactPrinter::Start () {
 	RampTakeup(0, takeup_pwm_duty_cycle, takeup_ramp_time);
 	delay(100);
 	drive_motor.Start();
+	running = true;
 }
 
 void ContactPrinter::Stop () {
 	drive_motor.Start();
 	delay(100);
-	RampTakeup( takeup_pwm_duty_cycle, 0, takeup_ramp_time);
+	RampTakeup(takeup_pwm_duty_cycle, 0, takeup_ramp_time);
 	digitalWrite(takeup_picture_pin_cw, LOW);
 	digitalWrite(takeup_picture_pin_ccw, LOW);
 	digitalWrite(takeup_stock_pin_cw, LOW);
@@ -62,11 +67,13 @@ void ContactPrinter::SetDirectionPicture(bool clockwise) {
 }
 
 //linear
-void ContactPrinter::RampTakeup(uint16_t start, uint16_t end, uint16_t time) {
-	takeup_ramp_steps = abs(start - end);
+void ContactPrinter::RampTakeup(uint16_t start_pwm, uint16_t end_pwm, uint16_t time) {
+	takeup_ramp_steps = abs(start_pwm - end_pwm);
 	takeup_ramp_step = round(time / takeup_ramp_steps);
-	takeup_pwm_duty_cycle  = start;
-	takeup_ramp_dir = end < start;
+	takeup_pwm_duty_cycle  = start_pwm;
+	takeup_ramp_dir = end_pwm < start_pwm;
+	takeup_ramp_current_step = 0;
+	takeup_ramping = true;
 
 	if (takeup_picture_cw) {
 		digitalWrite(takeup_picture_pin_cw, HIGH);
@@ -82,7 +89,6 @@ void ContactPrinter::RampTakeup(uint16_t start, uint16_t end, uint16_t time) {
 		digitalWrite(takeup_stock_pin_cw, LOW);
 		digitalWrite(takeup_stock_pin_ccw, HIGH);
 	}
-	takeup_ramping = true;
 
 	for (uint16_t i = 0; i < takeup_ramp_steps; i++) {
 		if (takeup_pwm_duty_cycle <= 0 || takeup_pwm_duty_cycle >= 255) {
@@ -101,6 +107,16 @@ void ContactPrinter::RampTakeup(uint16_t start, uint16_t end, uint16_t time) {
 	takeup_ramping = false;
 }
 
+void ContactPrinter::RampTakeupLoop () {
+
+}
+
+void ContactPrinter::ButtonLoop () {
+	if (!running && digitalRead(start_button_pin) == LOW) {
+		Start();
+	}
+}
+
 bool ContactPrinter::IsRunning () {
 	return running;
 }
@@ -108,4 +124,7 @@ bool ContactPrinter::IsRunning () {
 void ContactPrinter::Loop () {
 	timer = millis();
 	drive_motor.Loop();
+	if (takeup_ramping) {
+		RampTakeupLoop();
+	}
 }

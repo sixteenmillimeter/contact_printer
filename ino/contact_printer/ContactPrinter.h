@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include "DriveMotor.h"
+#include "Lamp.h"
 
 class ContactPrinter {           
 
@@ -10,6 +11,7 @@ class ContactPrinter {
 
 	//use default drive motor pins
 	DriveMotor drive_motor;
+	Lamp lamp;
 
 	const uint16_t serial_delay = 5;
 	const uint16_t baud = 115200;
@@ -21,6 +23,8 @@ class ContactPrinter {
 	const uint8_t takeup_stock_pin_enable = 19;
 	const uint8_t takeup_stock_pin_cw = 18;
 	const uint8_t takeup_stock_pin_ccw = 5;
+
+	const uint8_t start_button_pin = 34;
 
 	const uint32_t pwm_frequency = 30000;
 	const uint8_t takeup_picture_pwm_channel = 1;
@@ -36,6 +40,12 @@ class ContactPrinter {
 	volatile uint16_t takeup_ramp_steps = 0;  //# of steps
 	volatile uint16_t takeup_ramp_step = 0;   //length of step (ms)
 	volatile boolean takeup_ramp_dir = true;  //true = up, false = down
+
+	volatile uint16_t takeup_ramp_time = 500; //default ramp time (ms)
+	volatile long takeup_ramp_start = 0;      //time to start ramping
+	volatile long takeup_ramp_current_step = 0;
+	volatile long takeup_ramp_next_step_start = 0;
+
 	volatile boolean takeup_ramping = false;
 
 	volatile bool takeup_picture_cw = false;
@@ -43,8 +53,6 @@ class ContactPrinter {
 
 	volatile bool takeup_stock_cw = true;
 	volatile bool takeup_stock_ccw = true;
-
-	volatile uint16_t takeup_ramp_time = 500;
 
 	volatile bool running = false;
 
@@ -62,6 +70,9 @@ class ContactPrinter {
 	void SetDirectionPicture(bool clockwise);
 
 	void RampTakeup(uint16_t start, uint16_t end, uint16_t time);
+	void RampTakeupLoop();
+
+	void ButtonLoop();
 
 	bool IsRunning ();
 };
