@@ -23,8 +23,10 @@ class DriveMotor {
 	const uint8_t ppr = 11;
 	const float ratio = 187.0 / 3.0;
 	const uint32_t maxPulses = (int) round((float) ppr * ratio);
-	const uint8_t speed = 255;
 	const uint8_t framesPerRotation = 18;
+
+	volatile float target_fps = 0.0;
+	volatile float target_rpm = 0.0;
 
 	public:
 
