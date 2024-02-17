@@ -8,7 +8,8 @@ class ContactPrinter {
 
 	private:
 
-	EncoderMotor drive_motor;
+	//use default drive motor pins
+	DriveMotor drive_motor;
 
 	const uint16_t serial_delay = 5;
 	const uint16_t baud = 115200;

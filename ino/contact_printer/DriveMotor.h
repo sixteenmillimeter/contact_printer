@@ -1,9 +1,9 @@
-#ifndef ENCODER_MOTOR
-#define ENCODER_MOTOR
+#ifndef DRIVE_MOTOR
+#define DRIVE_MOTOR
 
 #include <Arduino.h>
 
-class EncoderMotor {           
+class DriveMotor {           
 
 	private:
 
@@ -28,8 +28,8 @@ class EncoderMotor {
 
 	public:
 
-	EncoderMotor();
-	EncoderMotor(uint8_t e_pin, uint8_t f_pin, uint8_t b_pin, uint8_t ea_pin, uint8_t eb_pin);
+	DriveMotor();
+	DriveMotor(uint8_t e_pin, uint8_t f_pin, uint8_t b_pin, uint8_t ea_pin, uint8_t eb_pin);
 	void Setup();
 	void Loop();
 	void Start();
