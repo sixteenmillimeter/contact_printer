@@ -14,11 +14,17 @@ class EncoderMotor {
 	volatile uint8_t encoder_a_pin = 27;
 	volatile uint8_t encoder_b_pin = 26;
 
-	volatile uint8_t pwm_duty_cycle = 255;
+	volatile uint8_t pwm_duty_cycle = 0;
 
 	const uint32_t pwm_frequency = 30000;
 	const uint8_t pwm_channel = 0;
 	const uint8_t pwm_resolution = 8;
+
+	const uint8_t ppr = 11;
+	const float ratio = 187.0 / 3.0;
+	const uint32_t maxPulses = (int) round((float) ppr * ratio);
+	const uint8_t speed = 255;
+	const uint8_t framesPerRotation = 18;
 
 	public:
 

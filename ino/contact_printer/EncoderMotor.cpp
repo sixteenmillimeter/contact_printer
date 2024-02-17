@@ -25,6 +25,21 @@ void EncoderMotor::Setup () {
 	digitalWrite(backward_pin, LOW);
 }
 
+void EncoderMotor::Start() {
+	ledcWrite(pwm_channel, pwm_duty_cycle);
+	digitalWrite(forward_pin, HIGH);
+	digitalWrite(backward_pin, LOW);
+}
+void EncoderMotor::Stop() {
+	pwm_duty_cycle = 0;
+	digitalWrite(forward_pin, LOW);
+	digitalWrite(backward_pin, LOW);
+	ledcWrite(pwm_channel, pwm_duty_cycle);
+}
+void EncoderMotor::SetSpeed() {
+	pwm_duty_cycle = 255;
+}
+
 void EncoderMotor::Loop () {
-	
+	//monitor speed
 }

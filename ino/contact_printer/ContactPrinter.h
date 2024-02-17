@@ -26,6 +26,8 @@ class ContactPrinter {
 	const uint8_t takeup_stock_pwm_channel = 2;
 	const uint8_t pwm_resolution = 8;
 
+	volatile long timer = 0;
+
 	volatile float drive_speed = 1.0;  //calculated rpm
 	volatile float takeup_speed = 1.0; //estimated rpm
 

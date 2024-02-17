@@ -106,5 +106,6 @@ bool ContactPrinter::IsRunning () {
 }
 
 void ContactPrinter::Loop () {
+	timer = millis();
 	drive_motor.Loop();
 }
