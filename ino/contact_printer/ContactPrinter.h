@@ -30,6 +30,10 @@ class ContactPrinter {
 	volatile float takeup_speed = 1.0; //estimated rpm
 
 	volatile uint16_t takeup_pwm_duty_cycle = 0;
+	volatile uint16_t takeup_ramp_steps = 0;  //# of steps
+	volatile uint16_t takeup_ramp_step = 0;   //length of step (ms)
+	volatile boolean takeup_ramp_dir = true;  //true = up, false = down
+	volatile boolean takeup_ramping = false;
 
 	volatile bool takeup_picture_cw = false;
 	volatile bool takeup_picture_ccw = true;
