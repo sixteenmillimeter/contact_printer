@@ -2,7 +2,7 @@
 #define CONTACT_PRINTER
 
 #include <Arduino.h>
-#include "EncoderMotor.h"
+#include "DriveMotor.h"
 
 class ContactPrinter {           
 
