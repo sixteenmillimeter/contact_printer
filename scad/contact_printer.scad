@@ -488,6 +488,7 @@ module lamp_single (pos = [0, 0, 0]) {
         //
         picture_gate_bracket([0, -7, GateZ]);
     }
+    translate([40, 12, 10]) gate_holder();
 }
 
 module lamp_cover (pos = [0, 0, 0]) {
@@ -1343,7 +1344,7 @@ module debug () {
     electronics_panel([0, -100, -3]);
 }
 
-PART = "electronics_panel";
+PART = "super_gate";
 LIBRARY = true;
 
 if (PART == "panel") {
