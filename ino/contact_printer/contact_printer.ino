@@ -23,7 +23,7 @@
  * 27 Drive Encoder A
  * 26 Drive Encoder B
  * 
- * 34 Start Button
+ * 17 Start Button
  * 
  * 33 Lamp
  * 

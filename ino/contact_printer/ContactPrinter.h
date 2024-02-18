@@ -16,6 +16,7 @@ class ContactPrinter {
 	const uint16_t serial_delay = 5;
 	const uint16_t baud = 115200;
 
+	/* PINS */
 	const uint8_t takeup_picture_pin_enable = 23;
 	const uint8_t takeup_picture_pin_cw = 22;
 	const uint8_t takeup_picture_pin_ccw = 21;
@@ -24,12 +25,15 @@ class ContactPrinter {
 	const uint8_t takeup_stock_pin_cw = 18;
 	const uint8_t takeup_stock_pin_ccw = 5;
 
-	const uint8_t start_button_pin = 34;
+	const uint8_t start_button_pin = 17;
 
+	/* MOTOR PWM */
 	const uint32_t pwm_frequency = 30000;
 	const uint8_t takeup_picture_pwm_channel = 1;
 	const uint8_t takeup_stock_pwm_channel = 2;
 	const uint8_t pwm_resolution = 8;
+
+	/* MEMORY */
 
 	volatile long timer = 0;
 

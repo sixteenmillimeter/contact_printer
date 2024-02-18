@@ -9,8 +9,8 @@ class DriveMotor {
 
 	//defaults are for EPS32 dev board
 	volatile uint8_t enable_pin = 13;
-	volatile uint8_t forward_pin = 12;
-	volatile uint8_t backward_pin = 14;
+	volatile uint8_t forward_pin = 12; //Clockwise
+	volatile uint8_t backward_pin = 14; //Counter-clockwise
 	volatile uint8_t encoder_a_pin = 27;
 	volatile uint8_t encoder_b_pin = 26;
 
