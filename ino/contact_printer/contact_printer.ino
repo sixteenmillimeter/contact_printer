@@ -23,7 +23,7 @@
  * 27 Drive Encoder A
  * 26 Drive Encoder B
  * 
- * 17 Start Button
+ * 15 Start Button
  * 
  * 33 Lamp
  * 
@@ -32,7 +32,10 @@
 ContactPrinter contact_printer;
 
 void setup () {
+	Serial.begin(115200);
 	contact_printer.Setup();
+	Serial.print("contact_printer v");
+	Serial.println(VERSION);
 }
 void loop () {
 	contact_printer.Loop();
