@@ -6,10 +6,12 @@ ContactPrinter::ContactPrinter () {
 }
 
 void ContactPrinter::Setup () {
+
 	pinMode(takeup_picture_pin_cw, OUTPUT);
 	pinMode(takeup_picture_pin_ccw, OUTPUT);
 	pinMode(takeup_stock_pin_cw, OUTPUT);
 	pinMode(takeup_stock_pin_ccw, OUTPUT);
+
 	pinMode(start_button_pin, INPUT_PULLUP);
 
 	drive_motor.Setup();
@@ -29,19 +31,19 @@ void ContactPrinter::Setup () {
 	digitalWrite(takeup_stock_pin_ccw, LOW);
 
 	SetSpeedTakeup(0.4);
-	//SetSpeedDrive(1.0);
+	SetSpeedDrive(1.0);
 }
 
 void ContactPrinter::Start () {
-	RampTakeup(0, takeup_pwm_duty_cycle, takeup_ramp_time);
-	delay(100);
+	Serial.println("Start()");
 	drive_motor.Start();
+	//RampTakeup(0, takeup_pwm_duty_cycle, takeup_ramp_time);
+	
 	running = true;
 }
 
 void ContactPrinter::Stop () {
-	drive_motor.Start();
-	delay(100);
+	drive_motor.Stop();
 	RampTakeup(takeup_pwm_duty_cycle, 0, takeup_ramp_time);
 	digitalWrite(takeup_picture_pin_cw, LOW);
 	digitalWrite(takeup_picture_pin_ccw, LOW);
@@ -55,7 +57,7 @@ void ContactPrinter::SetSpeedTakeup(float speed) {
 }
 
 void ContactPrinter::SetSpeedDrive(float speed) {
-	//drive_motor.SetSpeed();
+	drive_motor.SetSpeed(speed);
 }
 
 void ContactPrinter::SetDirectionStock(bool clockwise) {
@@ -123,8 +125,11 @@ bool ContactPrinter::IsRunning () {
 
 void ContactPrinter::Loop () {
 	timer = millis();
-	drive_motor.Loop();
-	if (takeup_ramping) {
-		RampTakeupLoop();
+	ButtonLoop();
+	if (running) {
+		drive_motor.Loop();
+		if (takeup_ramping) {
+			RampTakeupLoop();
+		}
 	}
 }

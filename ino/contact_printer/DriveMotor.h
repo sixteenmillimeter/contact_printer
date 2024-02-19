@@ -8,11 +8,11 @@ class DriveMotor {
 	private:
 
 	//defaults are for EPS32 dev board
-	volatile uint8_t enable_pin = 13;
-	volatile uint8_t forward_pin = 12; //Clockwise
+	volatile uint8_t enable_pin = 26;
+	volatile uint8_t forward_pin = 27; //Clockwise
 	volatile uint8_t backward_pin = 14; //Counter-clockwise
-	volatile uint8_t encoder_a_pin = 27;
-	volatile uint8_t encoder_b_pin = 26;
+	volatile uint8_t encoder_a_pin = 33;
+	volatile uint8_t encoder_b_pin = 25;
 
 	volatile uint8_t pwm_duty_cycle = 0;
 
@@ -36,7 +36,9 @@ class DriveMotor {
 	void Loop();
 	void Start();
 	void Stop();
-	void SetSpeed();
+	void SetSpeed(float speed);
+
+	static void ReadEncoder();
 
 };
 

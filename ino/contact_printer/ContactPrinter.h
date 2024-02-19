@@ -25,7 +25,7 @@ class ContactPrinter {
 	const uint8_t takeup_stock_pin_cw = 18;
 	const uint8_t takeup_stock_pin_ccw = 5;
 
-	const uint8_t start_button_pin = 17;
+	const uint8_t start_button_pin = 15;
 
 	/* MOTOR PWM */
 	const uint32_t pwm_frequency = 30000;
