@@ -6,9 +6,14 @@
 *********/
 
 // Motor A
-int motor1Pin1 = 14; 
-int motor1Pin2 = 27; 
-int enable1Pin = 26; 
+//int motor1Pin1 = 14; 
+//int motor1Pin2 = 27; 
+//int enable1Pin = 26; 
+
+// Motor B
+int motor1Pin1 = 5; 
+int motor1Pin2 = 18; 
+int enable1Pin = 19; 
 
 // Setting PWM properties
 const int freq = 30000;
