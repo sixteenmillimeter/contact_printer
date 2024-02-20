@@ -7,65 +7,77 @@ ContactPrinter::ContactPrinter () {
 
 void ContactPrinter::Setup () {
 
-	pinMode(takeup_picture_pin_cw, OUTPUT);
-	pinMode(takeup_picture_pin_ccw, OUTPUT);
-	pinMode(takeup_stock_pin_cw, OUTPUT);
-	pinMode(takeup_stock_pin_ccw, OUTPUT);
+	pinMode(takeup_pin_dir_a, OUTPUT);
+	pinMode(takeup_pin_dir_b, OUTPUT);
 
 	pinMode(start_button_pin, INPUT_PULLUP);
 
 	drive_motor.Setup();
 
-	ledcSetup(takeup_picture_pwm_channel, pwm_frequency, pwm_resolution);
-	ledcSetup(takeup_stock_pwm_channel, pwm_frequency, pwm_resolution);
+	ledcSetup(takeup_pwm_channel, pwm_frequency, pwm_resolution);
+	Serial.print("Attaching pin ");
+	Serial.print(takeup_pin_enable);
+	Serial.print(" to ledc channel ");
+	Serial.print(takeup_pwm_channel);
+	Serial.println(" for takeup");
+	ledcAttachPin(takeup_pin_enable, takeup_pwm_channel);
+	ledcWrite(takeup_pwm_channel, takeup_pwm_duty_cycle);
 
-	ledcAttachPin(takeup_picture_pin_enable, takeup_picture_pwm_channel);
-	ledcAttachPin(takeup_stock_pin_enable, takeup_stock_pwm_channel);
+	digitalWrite(takeup_pin_dir_a, LOW);
+	digitalWrite(takeup_pin_dir_b, LOW);
 
-	ledcWrite(takeup_picture_pwm_channel, takeup_pwm_duty_cycle);
-	ledcWrite(takeup_stock_pwm_channel, takeup_pwm_duty_cycle);
-
-	digitalWrite(takeup_picture_pin_cw, LOW);
-	digitalWrite(takeup_picture_pin_ccw, LOW);
-	digitalWrite(takeup_stock_pin_cw, LOW);
-	digitalWrite(takeup_stock_pin_ccw, LOW);
-
-	SetSpeedTakeup(0.4);
-	SetSpeedDrive(1.0);
+	SetDirectionTakeup(true);
+	SetSpeedTakeup(0.9);
+	SetSpeedDrive(0.8);
+	start_time = millis();
 }
 
 void ContactPrinter::Start () {
 	Serial.println("Start()");
 	drive_motor.Start();
-	//RampTakeup(0, takeup_pwm_duty_cycle, takeup_ramp_time);
-	
+	StartTakeup();
+	run_time = timer;
 	running = true;
 }
 
 void ContactPrinter::Stop () {
+	Serial.println("Stop()");
 	drive_motor.Stop();
-	RampTakeup(takeup_pwm_duty_cycle, 0, takeup_ramp_time);
-	digitalWrite(takeup_picture_pin_cw, LOW);
-	digitalWrite(takeup_picture_pin_ccw, LOW);
-	digitalWrite(takeup_stock_pin_cw, LOW);
-	digitalWrite(takeup_stock_pin_ccw, LOW);
+	StopTakeup();
+	run_time = timer;
+	running = false;
 } 
 
 void ContactPrinter::SetSpeedTakeup(float speed) {
 	takeup_speed = speed;
-	takeup_pwm_duty_cycle = floor(speed * 255);
+	takeup_pwm_duty_cycle = floor(speed * pwm_maximum);
+	Serial.print("Set takeup motors PWM = ");
+	Serial.println(takeup_pwm_duty_cycle);
+}
+
+void ContactPrinter::StartTakeup () {
+	ledcWrite(takeup_pwm_channel, takeup_pwm_duty_cycle);
+	if (takeup_dir) {
+		digitalWrite(takeup_pin_dir_a, LOW);
+		digitalWrite(takeup_pin_dir_b, HIGH);
+	} else {
+		digitalWrite(takeup_pin_dir_a, HIGH);
+		digitalWrite(takeup_pin_dir_b, LOW);
+	}
+}
+
+void ContactPrinter::StopTakeup() {
+	digitalWrite(takeup_pin_dir_a, LOW);
+	digitalWrite(takeup_pin_dir_b, LOW);
+	ledcWrite(takeup_pwm_channel, 0);
 }
 
 void ContactPrinter::SetSpeedDrive(float speed) {
 	drive_motor.SetSpeed(speed);
 }
 
-void ContactPrinter::SetDirectionStock(bool clockwise) {
-	takeup_stock_cw = clockwise;
-}
-
-void ContactPrinter::SetDirectionPicture(bool clockwise) {
-	takeup_picture_cw = clockwise;
+void ContactPrinter::SetDirectionTakeup(bool dir) {
+	takeup_dir = dir;
 }
 
 //linear
@@ -77,28 +89,11 @@ void ContactPrinter::RampTakeup(uint16_t start_pwm, uint16_t end_pwm, uint16_t t
 	takeup_ramp_current_step = 0;
 	takeup_ramping = true;
 
-	if (takeup_picture_cw) {
-		digitalWrite(takeup_picture_pin_cw, HIGH);
-		digitalWrite(takeup_picture_pin_ccw, LOW);
-	} else {
-		digitalWrite(takeup_picture_pin_cw, LOW);
-		digitalWrite(takeup_picture_pin_ccw, HIGH);
-	}
-	if (takeup_stock_cw) {
-		digitalWrite(takeup_stock_pin_cw, HIGH);
-		digitalWrite(takeup_stock_pin_ccw, LOW);
-	} else {
-		digitalWrite(takeup_stock_pin_cw, LOW);
-		digitalWrite(takeup_stock_pin_ccw, HIGH);
-	}
-
 	for (uint16_t i = 0; i < takeup_ramp_steps; i++) {
-		if (takeup_pwm_duty_cycle <= 0 || takeup_pwm_duty_cycle >= 255) {
-			takeup_ramping = false;
+		if (takeup_pwm_duty_cycle <= 0 || takeup_pwm_duty_cycle >= pwm_maximum) {
 			break;
 		}
-		ledcWrite(takeup_picture_pwm_channel, takeup_pwm_duty_cycle);
-		ledcWrite(takeup_stock_pwm_channel, takeup_pwm_duty_cycle);
+		ledcWrite(takeup_pwm_channel, takeup_pwm_duty_cycle);
 		delay(takeup_ramp_step);
 		if (takeup_ramp_dir) {
 			takeup_pwm_duty_cycle++;
@@ -109,13 +104,12 @@ void ContactPrinter::RampTakeup(uint16_t start_pwm, uint16_t end_pwm, uint16_t t
 	takeup_ramping = false;
 }
 
-void ContactPrinter::RampTakeupLoop () {
-
-}
 
 void ContactPrinter::ButtonLoop () {
-	if (!running && digitalRead(start_button_pin) == LOW) {
+	if (!running && timer >= run_time + button_delay && digitalRead(start_button_pin) == LOW) {
 		Start();
+	} else if (running && timer >= run_time + button_delay && digitalRead(start_button_pin) == LOW) {
+		Stop();
 	}
 }
 
@@ -125,11 +119,13 @@ bool ContactPrinter::IsRunning () {
 
 void ContactPrinter::Loop () {
 	timer = millis();
-	ButtonLoop();
-	if (running) {
-		drive_motor.Loop();
-		if (takeup_ramping) {
-			RampTakeupLoop();
+	if (initialized) {
+		ButtonLoop();
+		if (running) {
+			drive_motor.Loop();
 		}
+	} else if (timer >= start_time + 100) {
+		initialized = true;
 	}
 }
+

@@ -21,6 +21,11 @@ void DriveMotor::Setup () {
   	pinMode(encoder_b_pin, INPUT);
 
 	ledcSetup(pwm_channel, pwm_frequency, pwm_resolution);
+	Serial.print("Attaching pin ");
+	Serial.print(enable_pin);
+	Serial.print(" to ledc channel ");
+	Serial.print(pwm_channel);
+	Serial.println(" for drive");
 	ledcAttachPin(enable_pin, pwm_channel);
 	ledcWrite(pwm_channel, pwm_duty_cycle);
 
@@ -34,15 +39,14 @@ void DriveMotor::Start() {
 	digitalWrite(backward_pin, LOW);
 }
 
-void DriveMotor::Stop() {
-	pwm_duty_cycle = 0;
+void DriveMotor::Stop() {;
 	digitalWrite(forward_pin, LOW);
 	digitalWrite(backward_pin, LOW);
-	ledcWrite(pwm_channel, pwm_duty_cycle);
+	ledcWrite(pwm_channel, 0);
 }
 
 void DriveMotor::SetSpeed(float speed) {
-	pwm_duty_cycle = floor(255 * speed);
+	pwm_duty_cycle = floor(pwm_maximum * speed);
 	Serial.print("Set drive motor PWM = ");
 	Serial.println(pwm_duty_cycle);
 }

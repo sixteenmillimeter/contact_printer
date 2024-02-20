@@ -15,7 +15,7 @@ if [[ "${1}" == "major" ]]; then
 elif [[ "${1}" == "minor" ]]; then
   let "VERSION[1]=${VERSION[1]}+1"
   let "VERSION[2]=0"
-else; then
+else
   let "VERSION[2]=${VERSION[2]}+1"
 fi
 

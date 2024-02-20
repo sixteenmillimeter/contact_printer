@@ -17,25 +17,26 @@ class ContactPrinter {
 	const uint16_t baud = 115200;
 
 	/* PINS */
-	const uint8_t takeup_picture_pin_enable = 23;
-	const uint8_t takeup_picture_pin_cw = 22;
-	const uint8_t takeup_picture_pin_ccw = 21;
-
-	const uint8_t takeup_stock_pin_enable = 19;
-	const uint8_t takeup_stock_pin_cw = 18;
-	const uint8_t takeup_stock_pin_ccw = 5;
+	const uint8_t takeup_pin_enable = 21;
+	const uint8_t takeup_pin_dir_a = 22;
+	const uint8_t takeup_pin_dir_b = 23;
 
 	const uint8_t start_button_pin = 15;
 
 	/* MOTOR PWM */
-	const uint32_t pwm_frequency = 30000;
-	const uint8_t takeup_picture_pwm_channel = 1;
-	const uint8_t takeup_stock_pwm_channel = 2;
+	const uint32_t pwm_frequency = 5000;
+	const uint8_t takeup_pwm_channel = 1;
 	const uint8_t pwm_resolution = 8;
+	const uint16_t pwm_maximum = 255; //8 = 255, 16 = 65535
+
+	/* BUTTONS */
+	const uint16_t button_delay = 500;
 
 	/* MEMORY */
 
 	volatile long timer = 0;
+	volatile long start_time = 0;
+	volatile long run_time = 0;
 
 	volatile float drive_speed = 1.0;  //calculated rpm
 	volatile float takeup_speed = 1.0; //estimated rpm
@@ -52,12 +53,9 @@ class ContactPrinter {
 
 	volatile boolean takeup_ramping = false;
 
-	volatile bool takeup_picture_cw = false;
-	volatile bool takeup_picture_ccw = true;
+	volatile bool takeup_dir = true;
 
-	volatile bool takeup_stock_cw = true;
-	volatile bool takeup_stock_ccw = true;
-
+	volatile bool initialized = false;
 	volatile bool running = false;
 
 	public:
@@ -70,8 +68,11 @@ class ContactPrinter {
 	void Stop();
 	void SetSpeedTakeup(float speed);
 	void SetSpeedDrive(float speed);
-	void SetDirectionStock(bool clockwise);
-	void SetDirectionPicture(bool clockwise);
+	void SetDirectionTakeup(bool dir);
+
+	void StartTakeup();
+	void StopTakeup();
+	void EnableTakeup();
 
 	void RampTakeup(uint16_t start, uint16_t end, uint16_t time);
 	void RampTakeupLoop();

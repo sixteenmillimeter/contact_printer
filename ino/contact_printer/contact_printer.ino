@@ -1,6 +1,6 @@
 #include "ContactPrinter.h";
 
- #define VERSION "0.2.0"
+ #define VERSION "0"
 
 /**
  * 
@@ -9,23 +9,19 @@
  * 
  * Pins
  * 
- * 23 Takeup Picture Enable - set duty rate
- * 22 Takeup Picture Clockwise
- * 21 Takeup Picture Counter Clockwise
+ * 21 Takeup Picture Enable - set duty rate
+ * 22 Takeup Direction A - Stock Clockwise, Picture Counter Clockwise
+ * 23 Takeup Direction B  - Stock Counter Clockwise, Picture Clockwise
  * 
- * 19 Takeup Stock Enable - set duty rate
- * 18 Takeup Stock Clockwise
- *  5 Takeup Stock Counter Clockwise
- * 
- * 13 Drive Enable
- * 12 Drive Forward (Clockwise)
+ * 26 Drive Enable
+ * 27 Drive Forward (Clockwise)
  * 14 Drive Backward (Counter Clockwise)
- * 27 Drive Encoder A
- * 26 Drive Encoder B
+ * 33 Drive Encoder A
+ * 25 Drive Encoder B
  * 
  * 15 Start Button
  * 
- * 33 Lamp
+ * 32 Lamp
  * 
  **/
 
@@ -33,9 +29,9 @@ ContactPrinter contact_printer;
 
 void setup () {
 	Serial.begin(115200);
-	contact_printer.Setup();
 	Serial.print("contact_printer v");
 	Serial.println(VERSION);
+	contact_printer.Setup();
 }
 void loop () {
 	contact_printer.Loop();

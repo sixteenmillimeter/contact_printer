@@ -16,9 +16,10 @@ class DriveMotor {
 
 	volatile uint8_t pwm_duty_cycle = 0;
 
-	const uint32_t pwm_frequency = 30000;
+	const uint32_t pwm_frequency = 5000;
 	const uint8_t pwm_channel = 0;
 	const uint8_t pwm_resolution = 8;
+	const uint16_t pwm_maximum = 255; //8 = 255, 16 = 65535
 
 	const uint8_t ppr = 11;
 	const float ratio = 187.0 / 3.0;
