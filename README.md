@@ -1,6 +1,12 @@
 # contact printer
 
-A desktop 16mm contact printer made for CNC/laser cutting and 3D printing
+A desktop 16mm contact printer and film transport platform made using 3D printing and aluminum extrusion.
+
+## Acknowledgements
+
+Developed with support from [Filmwerkplaats at WORM](https://worm.org/spaces/filmwerkplaats/) and [SPECTRAL](http://www.spectral-cinematics.eu/).
+
+Special thanks to [Esther Urlus](https://estherurlus.hotglue.me/), [Hrvoje Spudić](https://hrvojespudic.net/) and [Nan Wang](https://nanwang.org/).
 
 ---
 
