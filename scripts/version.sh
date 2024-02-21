@@ -22,7 +22,7 @@ fi
 V="${VERSION[0]}.${VERSION[1]}.${VERSION[2]}"
 
 #echo "{ \"version\" : \"$V\", \"bin\" : \"/bin/contact_printer.bin\", \"date\" : $DATESTR }" > ./ota.json
-VERSION_UPDATE=`sed "s/.*define VERSION.*/ #define VERSION \"$VERSION\"/" "${SOURCE_FILE}"`
+VERSION_UPDATE=`sed "s/.*define VERSION.*/ #define VERSION \"${V}\"/" "${SOURCE_FILE}"`
 echo "${VERSION_UPDATE}" > "${SOURCE_FILE}"
 
 echo $V > "${VERSION_FILE}"

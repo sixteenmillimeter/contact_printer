@@ -1,6 +1,6 @@
 #include "ContactPrinter.h";
 
- #define VERSION "0"
+ #define VERSION "0.2.2"
 
 /**
  * 

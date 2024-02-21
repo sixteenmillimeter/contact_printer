@@ -27,7 +27,7 @@ class ContactPrinter {
 	const uint32_t pwm_frequency = 5000;
 	const uint8_t takeup_pwm_channel = 1;
 	const uint8_t pwm_resolution = 8;
-	const uint16_t pwm_maximum = 255; //8 = 255, 16 = 65535
+	const uint16_t pwm_maximum = 255; //8 = 255, 10 = 1024, 16 = 65535
 
 	/* BUTTONS */
 	const uint16_t button_delay = 500;
@@ -82,8 +82,6 @@ class ContactPrinter {
 
 	bool IsRunning ();
 
-	float CalculateFPS (long timeLength, uint32_t frames);
-	float CalculateRPM (long rotationLength);
 };
 
 #endif

@@ -27,8 +27,8 @@ void ContactPrinter::Setup () {
 	digitalWrite(takeup_pin_dir_b, LOW);
 
 	SetDirectionTakeup(true);
-	SetSpeedTakeup(0.9);
-	SetSpeedDrive(0.8);
+	SetSpeedTakeup(1.0);
+	SetSpeedDrive(1.0);
 	start_time = millis();
 }
 
@@ -52,7 +52,9 @@ void ContactPrinter::SetSpeedTakeup(float speed) {
 	takeup_speed = speed;
 	takeup_pwm_duty_cycle = floor(speed * pwm_maximum);
 	Serial.print("Set takeup motors PWM = ");
-	Serial.println(takeup_pwm_duty_cycle);
+	Serial.print(takeup_pwm_duty_cycle);
+	Serial.print(" / ");
+	Serial.println(pwm_maximum);
 }
 
 void ContactPrinter::StartTakeup () {
