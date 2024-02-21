@@ -119,6 +119,9 @@ bool ContactPrinter::IsRunning () {
 
 void ContactPrinter::Loop () {
 	timer = millis();
+	/*ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    	pos = posi;
+  	}*/
 	if (initialized) {
 		ButtonLoop();
 		if (running) {
@@ -128,4 +131,3 @@ void ContactPrinter::Loop () {
 		initialized = true;
 	}
 }
-

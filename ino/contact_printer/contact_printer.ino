@@ -11,7 +11,7 @@
  * 
  * 21 Takeup Picture Enable - set duty rate
  * 22 Takeup Direction A - Stock Clockwise, Picture Counter Clockwise
- * 23 Takeup Direction B  - Stock Counter Clockwise, Picture Clockwise
+ * 23 Takeup Direction B  - Stoc k Counter Clockwise, Picture Clockwise
  * 
  * 26 Drive Enable
  * 27 Drive Forward (Clockwise)

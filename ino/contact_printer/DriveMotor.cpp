@@ -4,14 +4,6 @@ DriveMotor::DriveMotor () {
 
 };
 
-DriveMotor::DriveMotor (uint8_t e_pin, uint8_t f_pin, uint8_t b_pin, uint8_t ea_pin, uint8_t eb_pin) {
-	enable_pin = e_pin;
-	forward_pin = f_pin;
-	backward_pin = b_pin;
-	encoder_a_pin = ea_pin;
-	encoder_b_pin = eb_pin;
-};
-
 void DriveMotor::Setup () {
 	pinMode(enable_pin, OUTPUT);
 	pinMode(forward_pin, OUTPUT);
@@ -31,6 +23,8 @@ void DriveMotor::Setup () {
 
 	digitalWrite(forward_pin, LOW);
 	digitalWrite(backward_pin, LOW);
+
+	//attachInterrupt(digitalPinToInterrupt(encoder_b_pin), ReadEncoder, RISING);
 }
 
 void DriveMotor::Start() {
@@ -51,6 +45,30 @@ void DriveMotor::SetSpeed(float speed) {
 	Serial.println(pwm_duty_cycle);
 }
 
+
+int64_t DriveMotor::posi = 0;
+/*
+void DriveMotor::ReadEncoder () {
+	int b = digitalRead(DriveMotor::encoder_b_pin);
+	if (b > 0) {
+		posi++;
+	} else {
+		posi--;
+	}
+}*/
+
 void DriveMotor::Loop () {
+	int64_t pos;
 	//monitor speed
+	/*ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    	pos = posi;
+  	}*/
+}
+
+float DriveMotor::CalculateFPS (long timeLength, uint32_t frames) {
+  return 1000.0 / ((float) timeLength / (float) frames);
+}
+
+float DriveMotor::CalculateRPM (long rotationLength) {
+  return 60000.0 / (float) (rotationLength);
 }

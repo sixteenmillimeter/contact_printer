@@ -58,6 +58,7 @@ class ContactPrinter {
 	volatile bool initialized = false;
 	volatile bool running = false;
 
+
 	public:
 
 	ContactPrinter();
@@ -80,6 +81,9 @@ class ContactPrinter {
 	void ButtonLoop();
 
 	bool IsRunning ();
+
+	float CalculateFPS (long timeLength, uint32_t frames);
+	float CalculateRPM (long rotationLength);
 };
 
 #endif
