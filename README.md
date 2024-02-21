@@ -8,6 +8,8 @@ Developed with support from [Filmwerkplaats at WORM](https://worm.org/spaces/fil
 
 Special thanks to [Esther Urlus](https://estherurlus.hotglue.me/), [Hrvoje Spudić](https://hrvojespudic.net/) and [Nan Wang](https://nanwang.org/).
 
+Magnetic clutch design inspired by Clyde Shaffer's [Shaffer Linear Processor](https://clydeshaffer.com/slp/).
+
 ---
 
 ## [Project Home: git.sixteenmillimeter.com/16mm/contact_printer](https://git.sixteenmillimeter.com/16mm/contact_printer)
