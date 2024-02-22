@@ -49,25 +49,11 @@ void DriveMotor::Stop() {;
 	digitalWrite(forward_pin, LOW);
 	digitalWrite(backward_pin, LOW);
 	ledcWrite(pwm_channel, 0);
-	fps = CalculateFPS(timer - start_time, frames - start_frame);
-	rpm = CalculateRPM(timer - start_time, rotations - start_rotation);
-	Serial.print("RPM      ");
-	Serial.println(rpm);
-	Serial.print("RPM avg: ");
-	Serial.println(rpm_avg);
-	Serial.print("RPM min: ");
-	Serial.println(rpm_min);
-	Serial.print("RPM max: ");
-	Serial.println(rpm_max);
+	Report();
+}
 
-	Serial.print("FPS      ");
-	Serial.println(fps);
-	Serial.print("FPS avg: ");
-	Serial.println(fps_avg);
-	Serial.print("FPS min: ");
-	Serial.println(fps_min);
-	Serial.print("FPS max: ");
-	Serial.println(fps_max);
+void DriveMotor::SetLoad(uint8_t loadInt) {
+	load = loadInt;
 }
 
 void DriveMotor::SetSpeed(float speed) {
@@ -78,6 +64,20 @@ void DriveMotor::SetSpeed(float speed) {
 	Serial.println(pwm_maximum);
 }
 
+void DriveMotor::SetPWM(uint32_t pwm) {
+	pwm_duty_cycle = pwm;
+	Serial.print("Set drive motor PWM = ");
+	Serial.print(pwm_duty_cycle);
+	Serial.print(" / ");
+	Serial.println(pwm_maximum);
+}
+
+void DriveMotor::SetFPS(float fps) {
+	target_fps = fps;
+	Serial.print("FPS = ");
+	Serial.println(fps);
+	SetPWM(EstimatePWMFromFPS(fps));
+}
 
 int32_t DriveMotor::pulses = 0;
 
@@ -125,10 +125,68 @@ void DriveMotor::Loop () {
 	}
 }
 
+
+void DriveMotor::Report () {
+	fps = CalculateFPS(timer - start_time, frames - start_frame);
+	rpm = CalculateRPM(timer - start_time, rotations - start_rotation);
+	Serial.print("RPM      ");
+	Serial.println(rpm);
+	Serial.print("RPM avg: ");
+	Serial.println(rpm_avg);
+	Serial.print("RPM min: ");
+	Serial.println(rpm_min);
+	Serial.print("RPM max: ");
+	Serial.println(rpm_max);
+
+	Serial.print("FPS      ");
+	Serial.println(fps);
+	Serial.print("FPS avg: ");
+	Serial.println(fps_avg);
+	Serial.print("FPS min: ");
+	Serial.println(fps_min);
+	Serial.print("FPS max: ");
+	Serial.println(fps_max);
+}
+
+/* Helper methods */
+
 float DriveMotor::CalculateFPS (long time_length, uint32_t frames) {
 	return 1000.0 / ((float) time_length / (float) frames);
 }
 
 float DriveMotor::CalculateRPM (long time_length, uint32_t rotations) {
 	return 60000.0 / ((float) time_length / (float) rotations);
+}
+
+int32_t DriveMotor::GetFrames () {
+	return frames;
+}
+
+int32_t DriveMotor::GetRotations () {
+	return rotations;
+}
+
+float DriveMotor::FloatMap (float x, float in_min, float in_max, float out_min, float out_max) {
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+uint16_t DriveMotor::EstimatePWMFromFPS (float fps) {
+	float min, max;
+	float max_pwm = pwm_range[0];
+	float min_pwm = pwm_range[1];
+	switch (load) {
+		case 0 :
+			max = load_none[0];
+			min = load_none[1];
+			break;
+		case 1 :
+			max = load_one[0];
+			min = load_one[1];
+			break;
+		case 2 :
+			max = load_two[0];
+			min = load_two[1];
+			break;
+	}
+	return (uint16_t) floor(FloatMap(fps, min, max, (float) min_pwm, (float) max_pwm));
 }

@@ -38,23 +38,22 @@ class ContactPrinter {
 	volatile long start_time = 0;
 	volatile long run_time = 0;
 
-	volatile float drive_speed = 1.0;  //calculated rpm
-	volatile float takeup_speed = 1.0; //estimated rpm
+	volatile float drive_speed = 1.0;  //CHANGE
+	volatile float takeup_speed = 1.0; //percentage of max PWM
 
 	volatile uint16_t takeup_pwm_duty_cycle = 0;
 	volatile uint16_t takeup_ramp_steps = 0;  //# of steps
 	volatile uint16_t takeup_ramp_step = 0;   //length of step (ms)
 	volatile boolean takeup_ramp_dir = true;  //true = up, false = down
-
 	volatile uint16_t takeup_ramp_time = 500; //default ramp time (ms)
 	volatile long takeup_ramp_start = 0;      //time to start ramping
 	volatile long takeup_ramp_current_step = 0;
 	volatile long takeup_ramp_next_step_start = 0;
-
 	volatile boolean takeup_ramping = false;
 
-	volatile bool takeup_dir = true;
+	volatile uint8_t load = 2; //0 = no load, 1 = single thread, 2 = dual thread
 
+	volatile bool takeup_dir = true;
 	volatile bool initialized = false;
 	volatile bool running = false;
 
@@ -67,8 +66,9 @@ class ContactPrinter {
 	void Loop();
 	void Start();
 	void Stop();
-	void SetSpeedTakeup(float speed);
-	void SetSpeedDrive(float speed);
+	void SetSpeedTakeup(float speed); //percent
+	void SetupDrive();
+	void SetupTakeup();
 	void SetDirectionTakeup(bool dir);
 
 	void StartTakeup();

@@ -1,8 +1,7 @@
 #include "ContactPrinter.h" 
 
 ContactPrinter::ContactPrinter () {
-	SetSpeedDrive(drive_speed);
-	SetSpeedTakeup(takeup_speed);
+
 }
 
 void ContactPrinter::Setup () {
@@ -26,9 +25,8 @@ void ContactPrinter::Setup () {
 	digitalWrite(takeup_pin_dir_a, LOW);
 	digitalWrite(takeup_pin_dir_b, LOW);
 
-	SetDirectionTakeup(true);
-	SetSpeedTakeup(1.0);
-	SetSpeedDrive(1.0);
+	SetupTakeup();
+	SetupDrive();
 	start_time = millis();
 }
 
@@ -47,6 +45,10 @@ void ContactPrinter::Stop () {
 	run_time = timer;
 	running = false;
 } 
+
+void ContactPrinter::SetDirectionTakeup(bool dir) {
+	takeup_dir = dir;
+}
 
 void ContactPrinter::SetSpeedTakeup(float speed) {
 	takeup_speed = speed;
@@ -74,12 +76,17 @@ void ContactPrinter::StopTakeup() {
 	ledcWrite(takeup_pwm_channel, 0);
 }
 
-void ContactPrinter::SetSpeedDrive(float speed) {
-	drive_motor.SetSpeed(speed);
+void ContactPrinter::SetupTakeup () {
+	SetDirectionTakeup(true);
+	SetSpeedTakeup(0.9);
 }
 
-void ContactPrinter::SetDirectionTakeup(bool dir) {
-	takeup_dir = dir;
+void ContactPrinter::SetupDrive() {
+	//drive_motor.SetSpeed(speed);
+	//drive_motor.SetPWM(247);
+	drive_motor.SetLoad(load);
+	drive_motor.SetFPS(18.0);
+
 }
 
 //linear
@@ -128,6 +135,9 @@ void ContactPrinter::Loop () {
 		ButtonLoop();
 		if (running) {
 			drive_motor.Loop();
+			if (drive_motor.GetFrames() >= 1000) {
+				Stop();
+			}
 		}
 	} else if (timer >= start_time + 100) {
 		initialized = true;

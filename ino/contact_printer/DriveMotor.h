@@ -16,8 +16,8 @@ class DriveMotor {
 
 	const uint32_t pwm_frequency = 5000;
 	const uint8_t pwm_channel = 0;
-	const uint8_t pwm_resolution = 10;
-	const uint16_t pwm_maximum = 1024; //8 = 255, 10 = 1024, 16 = 65535
+	const uint8_t pwm_resolution = 8;
+	const uint16_t pwm_maximum = 255; //8 = 255, 10 = 1024, 16 = 65535
 
 	const uint8_t ppr = 11;
 	const float ratio = 187.0 / 3.0;
@@ -25,7 +25,15 @@ class DriveMotor {
 	const uint8_t frames_per_rotation = 18;
 	const float pulses_per_frame = (float) pulses_per_rotation / (float) frames_per_rotation;
 
-	volatile uint32_t pwm_duty_cycle = 0;
+	//pwm ranges for mapping to estimated fps
+	const uint16_t pwm_range[2] = { 255, 210 };
+	const float    load_none[2] = { 25.4, 16.75 };
+	const float    load_one [2] = { 24.8, 16.5 };
+	const float    load_two [2] = { 21.9, 13.4 };
+
+	volatile uint8_t load = 2;
+
+	volatile uint16_t pwm_duty_cycle = 0;
 
 	static int32_t pulses;
 
@@ -54,6 +62,15 @@ class DriveMotor {
 	volatile float target_fps = 0.0;
 	volatile float target_rpm = 0.0;
 
+	volatile float test[1000];
+
+
+	float CalculateFPS (long time_length, uint32_t frames);
+	float CalculateRPM (long time_length, uint32_t rotations);
+	float FloatMap(float x, float in_min, float in_max, float out_min, float out_max);
+	uint16_t EstimatePWMFromFPS(float);
+	void Report();
+
 	public:
 
 	DriveMotor();
@@ -61,10 +78,13 @@ class DriveMotor {
 	void Loop();
 	void Start();
 	void Stop();
+	void SetLoad(uint8_t loadInt);
 	void SetSpeed(float speed);
+	void SetPWM(uint32_t pwm);
+	void SetFPS(float fps);
 
-	float CalculateFPS (long time_length, uint32_t frames);
-	float CalculateRPM (long time_length, uint32_t rotations);
+	int32_t GetFrames();
+	int32_t GetRotations();
 
 	protected: 
 
