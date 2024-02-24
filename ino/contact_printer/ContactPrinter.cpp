@@ -12,6 +12,7 @@ void ContactPrinter::Setup () {
 	pinMode(start_button_pin, INPUT_PULLUP);
 
 	drive_motor.Setup();
+	lamp.Setup();
 
 	ledcSetup(takeup_pwm_channel, pwm_frequency, pwm_resolution);
 	Serial.print("Attaching pin ");
@@ -40,6 +41,7 @@ void ContactPrinter::Start () {
 
 void ContactPrinter::Stop () {
 	Serial.println("Stop()");
+	lamp.Off();
 	drive_motor.Stop();
 	StopTakeup();
 	run_time = timer;
@@ -127,17 +129,19 @@ bool ContactPrinter::IsRunning () {
 }
 
 void ContactPrinter::Loop () {
+	int32_t frame;
 	timer = millis();
-	/*ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-    	pos = posi;
-  	}*/
 	if (initialized) {
 		ButtonLoop();
 		if (running) {
 			drive_motor.Loop();
-			if (drive_motor.GetFrames() >= 1000) {
-				Stop();
+			frame = drive_motor.GetFrames();
+			if (!lamp.IsOn() && frame >= start_after) {
+				lamp.On();
 			}
+			/*if (frame >= 1000) {
+				Stop();
+			}*/
 		}
 	} else if (timer >= start_time + 100) {
 		initialized = true;

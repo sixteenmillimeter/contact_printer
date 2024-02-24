@@ -53,6 +53,8 @@ class ContactPrinter {
 
 	volatile uint8_t load = 2; //0 = no load, 1 = single thread, 2 = dual thread
 
+	volatile uint32_t start_after = 24;
+
 	volatile bool takeup_dir = true;
 	volatile bool initialized = false;
 	volatile bool running = false;
