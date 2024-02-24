@@ -9,14 +9,14 @@ include <./sprocketed_roller/sprocketed_roller_var.scad>;
 
 IN = 25.4;
 
-16mmFilmStandard = 10.26;
-16mmFilmStandardZ = -0.7;
-16mmFilmFull = 16;
-16mmFilmFullZ = -1.1;
-16mmFilmSuper = 13.25;
-16mmFilmSuperZ = -(16 - 16mmFilmSuper) + 0.7;
-16mmFilmSound = 16mmFilmSuper - 16mmFilmStandard;
-16mmFilmSoundZ = -7.75;
+Film16mmStandard = 10.26;
+Film16mmStandardZ = -0.7;
+Film16mmFull = 16;
+Film16mmFullZ = -1.1;
+Film16mmSuper = 13.25;
+Film16mmSuperZ = -(16 - Film16mmSuper) + 0.7;
+Film16mmSound = Film16mmSuper - Film16mmStandard;
+Film16mmSoundZ = -7.75;
 
 FrameX = 400;
 FrameY = 260;
@@ -413,13 +413,13 @@ module picture_gate (pos = [0, 0, 0], rot = [0, 0, 0], Type = "full", Width = 2)
                 gate_blank();
             }
             if (Type == "standard") {
-                translate([0, -6, 16mmFilmStandardZ]) cube([Width, 10, 16mmFilmStandard], center = true);
+                translate([0, -6, Film16mmStandardZ]) cube([Width, 10, Film16mmStandard], center = true);
             } else if (Type == "full") {
-                translate([0, -6, 16mmFilmFullZ]) cube([Width, 10, 16mmFilmFull], center = true);
+                translate([0, -6, Film16mmFullZ]) cube([Width, 10, Film16mmFull], center = true);
             } else if (Type == "super16") {
-                translate([0, -6, 16mmFilmSuperZ]) cube([Width, 10, 16mmFilmSuper], center = true);
+                translate([0, -6, Film16mmSuperZ]) cube([Width, 10, Film16mmSuper], center = true);
             } else if (Type == "sound") {
-                translate([0, -6, 16mmFilmSoundZ]) cube([Width, 10, 16mmFilmSound], center = true);
+                translate([0, -6, Film16mmSoundZ]) cube([Width, 10, Film16mmSound], center = true);
             }
         }
     }
