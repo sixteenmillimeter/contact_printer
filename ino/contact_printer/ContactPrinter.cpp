@@ -29,6 +29,7 @@ void ContactPrinter::Setup () {
 	SetupTakeup();
 	SetupDrive();
 	start_time = millis();
+	//lamp.On();
 }
 
 void ContactPrinter::Start () {
@@ -136,12 +137,15 @@ void ContactPrinter::Loop () {
 		if (running) {
 			drive_motor.Loop();
 			frame = drive_motor.GetFrames();
-			if (!lamp.IsOn() && frame >= start_after) {
+			if (!lamp.IsOn() && start_lamp > 0 && frame >= start_lamp) {
 				lamp.On();
 			}
-			/*if (frame >= 1000) {
+			if (lamp.IsOn() && stop_lamp > 0 && frame >= stop_lamp) {
+				lamp.Off();
+			}
+			if (stop_after > 0 && frame >= stop_after) {
 				Stop();
-			}*/
+			}
 		}
 	} else if (timer >= start_time + 100) {
 		initialized = true;
