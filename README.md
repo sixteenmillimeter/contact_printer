@@ -19,7 +19,14 @@ Magnetic clutch design inspired by Clyde Shaffer's [Shaffer Linear Processor](ht
 * [github.com/sixteenmillimeter/contact_printer](https://github.com/sixteenmillimeter/contact_printer)
 * [gitlab.com/16mm/contact_printer](https://gitlab.com/16mm/contact_printer)
 
+
+## Description
+
+This contact printer is designed to make 16mm prints using affordable electronics and 3D printing.
+It is *not* intended as a replacement for professional printers like the Bell & Howell Model C.
+This project is for DIY filmmakers, independent artists and small film labs to have a machine that can produce reasonable-quality work prints with a small footprint on short lengths of film easily.
+
+
 ---
 
-![contact printer render](https://github.com/sixteenmillimeter/contact_printer/blob/master/img/contact_printer?raw=true)
-![contact printer render - bottom](https://github.com/sixteenmillimeter/contact_printer/blob/master/img/contact_printer_2?raw=true)
+![contact printer render](https://github.com/sixteenmillimeter/contact_printer/blob/master/img/contact_printer.png?raw=true)
