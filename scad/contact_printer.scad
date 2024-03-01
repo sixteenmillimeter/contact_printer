@@ -1221,8 +1221,9 @@ module debug () {
     //////
     
     UseDaylight = true;
-    UseAll = false;
-    FrameOnly = true;
+    UseAll = true;
+    FrameOnly = false;
+    Feet = true;
 
     panel([0, -10, PanelOffsetZ]);
     
@@ -1232,17 +1233,18 @@ module debug () {
             //translate([50, 0, 0]) cube([100, 100, 100], center = true);
         }
         //translate([0, RollerY, 18]) rotate([180, 0, 0]) sprocketed_roller_upright_solid();
+        translate([0, -30, 4]) sprocketed_roller_invert_solid();
         //centered_geared_motor([0, RollerY, MotorZ], [180, 0, 90]);
         //lamp
         //difference () {
             //lamp_dual([0, LampY, 0 + 1]);
-            //lamp_single([0, LampY, 0 + 1]);
+            lamp_single([0, 10, 0 + 1]);
         //    translate([45, LampY, 0 + 2]) cube([100, 100, 100], center = true);
         //}
-        //color("green") lamp_cover([0, LampY + 15, 21]);
+        color("green") lamp_cover([0, LampY + 5, 21]);
         color("red") lamp_bolts_voids([0, LampY + 5, (LampBoltH/2) - 1.5 - 2.5]);
         //gates
-        translate([-5.35, LampY -7.1, 11 + 1 + .1]) rotate([0, 0, 7]) color("blue") picture_gate();
+        //translate([-5.35, LampY -7.1, 11 + 1 + .1]) rotate([0, 0, 7]) color("blue") picture_gate();
         
         //idle rollers
         idle_roller([ IdleRollerPrintX, IdleRollerPrintY, 3]);
@@ -1331,9 +1333,17 @@ module debug () {
     translate([(PanelX/2) - 10, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
     translate([-(PanelX/2) + 10, 0, FrameZ]) rotate([90, 0, 0]) 2020_tslot(FrameY);
 
-    //feet
-    corner_foot([FrameX / 2, (FrameY / 2) + 10, -26], [0, 0, 180]);
-    corner_foot([PanelX / 2 - 10, -(FrameY / 2) - 10, -26], [0, 0, 90]);
+    if (Feet) {
+        corner_foot([FrameX / 2, (FrameY / 2) + 10, -26], [0, 0, 180]);
+        corner_foot([FrameX / 2, -(FrameY / 2) - 10, -26], [0, 0, 90]);
+        corner_foot([-FrameX / 2, -(FrameY / 2) - 10, -26], [0, 0, 0]);
+        corner_foot([-FrameX / 2, (FrameY / 2) + 10, -26], [0, 0, -90]);
+        
+        corner_foot([(PanelX / 2) - 10, (FrameY / 2) + 10, -26], [0, 0, 180]);
+        corner_foot([-(PanelX / 2) + 10, (FrameY / 2) + 10, -26], [0, 0, -90]);
+        corner_foot([(PanelX / 2) - 10, -(FrameY / 2) - 10, -26], [0, 0, 90]);
+        corner_foot([-(PanelX / 2) + 10, -(FrameY / 2) - 10, -26], [0, 0, 0]);
+    }
 
     //motor_controller_panel([0, -75, PanelOffsetZ]);
 
@@ -1344,7 +1354,7 @@ module debug () {
     electronics_panel([0, -100, -3]);
 }
 
-PART = "super_gate";
+PART = "super_gatez";
 LIBRARY = true;
 
 if (PART == "panel") {
