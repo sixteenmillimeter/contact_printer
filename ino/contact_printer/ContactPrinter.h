@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "DriveMotor.h"
 #include "Lamp.h"
+#include "WebGUI.h"
 
 class ContactPrinter {           
 
