@@ -1,4 +1,4 @@
-## Report on Residency at Filmwerkplaats for the SPECTRAL Project
+## Report on Residency at Filmwerkplaats
 
 Matthew McWilliams
 
@@ -40,10 +40,14 @@ Filmmakers who work with hand-processed film in a small darkroom can process and
 The work completed during the residency addressed practical limitations in the current design and established a list of improvements that will be made in the project.
 
 Issues with the overall tension on the film as it advances across the drive gear and past the lamp head were resolved by adding thin spacers between the takeup and feed spindles and the magnetic clutches which allow them to tension the film without potentially snapping it.
+Improving the tensioning allows the film to be contact printed without the frame lines pulling up or down and improves image stability.
+
+Speed
 
 Tests with Kodak 3302 black and white print stock and 33? color print stock established a baseline for exposure that will be used to improve the lamp design.
 Currently employing three standard 5mm (6000K) white LED bulbs powered with 5V DC and with 330 Ohm resistance each, we know that a standard 216 diffusion gel and a .6 ND filter will produce a proper gray card density from a LAD test negative on black and white print stock (Kodak 3302).
 Similarly, we were able to approximate the exposure and filters required to print from color negative onto color print stock although further testing and development will be needed.
+
 
 
 ### Artist's Feedback
