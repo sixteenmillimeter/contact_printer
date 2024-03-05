@@ -30,7 +30,7 @@ This project aims to leverage advances in 3D printing, cheap-but-reliable geared
 
 Many artist-run film labs and individual filmmakers who work with small gauge analog film do not have access to large-footprint commercial machines and lack the space and maintenance resources to keep them.
 
-Since information about commercially-developed equipment is guarded, expensive or even lost to time, starting a project from the principles of free, open-source software (FOSS) gives it a better chance to exist in the open where others can freely access it and improve upon it's development without the risk of violating patents or copyright.
+Since information about commercially-developed equipment is guarded, expensive or even lost to time, starting a project from the principles of free, open-source software (FOSS) gives it a better chance to exist in the open where others can freely access it and improve upon its development without the risk of violating patents or copyright.
 
 By designing a desktop-scale contact printer, in the spirit of the Uhler Cine Printer, artists who make short films can utilize it for making tests, work prints and even release-quality prints without the need to work with large amounts of film at a time.
 Filmmakers who work with hand-processed film in a small darkroom can process and then print on a printer not much larger than a laptop.
@@ -40,7 +40,7 @@ Filmmakers who work with hand-processed film in a small darkroom can process and
 The work completed during the residency addressed practical limitations in the current design and established a list of improvements that will be made in the project.
 
 Issues with the overall tension on the film as it advances across the drive gear and past the lamp head were resolved by adding thin spacers between the takeup and feed spindles and the magnetic clutches which allow them to tension the film without potentially snapping it.
-Improving the tensioning allows the film to be contact printed without the frame lines pulling up or down and improves image stability.
+Improving the tension of the film allows the film to be contact printed without the frame lines pulling up or down and improves image stability.
 
 Speed
 
