@@ -32,8 +32,8 @@ Many artist-run film labs and individual filmmakers who work with small gauge an
 
 Since information about commercially-developed equipment is guarded, expensive or even lost to time, starting a project from the principles of free, open-source software (FOSS) gives it a better chance to exist in the open where others can freely access it and improve upon its development without the risk of violating patents or copyright.
 
-By designing a desktop-scale contact printer, in the spirit of the Uhler Cine Printer, artists who make short films can utilize it for making tests, work prints and even release-quality prints without the need to work with large amounts of film at a time.
-Filmmakers who work with hand-processed film in a small darkroom can process and then print on a printer not much larger than a laptop.
+By designing a desktop-scale contact printer, in the spirit of the Uhler Cine Printer, artists who make short films can utilize it for making tests, work prints and even short release-quality prints without the need to work with large amounts of film at a time.
+Filmmakers who work with hand-processed film in a small darkroom can process and then print on a machine not much larger than a laptop.
 
 ### Developed Activities
 
@@ -42,17 +42,31 @@ The work completed during the residency addressed practical limitations in the c
 Issues with the overall tension on the film as it advances across the drive gear and past the lamp head were resolved by adding thin spacers between the takeup and feed spindles and the magnetic clutches which allow them to tension the film without potentially snapping it.
 Improving the tension of the film allows the film to be contact printed without the frame lines pulling up or down and improves image stability.
 
-Speed
+The optimal operating speed of the contact printing process was determined through a series of tests under different loads (no film, one film and two films) and utilizing performance assessment code written as part of the residency.
+By testing the drive motor of the contact printer at different drive speeds, I was able to establish minimum and maximum operating speeds that can be predicted and monitored by the software.
+18 frames per second was settled on as the speed most likely to be stabilized while transporting both print stock and negative with the "100RPM" motor that was selected for the drive sprocketed roller.
+Since a single strip of film, likely the print stock, is capable of running at 24 or 25 fps, this means additional capabilities are possible in future developments; namely that the contact printer could be used with the optical soundtrack recorder being developed in parallel by Hrvoje Spudić.
+The 18 frame sprocketed roller, driven stably at 60RPM with two strips of film, can also be run at or above 24fps to record sound to stock in real-time.
 
-Tests with Kodak 3302 black and white print stock and 33? color print stock established a baseline for exposure that will be used to improve the lamp design.
+Tests with Kodak 3302 black and white print stock and 3383 color print stock established a baseline for exposure that will be used to improve the lamp design.
 Currently employing three standard 5mm (6000K) white LED bulbs powered with 5V DC and with 330 Ohm resistance each, we know that a standard 216 diffusion gel and a .6 ND filter will produce a proper gray card density from a LAD test negative on black and white print stock (Kodak 3302).
 Similarly, we were able to approximate the exposure and filters required to print from color negative onto color print stock although further testing and development will be needed.
 
+Immediate next tasks are to address the lamp design, user interface issues and motor speed stability.
 
+The lamp should be expanded from a 3 LED to 6 LED design for increased exposure headroom and from solid color modules to RGB-controllable ones.
+This will improve color printing and remove the need for as many physical color filters which ultimately reduce the amount of light needed to make accurate exposures on color print stock.
+
+Since the behavior of the contact printer can only currently be altered with code changes, a UI beyond a start/stop button must be implemented.
+Though the aims of this design are simple, contact printing analog film has many variables and being able to adjust for them is one of the main advantages of using DIY projects such as these.
+Exposing functionality to artists,
 
 ### Artist's Feedback
 
-The amount of knowledge, expertise, capacity for experimentation and encouragement to work was unique.
+The amount of knowledge, expertise, capacity for experimentation and encouragement to work was unique and indispensable.
+The only thing I would request or suggest is for more time at the residency, though the limitation is entirely with my schedule.
+Having the ability to change code, strike print tests and process them without leaving the darkroom made progress possible at a rate previously not available to the project.
+Without the support and resources provided by this residency, months or years would have been spent trying to discover what was during those seven days.
 
 ### Images
 
