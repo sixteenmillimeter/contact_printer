@@ -81,9 +81,9 @@ Without the support and resources provided by this residency, months or years wo
 
 ![Black and white print from negative with soundtrack.](../img/IMG_8298.jpg)
 
-![Color print of LAD test film.](../img/IMG_8298.jpg)
+![Color print of LAD test film.](../img/IMG_8313.jpg)
 
-![Overscan of 16mm black and white print with soundtrack.](../img/IMG_8298.jpg)
+![Overscan of 16mm black and white print with soundtrack.](../img/screen_cap_with_sound.png)
 
 -----
 
