@@ -49,17 +49,24 @@ Since a single strip of film, likely the print stock, is capable of running at 2
 The 18 frame sprocketed roller, driven stably at 60RPM with two strips of film, can also be run at or above 24fps to record sound to stock in real-time.
 
 Tests with Kodak 3302 black and white print stock and 3383 color print stock established a baseline for exposure that will be used to improve the lamp design.
-Currently employing three standard 5mm (6000K) white LED bulbs powered with 5V DC and with 330 Ohm resistance each, we know that a standard 216 diffusion gel and a .6 ND filter will produce a proper gray card density from a LAD test negative on black and white print stock (Kodak 3302).
+Currently employing three standard 5mm cool white LED bulbs powered with 5V DC and with 330 Ohm resistance each, we know that a standard 216 diffusion gel and a .6 ND filter will produce a proper gray card density from a LAD test negative on black and white print stock (Kodak 3302).
 Similarly, we were able to approximate the exposure and filters required to print from color negative onto color print stock although further testing and development will be needed.
 
 Immediate next tasks are to address the lamp design, user interface issues and motor speed stability.
 
-The lamp should be expanded from a 3 LED to 6 LED design for increased exposure headroom and from solid color modules to RGB-controllable ones.
+The lamp should be expanded from the current 3 LED design for increased exposure headroom and from solid color modules to RGB-controllable ones.
 This will improve color printing and remove the need for as many physical color filters which ultimately reduce the amount of light needed to make accurate exposures on color print stock.
+The lamp should also be made focus-able (the LED "bulb") and the diffusion.
+Additionally, larger filters should be accepted, possibly allowing for the Bolex filter holder to be used.
+All of this, as well as adding the ability to move the gate closer to the film
 
 Since the behavior of the contact printer can only currently be altered with code changes, a UI beyond a start/stop button must be implemented.
-Though the aims of this design are simple, contact printing analog film has many variables and being able to adjust for them is one of the main advantages of using DIY projects such as these.
-Exposing functionality to artists,
+Though the aims of this design are simple, contact printing analog film has many variables and being able to adjust them is one of the main advantages of using DIY projects such as these.
+Exposing functionality to artists will make this tool more suitable for release-quality printing, providing the ability to do shot-to-shot timing and A/B roll printing.
+
+Another area of potential improvement is the overall stability of the drive roller and therefore the resulting print.
+A bearing of larger diameter or height could improve the rotational stability of the drive roller.
+Also a redesign of the gate to put contact against the film could both improve the sharpness of the image and of the selective areas to be printed.
 
 ### Artist's Feedback
 
@@ -69,6 +76,14 @@ Having the ability to change code, strike print tests and process them without l
 Without the support and resources provided by this residency, months or years would have been spent trying to discover what was during those seven days.
 
 ### Images
+
+![The assembled contact printer with 30m daylight spools and 120m takeup reels.](../img/IMG_8295.jpg)
+
+![Black and white print from negative with soundtrack.](../img/IMG_8298.jpg)
+
+![Color print of LAD test film.](../img/IMG_8298.jpg)
+
+![Overscan of 16mm black and white print with soundtrack.](../img/IMG_8298.jpg)
 
 -----
 
