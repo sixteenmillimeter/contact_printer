@@ -7,6 +7,15 @@ include <./common/2020_tslot.scad>;
 include <./takeup/takeup.scad>;
 include <./sprocketed_roller/sprocketed_roller_var.scad>;
 
+
+//120m = 400, 30m = 300
+FrameX = 400;
+
+//120m = 260, 30m = 175
+FrameY = 260;
+
+FrameZ = -16;
+
 IN = 25.4;
 
 Film16mmStandard = 10.26;
@@ -17,10 +26,6 @@ Film16mmSuper = 13.25;
 Film16mmSuperZ = -(16 - Film16mmSuper) + 0.7;
 Film16mmSound = Film16mmSuper - Film16mmStandard;
 Film16mmSoundZ = -7.75;
-
-FrameX = 400;
-FrameY = 260;
-FrameZ = -16;
 
 Sprockets = 18;
 SprocketedRollerBevel = true;
@@ -52,17 +57,17 @@ TakeupPanelX = 152;
 TakeupPanelY = 100;
 
 //Offsets the takeup panels by x,y
-TakeupPanelPictureX = 127.5 + 6.25;
-TakeupPanelPictureY = 90 + 10;
+TakeupPanelPictureX = 133.75;
+TakeupPanelPictureY = 100;
 
-TakeupPanelStockX = 127.5 + 6.25;
-TakeupPanelStockY = -90 - 10;
+TakeupPanelStockX = 133.75;
+TakeupPanelStockY = -100;
 
-FeedPanelPictureX = -127.5 - 6.25;
-FeedPanelPictureY = 90 + 10;
+FeedPanelPictureX = -133.75;
+FeedPanelPictureY = 100;
 
-FeedPanelStockX = -127.5 - 6.25;
-FeedPanelStockY = -90 - 10;
+FeedPanelStockX = -133.75;
+FeedPanelStockY = -100;
 
 TakeupPanelPictureOffsetX = ReelX - TakeupPanelPictureX;
 TakeupPanelStockOffsetX = ReelX - TakeupPanelStockX;
@@ -78,7 +83,6 @@ FeedPanelStockOffsetY = -ReelY - FeedPanelStockY;
 
 TakeupPanelBoltsOffsetX = -17.5;
 FeedPanelBoltsOffsetX = 17.5;
-
 
 TakeupCenterVoidD = 47;
 TakeupCenterColumnD = 55;

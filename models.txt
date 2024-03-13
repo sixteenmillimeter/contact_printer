@@ -3,6 +3,7 @@ bearing_post_nut
 corner_foot
 daylight_spool_insert_reinforced
 daylight_spool_insert_reinforced_nut
+electronics_panel
 feed_panel_motor_mount
 feed_panel_picture
 feed_panel_stock
@@ -22,6 +23,7 @@ slip_coupling
 sound_gate
 sprocketed_roller
 sprocketed_roller_invert
+sprocketed_roller_invert_solid
 sprocketed_roller_solid
 sprocketed_wheel
 super_gate
