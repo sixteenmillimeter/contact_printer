@@ -8,10 +8,7 @@ include <./takeup/takeup.scad>;
 include <./sprocketed_roller/sprocketed_roller_var.scad>;
 
 
-//120m = 400, 30m = 300
 FrameX = 400;
-
-//120m = 260, 30m = 175
 FrameY = 260;
 
 FrameZ = -16;
@@ -227,6 +224,10 @@ module L298N_module (pos = [0, 0, 0], rot = [0, 0, 0]) {
         }
         translate([0, 10, (L298NModuleZ / 2) + (24.75 / 2)]) cube([23, 15.7, 24.75], center = true);
     }
+}
+
+module bolex_filter_holder (pos = [0, 0, 0], rot = [0, 0, 0]) {
+
 }
 
 /**
@@ -479,6 +480,7 @@ module lamp_single (pos = [0, 0, 0]) {
                 lamp_bolts_voids([0, 15, -2]);
                 translate([LampWireX, LampWireY, 0]) cylinder(r = R(10), h = 10, center = true);
                 translate([-LampWireX, LampWireY, 0]) cylinder(r = R(10), h = 10, center = true);
+                //guide for assembly
             }
             translate([0, 45, 0]) cylinder(r = R(130), h = 4 + 1, center = true, $fn = 200);
         }
@@ -490,9 +492,18 @@ module lamp_single (pos = [0, 0, 0]) {
         }
         lamp_posts([0, 15, PostsZ]);
         //
-        picture_gate_bracket([0, -7, GateZ]);
+        //picture_gate_bracket([0, -7, GateZ]);
     }
-    translate([40, 12, 10]) gate_holder();
+    //translate([40, 12, 10]) gate_holder();
+    
+}
+
+module lamp_single_assembly (pos = [0, 0, 0]) {
+    translate(pos) {
+        difference () {
+            translate([0, 0, 6]) cube([10, 20, 10], center = true);
+        }
+    }
 }
 
 module lamp_cover (pos = [0, 0, 0]) {
@@ -1156,12 +1167,6 @@ module electronics_panel_m3_bolts_voids (pos = [0, 0, 0]) {
     XY = L298NModulePostsX;
     Z = 1;
     translate(pos) {
-        translate([32, 0, 0]) {
-            m3_panel_bolt_void([ XY / 2,  XY / 2, Z]);
-            m3_panel_bolt_void([-XY / 2,  XY / 2, Z]);
-            m3_panel_bolt_void([ XY / 2, -XY / 2, Z]);
-            m3_panel_bolt_void([-XY / 2, -XY / 2, Z]);
-        }
         translate([-32, 0, 0]) {
             m3_panel_bolt_void([ XY / 2,  XY / 2, Z]);
             m3_panel_bolt_void([-XY / 2,  XY / 2, Z]);
@@ -1184,8 +1189,9 @@ module electronics_panel (pos = [0, 0, 0], rot = [0, 0, 0]) {
     WallX = 3;
     WallY = Y - 20;
     WallZ = 20;
+    ESP32PostsOffsetX = 24;
     ESP32PostsOffsetY = 10;
-    ESP32PostsZ = 23 + 15;
+    ESP32PostsZ = 28;
     L298NModuleOffsetY = 5;
     DCJackZ = 45;
     translate(pos) rotate(rot) {
@@ -1194,14 +1200,14 @@ module electronics_panel (pos = [0, 0, 0], rot = [0, 0, 0]) {
                 cube([X, Y, PanelZ], center = true);
                 translate([(X / 2) - (WallX / 2), 10, -WallZ / 2]) cube([WallX, WallY, WallZ], center = true);
                 translate([-(X / 2) + (WallX / 2), 10, -WallZ / 2]) cube([WallX, WallY, WallZ], center = true);
-                rect_bolt_voids([0, ESP32PostsOffsetY, -ESP32PostsZ / 2], X = ESP32PostsX, Y = ESP32PostsY, D = 8, H = ESP32PostsZ);
-                L298N_mount([ 32, 46 + L298NModuleOffsetY, -4], [180, 0, 0]);
+                //actually the posts, overloading the module
+                rect_bolt_voids([ESP32PostsOffsetX, ESP32PostsOffsetY, -ESP32PostsZ / 2], X = ESP32PostsX, Y = ESP32PostsY, D = 8, H = ESP32PostsZ);
                 L298N_mount([-32, 46 + L298NModuleOffsetY, -4], [180, 0, 0]);
                 //panel for DC jack
-                translate([44.5, -(Y / 2) + 20 + (PanelZ / 2), -DCJackZ / 2]) cube([20, PanelZ, DCJackZ], center = true);
+                translate([-44.5, -(Y / 2) + 20 + (PanelZ / 2), -DCJackZ / 2]) cube([20, PanelZ, DCJackZ], center = true);
             }
-            rect_bolt_voids([0, ESP32PostsOffsetY, -ESP32PostsZ], X = ESP32PostsX, Y = ESP32PostsY, D = 2.8, H = 10);
-            translate([0, ESP32PostsOffsetY, -ESP32PostsZ]) cube([ESP32BoardX + 0.3, ESP32BoardY + 0.3, 3], center = true);
+            rect_bolt_voids([ESP32PostsOffsetX, ESP32PostsOffsetY, -ESP32PostsZ], X = ESP32PostsX, Y = ESP32PostsY, D = 2.8, H = 10);
+            translate([ESP32PostsOffsetX, ESP32PostsOffsetY, -ESP32PostsZ]) cube([ESP32BoardX + 0.3, ESP32BoardY + 0.3, 3], center = true);
             //top panel bolts
             m3_panel_bolt_void([(X / 2) - 10, -(Y / 2) + 10, 3]);
             m3_panel_bolt_void([-(X / 2) + 10, -(Y / 2) + 10, 3]);
@@ -1210,7 +1216,7 @@ module electronics_panel (pos = [0, 0, 0], rot = [0, 0, 0]) {
             m3_panel_bolt_void([ (X / 2) - 5, (Y / 2) - 12, -13], [0, -90, 0]);
             electronics_panel_m3_bolts_voids([0, 9.5 + L298NModuleOffsetY, 1.5]);
             //DC jack
-            translate([44.5, -(Y / 2) + 20 + (PanelZ / 2), -DCJackZ + 10]) rotate([90, 0, 0]) cylinder(r = R(11), h = 5 + 1, center = true, $fn = 60);
+            translate([-44.5, -(Y / 2) + 20 + (PanelZ / 2), -DCJackZ + 10]) rotate([90, 0, 0]) cylinder(r = R(11), h = 5 + 1, center = true, $fn = 60);
             button_void([-40, -20, 0]);
             button_void([40, -20, 0]);
         }
@@ -1358,7 +1364,7 @@ module debug () {
     electronics_panel([0, -100, -3]);
 }
 
-PART = "super_gatez";
+PART = "electronics_panel";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -1427,6 +1433,8 @@ if (PART == "panel") {
     lamp_LEDs();
 } else if (PART == "electronics_panel") {
     electronics_panel(rot = [180, 0, 0]);
+} else if(PART=="blank") {
+    //
 } else {
     debug();
 }
