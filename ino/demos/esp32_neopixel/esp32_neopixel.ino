@@ -1,8 +1,8 @@
 
 #include <Adafruit_NeoPixel.h>
 
-#define PIN 6
-#define NUM 6
+#define PIN 15
+#define NUM 1
 
 int r = 255;
 int g = 255;
@@ -10,7 +10,7 @@ int b = 255;
 
 //neopixel jewel 7 = NEO_GRBW + NEO_KHZ800
 //neopixel strips = NEO_GRB + NEO_KHZ800
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUM, PIN, NEO_GRBW + NEO_KHZ800);
 
 void setup() {
 	Serial.begin(115200);
