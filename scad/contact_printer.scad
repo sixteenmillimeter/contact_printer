@@ -1044,6 +1044,7 @@ module sprocketed_roller_invert (pos = [0, 0, 0]) {
     }
 }
 
+//currently in testing
 module sprocketed_roller_upright_solid (pos = [0, 0, 0]) {
     OverhangD = 42.85;
     OverhangH = 2.5;
