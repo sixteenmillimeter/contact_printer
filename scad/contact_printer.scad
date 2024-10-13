@@ -1170,7 +1170,7 @@ module lamp_LEDs (pos = [0, 0, 0], rot = [0, 0, 0]) {
         
         translate([0, -LightChannelY / 2, 0]) difference() {
             cube([15, LightChannelY, 18], center = true);
-            translate([0, 7.6, 0]) cube([11, LightChannelY, 18 + 1], center = true);
+            //translate([0, 7.6, 0]) cube([11, LightChannelY, 18 + 1], center = true);
             translate([0, -1, 0]) cube([5, LightChannelY, 18 + 1], center = true);
             //void for diffusion
             translate([0, (LightChannelY / 2) -18.9, 0]) cube([12, 0.5, 18 + 1], center = true);
@@ -1178,11 +1178,11 @@ module lamp_LEDs (pos = [0, 0, 0], rot = [0, 0, 0]) {
             translate([6.5, (LightChannelY / 2) -18.9, 2]) cube([3, 1.5, 18], center = true);
             translate([-6.5, (LightChannelY / 2) -18.9, 2]) cube([3, 1.5, 18], center = true);
             
-            translate([3.1, (LightChannelY / 2) + LEDOffsetY, 0]) rotate([0, 0, -7.5]) cube([LampGateX - 4.2, 15.5, 18 + 1], center = true);
-            translate([-3.1, (LightChannelY / 2) + LEDOffsetY, 0]) rotate([0, 0, 7.5]) cube([LampGateX - 4.2, 15.5, 18 + 1], center = true);
+            translate([3.1, (LightChannelY / 2) + LEDOffsetY, 0]) rotate([0, 0, -7.5]) cube([LampGateX - 4.2, 28, 18 + 1], center = true);
+            translate([-3.1, (LightChannelY / 2) + LEDOffsetY, 0]) rotate([0, 0, 7.5]) cube([LampGateX - 4.2, 28, 18 + 1], center = true);
             
             //bevel light
-            translate([0, (LightChannelY / 2) - 18.9 + 2.5, 0]) rotate([0, 0, 45]) cube([7, 7, 18 + 1], center = true);
+            translate([0, (LightChannelY / 2) - 18.9 + 2.5, 0]) rotate([0, 0, 45]) cube([6.5, 6.5, 18 + 1], center = true);
             
             //slide for gate
             translate([0, (LightChannelY / 2) -22, 0]) cube([8, 2, 18 + 1], center = true);
