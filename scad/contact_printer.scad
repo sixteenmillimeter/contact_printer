@@ -20,9 +20,9 @@ Film16mmStandardZ = -0.7;
 Film16mmFull = 16;
 Film16mmFullZ = -1.1;
 Film16mmSuper = 13.25;
-Film16mmSuperZ = -(16 - Film16mmSuper) + 0.7;
+Film16mmSuperZ = ((16 / 2) - (Film16mmSuper / 2) - 1.1);
 Film16mmSound = Film16mmSuper - Film16mmStandard;
-Film16mmSoundZ = -7.75;
+Film16mmSoundZ = ((16 / 2) - (Film16mmSuper - Film16mmStandard) / 2) - 1.1;
 
 Sprockets = 18;
 SprocketedRollerBevel = true;
@@ -102,6 +102,7 @@ LampWireX = 25;
 LampWireY = 20;
 
 LampGateX = 11;
+LampGateZ = 1.1;
 
 IdleRollerPrintX = 55;
 IdleRollerPrintY = 0;
@@ -399,21 +400,72 @@ module sound_gate_bracket (pos = [0, 0, 0], rot = [0, 0, 0]) {
     }
 }
 
+module rectangular_pyramid(width, depth, height) {
+    difference() {
+        cube([width, depth, 0.01]); 
+        translate([width/2, depth/2, 0]) { 
+            cube([width, depth, height]);
+        }
+    }
+
+    
+
+    // Add the pyramid faces
+
+    for (i = [0, 1]) {
+        translate([i * width, 0, 0]) {
+            translate([width/2, depth/2, 0]) {
+                linear_extrude(height = height,  size = [width/2, 0, 0]) {
+
+                    polygon([[0, 0], [width/2, 0], [width/2, depth], [0, depth]]);
+                }
+            }
+        }
+        
+
+        translate([0, i * depth, 0]) { 
+
+            translate([width/2, depth/2, 0]) {
+
+                linear_extrude(height = height, size = [0, depth/2, 0]) {
+
+                    polygon([[0, 0], [width, 0], [width, depth/2], [0, depth/2]]);
+                 }
+             }
+         }
+
+    }
+}
+
 module gate_blank () {
-    X = LampGateX;
-    //front
-    //translate([0, -6.25, 0]) cube([X-7.2, 1.2, 19.25], center = true);
-    //middle
+    X = 15;
+    Z = 18;
+    SidesX = 2;
+    SidesY = 2;
+    RollerVoidY = -2;
+    SprocketShelfZ = 4.25;
+    RollerShelfZ = 1;
+    
+    RoundedBevelD = 55;
+    RoundedBevelY = -3;
     difference () {
         union () {
-            translate([0, -5.1, -0.5]) cube([7.8, 1.8, 18], center = true);
-            translate([0, -8, -.75]) cube([4.8, 4, 17.5], center = true);
-            translate([0, -8.75, -.75]) cube([7.8, 3, 17.5], center = true);
+            intersection () {
+                cube([X, 7.5, 18], center = true);
+                translate([0, (RoundedBevelD / 2) + RoundedBevelY, 0]) cylinder(r = R(RoundedBevelD), h = Z + 1, center = true, $fn = 260);
+            }
         }
-        translate([0, -9, -7.5]) cube([8, 4, 5], center = true);
-        translate([0, (-42.39 / 2) - 9.5, 0]) cylinder(r = R(42.39), h = 18 + 1, center = true, $fn = 240);
+
+        translate([0, (-42.39 / 2) + RollerVoidY, 0]) cylinder(r = R(42.39), h = 18 + 1, center = true, $fn = 240);
+        //sprocket shelf
+        translate([0, (-42.39 / 2) + RollerVoidY, (-Z / 2) + (SprocketShelfZ / 2) - 0.01]) cylinder(r = R(47.39), h = SprocketShelfZ, center = true, $fn = 240);
+        //roller shelf
+        translate([0, (-42.39 / 2) + RollerVoidY, (Z / 2) - (RollerShelfZ / 2) + 0.01]) cylinder(r = R(45.39), h = RollerShelfZ, center = true, $fn = 240);
+        
+        //gate notches
+        translate([(X / 2) + SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, Z + 1], center = true);
+        translate([(-X / 2) - SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, Z + 1], center = true);
     }
-    
     //top
     //translate([0, -5.9, 9]) cube([X-4.2, 3, 2], center = true);
 }
@@ -425,14 +477,16 @@ module picture_gate (pos = [0, 0, 0], rot = [0, 0, 0], Type = "full", Width = 2)
             union () {
                 gate_blank();
             }
-            if (Type == "standard") {
-                translate([0, -6, Film16mmStandardZ]) cube([Width, 10, Film16mmStandard], center = true);
-            } else if (Type == "full") {
-                translate([0, -6, Film16mmFullZ]) cube([Width, 10, Film16mmFull], center = true);
-            } else if (Type == "super16") {
-                translate([0, -6, Film16mmSuperZ]) cube([Width, 10, Film16mmSuper], center = true);
-            } else if (Type == "sound") {
-                translate([0, -6, Film16mmSoundZ]) cube([Width, 10, Film16mmSound], center = true);
+            translate([0, 0, LampGateZ]) {
+                if (Type == "standard") {
+                    translate([0, -6, Film16mmStandardZ]) cube([Width, 20, Film16mmStandard], center = true);
+                } else if (Type == "full") {
+                    translate([0, -6, Film16mmFullZ]) cube([Width, 20, Film16mmFull], center = true);
+                } else if (Type == "super16") {
+                    translate([0, -6, Film16mmSuperZ]) cube([Width, 20, Film16mmSuper], center = true);
+                } else if (Type == "sound") {
+                    translate([0, -6, Film16mmSoundZ]) cube([Width, 20, Film16mmSound], center = true);
+                }
             }
         }
     }
@@ -1145,13 +1199,14 @@ module sprocketed_roller_invert_solid (pos = [0, 0, 0]) {
 }
 
 module lamp_LED_side (pos = [0, 0, 0], rot = [0, 0, 0]) {
-    D = 5.1;
+    D = 5.3;
+    SpacingZ = 11.5;
     translate(pos) rotate(rot) {
         difference () { 
             cube([LampGateX - 4.2, 10, 18], center = true);
             rotate([90, 0, 0]) cylinder(r = R(D), h = 11, center = true);
-            translate([0, 0, 5.5]) rotate([90, 0, 0]) cylinder(r = R(D), h = 11, center = true);
-            translate([0, 0, -5.5]) rotate([90, 0, 0]) cylinder(r = R(D), h = 11, center = true);
+            translate([0, 0, SpacingZ / 2]) rotate([90, 0, 0]) cylinder(r = R(D), h = 11, center = true);
+            translate([0, 0, -SpacingZ / 2]) rotate([90, 0, 0]) cylinder(r = R(D), h = 11, center = true);
             
             translate([0, -6, 0]) cube([5.2 + 4, 10, 18 + 1], center = true);
         }
@@ -1167,30 +1222,7 @@ module lamp_LEDs (pos = [0, 0, 0], rot = [0, 0, 0]) {
             lamp_LED_side([-3.1, LEDOffsetY, 0], [0, 0, 7.5]);
             translate([0, 3.4 + LEDOffsetY, 0]) cube([0.8, 4, 18], center = true);
         }
-        
-        translate([0, -LightChannelY / 2, 0]) difference() {
-            cube([15, LightChannelY, 18], center = true);
-            //translate([0, 7.6, 0]) cube([11, LightChannelY, 18 + 1], center = true);
-            translate([0, -1, 0]) cube([5, LightChannelY, 18 + 1], center = true);
-            //void for diffusion
-            translate([0, (LightChannelY / 2) -18.9, 0]) cube([12, 0.5, 18 + 1], center = true);
-            
-            translate([6.5, (LightChannelY / 2) -18.9, 2]) cube([3, 1.5, 18], center = true);
-            translate([-6.5, (LightChannelY / 2) -18.9, 2]) cube([3, 1.5, 18], center = true);
-            
-            translate([3.1, (LightChannelY / 2) + LEDOffsetY, 0]) rotate([0, 0, -7.5]) cube([LampGateX - 4.2, 28, 18 + 1], center = true);
-            translate([-3.1, (LightChannelY / 2) + LEDOffsetY, 0]) rotate([0, 0, 7.5]) cube([LampGateX - 4.2, 28, 18 + 1], center = true);
-            
-            //bevel light
-            translate([0, (LightChannelY / 2) - 18.9 + 2.5, 0]) rotate([0, 0, 45]) cube([6.5, 6.5, 18 + 1], center = true);
-            
-            //slide for gate
-            translate([0, (LightChannelY / 2) -22, 0]) cube([8, 2, 18 + 1], center = true);
-        }
-        
-        //translate([0, -18.9, 0]) cube([5, 1/16, 16], center = true);
-    }
-    
+    }    
 }
 
 module gate_holder () {
@@ -1279,6 +1311,7 @@ module debug () {
 
     panel([0, -10, PanelOffsetZ]);
     
+    color("red") translate([0, -8.5, 10.2]) cube([200, 0.1, 16], center = true);
     if (!FrameOnly) {
         translate([0, RollerY, 18]) rotate([180, 0, 0]) difference () {
             //sprocketed_roller_upright();
@@ -1292,7 +1325,7 @@ module debug () {
             //lamp_dual([0, LampY, 0 + 1]);
             //lamp_single([0, 10, 0 + 1]);
             lamp_LEDs([0, 19, 10]);
-            picture_gate([0, 2.1, 10.5]);
+            picture_gate([0, -3.1, 10.5], Type = "super16");
         //    translate([45, LampY, 0 + 2]) cube([100, 100, 100], center = true);
         //}
         //color("green") lamp_cover([0, LampY + 5, 21]);
@@ -1408,7 +1441,7 @@ module debug () {
     electronics_panel([0, -100, -3]);
 }
 
-PART = "picture_gatex";
+PART = "lamp_LEDsx";
 LIBRARY = true;
 
 if (PART == "panel") {
