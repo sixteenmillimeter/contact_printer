@@ -21,8 +21,9 @@ Film16mmFull = 16;
 Film16mmFullZ = -1.1;
 Film16mmSuper = 13.25;
 Film16mmSuperZ = ((16 / 2) - (Film16mmSuper / 2) - 1.1);
-Film16mmSound = Film16mmSuper - Film16mmStandard;
-Film16mmSoundZ = ((16 / 2) - (Film16mmSuper - Film16mmStandard) / 2) - 1.1;
+Film16mmSound = 2.5; // 2.99 //Film16mmSuper - Film16mmStandard;
+echo("Soundtrack", Film16mmSound);
+Film16mmSoundZ = ((16 / 2) - Film16mmSound / 2) - 1.1;
 
 Sprockets = 18;
 SprocketedRollerBevel = true;
@@ -102,7 +103,7 @@ LampWireX = 25;
 LampWireY = 20;
 
 LampGateX = 11;
-LampGateZ = 1.1;
+LampGateZ = 1;
 
 IdleRollerPrintX = 55;
 IdleRollerPrintY = 0;
@@ -400,42 +401,20 @@ module sound_gate_bracket (pos = [0, 0, 0], rot = [0, 0, 0]) {
     }
 }
 
-module rectangular_pyramid(width, depth, height) {
-    difference() {
-        cube([width, depth, 0.01]); 
-        translate([width/2, depth/2, 0]) { 
-            cube([width, depth, height]);
-        }
-    }
-
-    
-
-    // Add the pyramid faces
-
-    for (i = [0, 1]) {
-        translate([i * width, 0, 0]) {
-            translate([width/2, depth/2, 0]) {
-                linear_extrude(height = height,  size = [width/2, 0, 0]) {
-
-                    polygon([[0, 0], [width/2, 0], [width/2, depth], [0, depth]]);
-                }
+module gate_blank_void (pos = [0, 0, 0], rot = [0, 0, 0], bottom = [1, 1], top = [1, 1], h = 1) {
+    translate(pos) rotate(rot) {
+        difference () {
+            if (top[0] > bottom[0] && top[1] > bottom[1]) {
+                cube([top[0], top[1], h], center = true);
+            } else {
+                cube([bottom[0], bottom[1], h], center = true);
             }
+            translate([0, bottom[1] - 1, 0]) rotate([30, 0, 0]) cube([bottom[0] + 1, bottom[1], h * 5], center = true);
+            translate([0, -bottom[1] + 1, 0]) rotate([-30, 0, 0]) cube([bottom[0] + 1, bottom[1], h * 5], center = true);
         }
-        
-
-        translate([0, i * depth, 0]) { 
-
-            translate([width/2, depth/2, 0]) {
-
-                linear_extrude(height = height, size = [0, depth/2, 0]) {
-
-                    polygon([[0, 0], [width, 0], [width, depth/2], [0, depth/2]]);
-                 }
-             }
-         }
-
     }
 }
+
 
 module gate_blank () {
     X = 15;
@@ -443,7 +422,8 @@ module gate_blank () {
     SidesX = 2;
     SidesY = 2;
     RollerVoidY = -2;
-    SprocketShelfZ = 4.25;
+    SprocketShelfZ = 1.75;
+    SprocketShelfD = 44.75;
     RollerShelfZ = 1;
     
     RoundedBevelD = 55;
@@ -455,10 +435,11 @@ module gate_blank () {
                 translate([0, (RoundedBevelD / 2) + RoundedBevelY, 0]) cylinder(r = R(RoundedBevelD), h = Z + 1, center = true, $fn = 260);
             }
         }
+        gate_blank_void([0, 2, LampGateZ - 1.1], [0, 90, -90], [16, 12], [16, 2], 5);
 
         translate([0, (-42.39 / 2) + RollerVoidY, 0]) cylinder(r = R(42.39), h = 18 + 1, center = true, $fn = 240);
         //sprocket shelf
-        translate([0, (-42.39 / 2) + RollerVoidY, (-Z / 2) + (SprocketShelfZ / 2) - 0.01]) cylinder(r = R(47.39), h = SprocketShelfZ, center = true, $fn = 240);
+        translate([0, (-42.39 / 2) + RollerVoidY, (-Z / 2) + 2.9]) cylinder(r = R(SprocketShelfD), h = SprocketShelfZ, center = true, $fn = 240);
         //roller shelf
         translate([0, (-42.39 / 2) + RollerVoidY, (Z / 2) - (RollerShelfZ / 2) + 0.01]) cylinder(r = R(45.39), h = RollerShelfZ, center = true, $fn = 240);
         
@@ -466,9 +447,16 @@ module gate_blank () {
         translate([(X / 2) + SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, Z + 1], center = true);
         translate([(-X / 2) - SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, Z + 1], center = true);
     }
-    //top
-    //translate([0, -5.9, 9]) cube([X-4.2, 3, 2], center = true);
 }
+
+module picture_gate_text (pos = [0, 1.5, 7.8], label = "gate" ){
+    translate(pos) {
+        linear_extrude(height = 5) {
+            text(label, size = 2.5, font = "Liberation Sans", halign = "center", valign = "center", $fn = 16);
+        }  
+    }
+}
+
 //standard, super, full, sound
 module picture_gate (pos = [0, 0, 0], rot = [0, 0, 0], Type = "full", Width = 2) {
     X = LampGateX;
@@ -480,12 +468,16 @@ module picture_gate (pos = [0, 0, 0], rot = [0, 0, 0], Type = "full", Width = 2)
             translate([0, 0, LampGateZ]) {
                 if (Type == "standard") {
                     translate([0, -6, Film16mmStandardZ]) cube([Width, 20, Film16mmStandard], center = true);
+                     picture_gate_text(label = "16mm");
                 } else if (Type == "full") {
                     translate([0, -6, Film16mmFullZ]) cube([Width, 20, Film16mmFull], center = true);
+                    picture_gate_text(label = "full");
                 } else if (Type == "super16") {
                     translate([0, -6, Film16mmSuperZ]) cube([Width, 20, Film16mmSuper], center = true);
+                    picture_gate_text(label = "super16");
                 } else if (Type == "sound") {
                     translate([0, -6, Film16mmSoundZ]) cube([Width, 20, Film16mmSound], center = true);
+                    picture_gate_text(label = "sound");
                 }
             }
         }
@@ -1311,21 +1303,20 @@ module debug () {
 
     panel([0, -10, PanelOffsetZ]);
     
-    color("red") translate([0, -8.5, 10.2]) cube([200, 0.1, 16], center = true);
+    //color("red") translate([0, -8.5, 10.2]) cube([200, 0.1, 16], center = true);
     if (!FrameOnly) {
         translate([0, RollerY, 18]) rotate([180, 0, 0]) difference () {
             //sprocketed_roller_upright();
             //translate([50, 0, 0]) cube([100, 100, 100], center = true);
         }
         //translate([0, RollerY, 18]) rotate([180, 0, 0]) sprocketed_roller_upright_solid();
-        translate([0, -30, 4]) sprocketed_roller_invert_solid();
+        debug_lamp();
         //centered_geared_motor([0, RollerY, MotorZ], [180, 0, 90]);
         //lamp
         //difference () {
             //lamp_dual([0, LampY, 0 + 1]);
             //lamp_single([0, 10, 0 + 1]);
-            lamp_LEDs([0, 19, 10]);
-            picture_gate([0, -3.1, 10.5], Type = "super16");
+
         //    translate([45, LampY, 0 + 2]) cube([100, 100, 100], center = true);
         //}
         //color("green") lamp_cover([0, LampY + 5, 21]);
@@ -1441,6 +1432,12 @@ module debug () {
     electronics_panel([0, -100, -3]);
 }
 
+module debug_lamp () {
+    translate([0, -30, 4]) rotate([0, 0, 10]) sprocketed_roller_invert_solid();
+    lamp_LEDs([0, 19, 10.5]);
+    picture_gate([0, -6.5, 10.5], Type = "sound");
+}
+
 PART = "lamp_LEDsx";
 LIBRARY = true;
 
@@ -1513,5 +1510,6 @@ if (PART == "panel") {
 } else if(PART=="blank") {
     //
 } else {
-    debug();
+    //debug();
+    debug_lamp();
 }
