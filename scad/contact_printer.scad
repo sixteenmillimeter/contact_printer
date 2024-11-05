@@ -103,7 +103,11 @@ LampWireX = 25;
 LampWireY = 20;
 
 LampGateX = 11;
-LampGateZ = 1;
+LampGateZ = 0.5;
+
+LampRailsSpacingX = 22.5;
+LampRailsSpacingY = 13;
+LampRailsOffsetZ = 1 / 2;
 
 IdleRollerPrintX = 55;
 IdleRollerPrintY = 0;
@@ -322,9 +326,9 @@ module idle_roller_half (pos = [0, 0, 0], rot = [0, 0, 0], flip = false) {
     }
 }
 
-module lamp_bolt_void (pos = [0, 0, 0], H = LampBoltH) {
+module lamp_bolt_void (pos = [0, 0, 0], H = LampBoltH, Pad = 0) {
     translate(pos) {
-        cylinder(r = R(4.25), h = H, center = true);
+        cylinder(r = R(4.25 + Pad), h = H, center = true);
         translate([0, 0, -H/2]) m4_nut();
     }
 }
@@ -336,15 +340,15 @@ module idle_roller_bolt_void (pos = [0, 0, 0], H = IdleRollerBoltH) {
     }
 }
 
-module lamp_bolts_voids (pos = [0, 0, 0], H = 10) {
+module lamp_bolts_voids (pos = [0, 0, 0], H = 10, Pad = 0) {
     X = LampBoltX/2;
     Y = LampBoltY/2;
     $fn = 30;
     translate(pos) {
-        lamp_bolt_void([X, Y, 0]);
-        lamp_bolt_void([-X, Y, 0]);
-        lamp_bolt_void([X, -Y, 0]);
-        lamp_bolt_void([-X, -Y, 0]);
+        lamp_bolt_void([X, Y, 0], H, Pad);
+        lamp_bolt_void([-X, Y, 0], H, Pad);
+        lamp_bolt_void([X, -Y, 0], H, Pad);
+        lamp_bolt_void([-X, -Y, 0], H, Pad);
     }
 }
 
@@ -418,13 +422,13 @@ module gate_blank_void (pos = [0, 0, 0], rot = [0, 0, 0], bottom = [1, 1], top =
 
 module gate_blank () {
     X = 15;
-    Z = 18;
+    Z = 20;
     SidesX = 2;
-    SidesY = 2;
+    SidesY = 2.7;
     RollerVoidY = -2;
     SprocketShelfZ = 1.75;
     SprocketShelfD = 44.75;
-    RollerShelfZ = 0.8;
+    RollerShelfZ = 2.3;
     RollerShelfD = 44.75;
     
     RoundedBevelD = 55;
@@ -432,15 +436,15 @@ module gate_blank () {
     difference () {
         union () {
             intersection () {
-                cube([X, 7.5, 18], center = true);
+                translate([0, 1 / 2, 1 / 2]) cube([X, 7.5 + 1, 19], center = true);
                 translate([0, (RoundedBevelD / 2) + RoundedBevelY, 0]) cylinder(r = R(RoundedBevelD), h = Z + 1, center = true, $fn = 260);
             }
         }
-        gate_blank_void([0, 2, LampGateZ - 1.1], [0, 90, -90], [16, 12], [16, 2], 5);
+        gate_blank_void([0, 2.5, LampGateZ - 1.1], [0, 90, -90], [16, 12], [16, 2], 6);
 
-        translate([0, (-42.39 / 2) + RollerVoidY, 0]) cylinder(r = R(42.39), h = 18 + 1, center = true, $fn = 240);
+        translate([0, (-42.39 / 2) + RollerVoidY, 0]) cylinder(r = R(42.39), h = 20 + 1, center = true, $fn = 240);
         //sprocket shelf
-        translate([0, (-42.39 / 2) + RollerVoidY, (-Z / 2) + 2.9]) cylinder(r = R(SprocketShelfD), h = SprocketShelfZ, center = true, $fn = 240);
+        translate([0, (-42.39 / 2) + RollerVoidY, (-Z / 2) + 2.4]) cylinder(r = R(SprocketShelfD), h = SprocketShelfZ, center = true, $fn = 240);
         //roller shelf
         translate([0, (-42.39 / 2) + RollerVoidY, (Z / 2) - (RollerShelfZ / 2) + 0.01]) cylinder(r = R(RollerShelfD), h = RollerShelfZ, center = true, $fn = 240);
         
@@ -453,40 +457,72 @@ module gate_blank () {
 module gate_carrier (pos = [0, 0, 0], rot = [0, 0, 0]) {
     X = 15.4;
     SidesX = 2;
-    SidesY = -0.7;
+    SidesY = -1.2;
     translate(pos) rotate(rot) {
         difference () {
             union () {
                 rotate([90, 0, 0]) rounded_cube([30, 20, 5], d = 4, center = true, $fn = 40);
-                translate([-12.5, 0, 10]) rotate([0, 0, 180]) cylinder(r = R(5), h = 5, center = true, $fn = 3);
+                translate([-12.5, 2.5, 10]) difference () {
+                    rotate([0, 0, 180]) cylinder(r = R(5), h = 3, center = true, $fn = 3);
+                    translate([0, 5 / 2, 0]) cube([5, 5, 5 + 1], center = true);
+                }
             }
-            lamp_rails_voids(rot = [90, 0, 0], h = 11);
+            lamp_rails_voids([0, 0, LampRailsOffsetZ], [90, 0, 0], h = 11);
             translate([0 ,0, 1]) difference () {
                 cube([X, 10 + 1, 20], center = true);
                 translate([(X / 2) + SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, 20 + 1], center = true);
                 translate([(-X / 2) - SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, 20 + 1], center = true);
                  difference () {
                      translate([0, 6.7, 0]) cube([X + 1, 10 + 1, 20], center = true);
-                     translate([0, 0, 0.5]) cube([X - 2, 10 + 1, 20], center = true);
+                     translate([0, 0, 0.5]) cube([X - 4, 10 + 1, 20], center = true);
                  }
+            }
+            translate([LampRailsSpacingX / 2, -2, LampRailsOffsetZ]) rotate([90, 0, 0]) {
+                cylinder(r = R(4.25), h = 20, center = true, $fn = 40);
+                rotate([0, 0, 30]) m4_nut(5);
+            }
+            translate([-LampRailsSpacingX / 2, -3, LampRailsOffsetZ]) rotate([90, 0, 0]) {
+                cylinder(r = R(5), h = 20, center = true, $fn = 40);
             }
         }
     }
 }
 
 module filter_carrier (pos = [0, 0, 0], rot = [0, 0, 0]) {
+    X = 7;
+    SidesX = 2;
+    SidesY = -0.7;
     translate(pos) rotate(rot) {
         difference () {
             union () {
                 rotate([90, 0, 0]) rounded_cube([30, 20, 5], d = 4, center = true, $fn = 40);
-                translate([-12.5, 0, 10]) rotate([0, 0, 180]) cylinder(r = R(5), h = 5, center = true, $fn = 3);
+                translate([-12.5, 2.5, 10]) difference () {
+                    rotate([0, 0, 180]) cylinder(r = R(5), h = 3, center = true, $fn = 3);
+                    translate([0, 5 / 2, 0]) cube([5, 5, 5 + 1], center = true);
+                }
             }
-            lamp_rails_voids(rot = [90, 0, 0], h = 11);
+            lamp_rails_voids([0, 0, LampRailsOffsetZ], [90, 0, 0], h = 11);
+            cube([12, 10, 17], center = true);
+            translate([0, -1.001, 0]) intersection() {
+                cube([17, 3, 20 + 1], center = true);
+                union () {
+                    cube([12, 3, 20 + 1], center = true);
+                    translate([(X / 2) + SidesX, 0, 0]) rotate([0, 0, 45]) cube([3, 3, 20 + 1], center = true);
+                    translate([(-X / 2) - SidesX, 0, 0]) rotate([0, 0, 45]) cube([3, 3, 20 + 1], center = true);
+                }
+            }
+            translate([-LampRailsSpacingX / 2, -2, LampRailsOffsetZ]) rotate([90, 0, 0]) {
+                cylinder(r = R(4.25), h = 20, center = true, $fn = 40);
+                rotate([0, 0, 30]) m4_nut(5);
+            }
+            translate([LampRailsSpacingX / 2, -3, LampRailsOffsetZ]) rotate([90, 0, 0]) {
+                cylinder(r = R(5), h = 20, center = true, $fn = 40);
+            }
         }
     }
 }
 
-module picture_gate_text (pos = [0, 1.5, 7.8], label = "gate" ){
+module picture_gate_text (pos = [0, 1.5, 9.3], label = "gate" ){
     translate(pos) {
         linear_extrude(height = 5) {
             text(label, size = 2.5, font = "Liberation Sans", halign = "center", valign = "center", $fn = 16);
@@ -559,34 +595,49 @@ module lamp_dual (pos = [0, 0, 0]) {
 }
 
 module lamp_single (pos = [0, 0, 0]) {
-    Z = 10;
+    Z = 12;
     WallZ = Z;
     GateZ = Z;
     PostsZ = Z - 1;
     translate(pos) {
         intersection () {
             difference () {
-                rounded_cube([70, 70, 2], d = 4, center = true);
-                translate([0, -45, 0]) cylinder(r = R(60), h = 4 + 1, center = true, $fn = 200);
-                lamp_bolts_voids([0, 15, -2]);
+                union () {
+                    rounded_cube([70, 70, 2], d = 4, center = true);
+                    translate([0, -15, 20 / 2]) cube([70, 10, 22], center = true);
+                    translate([0, 0, 20 / 2]) difference() {
+                        rounded_cube([70, 70, 22], d = 4, center = true);
+                        rounded_cube([70 - 5, 70 - 10, 22 + 1], d = 4, center = true);
+                    }
+                    lamp_posts([0, 15, PostsZ]);
+                    translate([-18, 1, 20 / 2]) cube([4.75, 32, 21], d = 4, center = true);
+                }
+                translate([0, 1, 0]) cube([31, 32, 50], center = true);
+                translate([0, -4, 0]) cube([15.4, 32, 50], center = true);
+                translate([0, -48, 0]) cylinder(r = R(60), h = 4 + 1, center = true, $fn = 200);
+                lamp_bolts_voids([0, 15, -2], 50, 0.2);
+                translate([LampRailsSpacingX / 2, 34, 9 + LampRailsOffsetZ]) rotate([90, 0, 0]) {
+                    cylinder(r = R(4.25), h = 20, center = true, $fn = 40);
+                    rotate([0, 0, 30]) m4_nut(5);
+                }
+                translate([-LampRailsSpacingX / 2, 34, 9 + LampRailsOffsetZ]) rotate([90, 0, 0]) {
+                    cylinder(r = R(4.25), h = 20, center = true, $fn = 40);
+                    rotate([0, 0, 30]) m4_nut(5);
+                }
+                translate([0, -11.5, 9 + LampRailsOffsetZ]) {
+                    translate([LampRailsSpacingX / 2, 0, 0]) rotate([90, 0, 0]) cylinder(r = R(5), h = 10, center = true, $fn = 40);
+                    translate([-LampRailsSpacingX / 2, 0, 0]) rotate([90, 0, 0]) cylinder(r = R(5), h = 10, center = true, $fn = 40);
+                }
+
+                lamp_rails_voids([0, -11.5, 9 + LampRailsOffsetZ], [90, 0, 0], h = 11);
+                lamp_rails_voids([0, 20, 9 + LampRailsOffsetZ], [90, 0, 0], h = 40);
                 translate([LampWireX, LampWireY, 0]) cylinder(r = R(10), h = 10, center = true);
                 translate([-LampWireX, LampWireY, 0]) cylinder(r = R(10), h = 10, center = true);
                 //guide for assembly
             }
-            translate([0, 45, 0]) cylinder(r = R(130), h = 4 + 1, center = true, $fn = 200);
-        }
-        //walls
-        /*translate([0, 15, WallZ]) difference () {
-            rounded_cube([70, 40, 18], d = 4, center = true);
-            cube([70-6, 40-6, 18 + 1], center = true);
-            translate([0, -20, 0]) cube([10, 40-6, 18 + 1], center = true);
-        }*/
-        lamp_posts([0, 15, PostsZ]);
-        //
-        //picture_gate_bracket([0, -7, GateZ]);
+            translate([0, 66.5, 0]) cylinder(r = R(170), h = 100, center = true, $fn = 500);
+        }        
     }
-    //translate([40, 12, 10]) gate_holder();
-    
 }
 
 module lamp_single_assembly (pos = [0, 0, 0]) {
@@ -1228,14 +1279,12 @@ module sprocketed_roller_invert_solid (pos = [0, 0, 0]) {
 }
 
 module lamp_rails_voids (pos = [0, 0, 0], rot = [0, 0, 0], h = 10) {
-    SpacingX = 24;
-    SpacingY = 14;
     $fn = 40;
     translate(pos) rotate(rot) {
-        translate([SpacingX / 2, SpacingY / 2, 0]) cylinder(r = R(4.25), h = h, center = true);
-        translate([SpacingX / 2, -SpacingY / 2, 0])cylinder(r = R(4.25), h = h, center = true);
-        translate([-SpacingX / 2, SpacingY / 2, 0])cylinder(r = R(4.25), h = h, center = true);
-        translate([-SpacingX / 2, -SpacingY / 2, 0])cylinder(r = R(4.25), h = h, center = true);
+        translate([LampRailsSpacingX / 2, LampRailsSpacingY / 2, 0]) cylinder(r = R(4.25), h = h, center = true);
+        translate([LampRailsSpacingX / 2, -LampRailsSpacingY / 2, 0]) cylinder(r = R(4.25), h = h, center = true);
+        translate([-LampRailsSpacingX / 2, LampRailsSpacingY / 2, 0]) cylinder(r = R(4.25), h = h, center = true);
+        translate([-LampRailsSpacingX / 2, -LampRailsSpacingY / 2, 0]) cylinder(r = R(4.25), h = h, center = true);
     }
 }
 
@@ -1262,16 +1311,26 @@ module lamp_LEDs (pos = [0, 0, 0], rot = [0, 0, 0]) {
         difference () {
             union () {
                 rotate([90, 0, 0]) rounded_cube([30, 20, 5], d = 4, center = true, $fn = 40);
-                translate([-12.5, 0, 10]) rotate([0, 0, 180]) cylinder(r = R(5), h = 5, center = true, $fn = 3);
+                translate([-12.5, -2.5, 10]) difference () {
+                    rotate([0, 0, 180]) cylinder(r = R(5), h = 3, center = true, $fn = 3);
+                    translate([0, -5 / 2, 0]) cube([5, 5, 5 + 1], center = true);
+                }
             }
             cube([12.9, 5 + 1, 18], center = true);
-            lamp_rails_voids(rot = [90, 0, 0]);
+            lamp_rails_voids([0, 0, LampRailsOffsetZ], [90, 0, 0]);
+            translate([LampRailsSpacingX / 2, -2, LampRailsOffsetZ]) rotate([90, 0, 0]) {
+                cylinder(r = R(5), h = 20, center = true, $fn = 40);
+            }
+            translate([-LampRailsSpacingX / 2, -3, LampRailsOffsetZ]) rotate([90, 0, 0]) {
+                cylinder(r = R(5), h = 20, center = true, $fn = 40);
+            }
         }
         difference () {
             union () {
                 lamp_LED_side([3.1, LEDOffsetY, 0], [0, 0, -7.5]);
                 lamp_LED_side([-3.1, LEDOffsetY, 0], [0, 0, 7.5]);
                 translate([0, 3.4 + LEDOffsetY, 0]) cube([0.8, 4, 18], center = true);
+                
             }
             translate([0, -5, 0]) cube([30, 5, 20], center = true);
         }
@@ -1381,7 +1440,7 @@ module debug () {
         //    translate([45, LampY, 0 + 2]) cube([100, 100, 100], center = true);
         //}
         //color("green") lamp_cover([0, LampY + 5, 21]);
-        color("red") lamp_bolts_voids([0, LampY + 5, (LampBoltH/2) - 1.5 - 2.5]);
+
         //gates
         //translate([-5.35, LampY -7.1, 11 + 1 + .1]) rotate([0, 0, 7]) color("blue") picture_gate();
         
@@ -1494,14 +1553,19 @@ module debug () {
 }
 
 module debug_lamp () {
+    color("red") lamp_bolts_voids([0, LampY + 5, (LampBoltH/2) - 1.5 - 2.5]);
+    //color("red") lamp_rails_voids([0, 20, 11 + LampRailsOffsetZ], [90, 0, 0], h = 50);
+    panel([0, -10, -1.5]);
+    //
+    lamp_single([0, 10, 2]);
     translate([0, -30, 4]) rotate([0, 0, 10]) sprocketed_roller_invert_solid();
-    lamp_LEDs([0, 19, 10.5]);
-    filter_carrier([0, 5, 10.5]);
-    picture_gate([0, -6.2, 10.5], Type = "standard");
-    gate_carrier([0, -3.5, 10.5]);
+    lamp_LEDs([0, 19, 11]);
+    filter_carrier([0, 9, 11]);
+    picture_gate([0, -6.2, 11], Type = "full"); //standard
+    gate_carrier([0, -2.5, 11]);
 }
 
-PART = "lamp_LEDsx";
+PART = "lamp_single";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -1566,8 +1630,12 @@ if (PART == "panel") {
     motor_controller_panel();
 } else if (PART == "gate_holder") {
     gate_holder();
+} else if (PART == "gate_carrier") {
+    rotate([-90, 0, 0]) gate_carrier();
+} else if (PART == "filter_carrier") {
+    rotate([-90, 0, 0]) filter_carrier();
 } else if (PART == "lamp_LEDs") {
-    lamp_LEDs();
+    rotate([90, 0, 0]) lamp_LEDs();
 } else if (PART == "electronics_panel") {
     electronics_panel(rot = [180, 0, 0]);
 } else if(PART=="blank") {
