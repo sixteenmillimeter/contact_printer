@@ -610,7 +610,7 @@ module lamp_single (pos = [0, 0, 0]) {
                         rounded_cube([70 - 5, 70 - 10, 22 + 1], d = 4, center = true);
                     }
                     lamp_posts([0, 15, PostsZ]);
-                    translate([-18, 1, 20 / 2]) cube([4.75, 32, 21], d = 4, center = true);
+                    translate([-18, 1, 20 / 2]) cube([4.75, 32, 21], center = true);
                 }
                 translate([0, 1, 0]) cube([31, 32, 50], center = true);
                 translate([0, -4, 0]) cube([15.4, 32, 50], center = true);
