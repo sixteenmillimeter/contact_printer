@@ -6,6 +6,7 @@ include <./common/motors.scad>;
 include <./common/2020_tslot.scad>;
 include <./takeup/takeup.scad>;
 include <./sprocketed_roller/sprocketed_roller_var.scad>;
+use <./filmless.scad>;
 
 
 FrameX = 400;
@@ -105,7 +106,7 @@ LampWireY = 20;
 LampGateX = 11;
 LampGateZ = 0.5;
 
-LampRailsSpacingX = 22.5;
+LampRailsSpacingX = 23;
 LampRailsSpacingY = 13;
 LampRailsOffsetZ = 1 / 2;
 
@@ -427,9 +428,13 @@ module gate_blank () {
     SidesY = 2.7;
     RollerVoidY = -2;
     SprocketShelfZ = 1.75;
+    SprocketShelfOffsetZ = -7.2;
     SprocketShelfD = 44.75;
-    RollerShelfZ = 2.3;
+    RollerShelfZ = 2.9;
     RollerShelfD = 44.75;
+    PictureShelfZ = 11;
+    PictureShelfOffsetZ = -0.5;
+    PictureShelfD = 44.75;
     
     RoundedBevelD = 55;
     RoundedBevelY = -3;
@@ -444,9 +449,11 @@ module gate_blank () {
 
         translate([0, (-42.39 / 2) + RollerVoidY, 0]) cylinder(r = R(42.39), h = 20 + 1, center = true, $fn = 240);
         //sprocket shelf
-        translate([0, (-42.39 / 2) + RollerVoidY, (-Z / 2) + 2.4]) cylinder(r = R(SprocketShelfD), h = SprocketShelfZ, center = true, $fn = 240);
+        translate([0, (-42.39 / 2) + RollerVoidY, SprocketShelfOffsetZ]) cylinder(r = R(SprocketShelfD), h = SprocketShelfZ, center = true, $fn = 240);
         //roller shelf
         translate([0, (-42.39 / 2) + RollerVoidY, (Z / 2) - (RollerShelfZ / 2) + 0.01]) cylinder(r = R(RollerShelfD), h = RollerShelfZ, center = true, $fn = 240);
+        //picture channel
+        translate([0, (-42.39 / 2) + RollerVoidY, PictureShelfOffsetZ ]) cylinder(r = R(PictureShelfD), h = PictureShelfZ, center = true, $fn = 240);
         
         //gate notches
         translate([(X / 2) + SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, Z + 1], center = true);
@@ -474,7 +481,7 @@ module gate_carrier (pos = [0, 0, 0], rot = [0, 0, 0]) {
                 translate([(-X / 2) - SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, 20 + 1], center = true);
                  difference () {
                      translate([0, 6.7, 0]) cube([X + 1, 10 + 1, 20], center = true);
-                     translate([0, 0, 0.5]) cube([X - 4, 10 + 1, 20], center = true);
+                     translate([0, 0, 0]) cube([X - 5, 10 + 1, 16], center = true);
                  }
             }
             translate([LampRailsSpacingX / 2, -2, LampRailsOffsetZ]) rotate([90, 0, 0]) {
@@ -1423,7 +1430,7 @@ module debug () {
 
     panel([0, -10, PanelOffsetZ]);
     
-    //color("red") translate([0, -8.5, 10.2]) cube([200, 0.1, 16], center = true);
+    
     if (!FrameOnly) {
         translate([0, RollerY, 18]) rotate([180, 0, 0]) difference () {
             //sprocketed_roller_upright();
@@ -1553,19 +1560,20 @@ module debug () {
 }
 
 module debug_lamp () {
+    //color("red") translate([0, -8.5, 10.6]) rotate([0, 90, 90]) 16mm_film(40, true, true);
     color("red") lamp_bolts_voids([0, LampY + 5, (LampBoltH/2) - 1.5 - 2.5]);
     //color("red") lamp_rails_voids([0, 20, 11 + LampRailsOffsetZ], [90, 0, 0], h = 50);
     panel([0, -10, -1.5]);
     //
     lamp_single([0, 10, 2]);
-    translate([0, -30, 4]) rotate([0, 0, 10]) sprocketed_roller_invert_solid();
+    translate([0, -30, 3.5]) rotate([0, 0, 10]) sprocketed_roller_invert_solid();
     lamp_LEDs([0, 19, 11]);
     filter_carrier([0, 9, 11]);
-    picture_gate([0, -6.2, 11], Type = "full"); //standard
+    picture_gate([0, -6.2, 11], Type = "standard"); //standard
     gate_carrier([0, -2.5, 11]);
 }
 
-PART = "lamp_single";
+PART = "gate_carrier";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -1641,6 +1649,6 @@ if (PART == "panel") {
 } else if(PART=="blank") {
     //
 } else {
-    //debug();
-    debug_lamp();
+    debug();
+    //debug_lamp();
 }
