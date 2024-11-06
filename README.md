@@ -2,6 +2,8 @@
 
 A desktop 16mm contact printer and film transport platform made using 3D printing and aluminum extrusion.
 
+## [Project Home: git.sixteenmillimeter.com/16mm/contact_printer](https://git.sixteenmillimeter.com/16mm/contact_printer)
+
 ## Acknowledgements
 
 Developed with support from [Filmwerkplaats at WORM](https://worm.org/spaces/filmwerkplaats/) and [SPECTRAL](http://www.spectral-cinematics.eu/).
@@ -12,7 +14,21 @@ Magnetic clutch design inspired by Clyde Shaffer's [Shaffer Linear Processor](ht
 
 ---
 
-## [Project Home: git.sixteenmillimeter.com/16mm/contact_printer](https://git.sixteenmillimeter.com/16mm/contact_printer)
+# Bill of Materials
+
+<!-- bom -->
+
+|                Part                 | Qty | Cost (USD) |
+|-------------------------------------|-----|------------|
+| M3 sliding t slot nut               | 6   | 0.36       |
+| M3 hex cap bolt 8mm                 | 6   | 0.54       |
+| M3 hex cap bolt 6mm                 | 4   | 0.28       |
+| ESP32 Dev board                     | 2   | 13.32      |
+| 2020 Aluminum extrusion 420mm       | 2   | 5.22       |
+| 2020 Aluminum extrusion 260mm       | 4   | 6.44       |
+| 100RPM DC geared motor with encoder | 1   | 17.02      |
+
+<!-- /bom -->
 
 ### Mirrors
 

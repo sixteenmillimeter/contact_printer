@@ -152,9 +152,6 @@ L298NModulePostsX = 36.5;
 L298NModulePostsY = 36.5;
 L298NModulePostsD = 2.8;
 
-echo("BOM: [Frame] 2020 Extrusion X (x2)", FrameX + 20);
-echo("BOM: [Frame] 2020 Extrusion Y (x4)", FrameY);
-
 /**
  * DEBUG MODULES
  **/
@@ -428,11 +425,11 @@ module gate_blank () {
     SidesY = 2.7;
     RollerVoidY = -2;
     SprocketShelfZ = 1.75;
-    SprocketShelfOffsetZ = -7.2;
+    SprocketShelfOffsetZ = -7;
     SprocketShelfD = 44.75;
     RollerShelfZ = 2.9;
     RollerShelfD = 44.75;
-    PictureShelfZ = 11;
+    PictureShelfZ = 10.5;
     PictureShelfOffsetZ = -0.5;
     PictureShelfD = 44.75;
     
@@ -683,6 +680,10 @@ module panel_bearing_void (pos = [0, 0, 0]) {
     }
 }
 
+//BOM: 4,M3 hex cap bolt 6mm,N/A,Attach encoder motor to panel
+//BOM: 6,M3 hex cap bolt 8mm,N/A,Attach panel to aluminum extrusions
+//BOM: 6,M3 sliding t slot nut,N/A,Attach aluminum extrusions to panel
+//BOM: 1,100RPM DC geared motor with encoder,N/A,Drive the sprocketed_roller
 module panel (pos = [0, 0, 0]) {
     BoltX = (PanelX-20)/2;
     BoltY2 = (PanelY)/2;
@@ -1376,6 +1377,8 @@ module button_void (pos = [0, 0, 0], rot = [0, 0, 0]) {
     }
 }
 
+//BOM: 1, ESP32 Dev board,N/A,Control the contact_printer
+//BOM: 1, ESP32 Dev board,N/A,Control the contact_printer
 module electronics_panel (pos = [0, 0, 0], rot = [0, 0, 0]) {
     X = PanelX - 40;
     Y = 100;
@@ -1573,7 +1576,13 @@ module debug_lamp () {
     gate_carrier([0, -2.5, 11]);
 }
 
-PART = "gate_carrier";
+//BOM: 2, 2020 Aluminum extrusion 420mm,N/A,Top and bottom frame
+//BOM: 4, 2020 Aluminum extrusion 260mm,N/A,Sides and central frame
+module contact_printer () {
+    //debug module for BOM
+}
+
+PART = "gate_carrierx";
 LIBRARY = true;
 
 if (PART == "panel") {

@@ -12,8 +12,10 @@ cat scad/contact_printer.scad | grep "PART ==" | awk -F'==' '{print $2}' | awk -
 
 while read m; do
 	echo "Rendering $m..."
-	openscad -o "stl/contact_printer_$m.stl" -D "PART=\"$m\"" scad/contact_printer.scad
+	openscad --export-format=asciistl --enable manifold -o "stl/contact_printer_$m.stl" -D "PART=\"$m\"" scad/contact_printer.scad
 	python scad/common/c14n_stl.py "stl/contact_printer_$m.stl"
 done < models.txt
+
+bash scripts/bom.sh "./scad/contact_printer.scad"
 
 #run client tests?
