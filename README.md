@@ -27,7 +27,7 @@ This project is for DIY filmmakers, independent artists and small film labs to h
 
 # Bill of Materials
 
-The costs listed are estimates based on per-unit costs found online.
+Below are estimates based on per-unit costs found online.
 Actual price of a full build may be higher.
 
 <!-- bom -->
