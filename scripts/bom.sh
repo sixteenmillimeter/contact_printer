@@ -35,7 +35,7 @@ MODULE=""
 echo "module,quantity,part,part_id,description" > "${DESTINATION}"
 
 tac "${1}" | while read line; do
-    module=$(echo "${line}" | grep 'module')
+    module=$(echo "${line}" | grep 'module ' | grep '(' | grep ')')
     if [[ "${module}" != "" ]]; then
     	MODULE=$(echo "${module}" | xargs | awk '{print $2}' | awk -F'{' '{print $1}')
     fi
@@ -55,4 +55,10 @@ sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${DESTINATION} bom" -cmd ".impor
   'SELECT SUM(quantity),part,part_id, SUM(quantity) * (COALESCE((SELECT prices.price FROM prices WHERE prices.part = bom.part LIMIT 1), 0)) as price FROM bom GROUP BY part ORDER BY part DESC;' >> "${TOTAL}"
 
 sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom"  -cmd '.mode markdown' \
-  'SELECT part as Part, quantity as Qty, CAST(price / 100.00 as MONEY) as "Cost (USD)" FROM bom ORDER BY part DESC;'
+  "SELECT part as Part, quantity as Qty, CAST(price / 100.00 as MONEY) as 'Cost (USD)' FROM bom ORDER BY part DESC;"
+
+sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom" -cmd '.mode markdown' \
+  "SELECT 'TOTAL', SUM(quantity), SUM(price) FROM bom;" | grep -v 'SUM('
+
+sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom"\
+  "SELECT SUM(quantity),'N/A','TOTAL', SUM(price) FROM bom;" | tr -d '"' >> "${TOTAL}"

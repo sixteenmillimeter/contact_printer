@@ -20,13 +20,17 @@ Magnetic clutch design inspired by Clyde Shaffer's [Shaffer Linear Processor](ht
 
 |                Part                 | Qty | Cost (USD) |
 |-------------------------------------|-----|------------|
-| M3 sliding t slot nut               | 6   | 0.36       |
-| M3 hex cap bolt 8mm                 | 6   | 0.54       |
+| M3 sliding t slot nut               | 25  | 1.5        |
+| M3 hex cap bolt 8mm                 | 25  | 2.25       |
 | M3 hex cap bolt 6mm                 | 4   | 0.28       |
-| ESP32 Dev board                     | 2   | 13.32      |
+| L298N Motor driver module           | 1   | 2.89       |
+| ESP32 Dev board                     | 1   | 6.66       |
+| 250RPM DC geared motor              | 2   | 29.98      |
 | 2020 Aluminum extrusion 420mm       | 2   | 5.22       |
 | 2020 Aluminum extrusion 260mm       | 4   | 6.44       |
 | 100RPM DC geared motor with encoder | 1   | 17.02      |
+|---------|---------------|------------|
+| TOTAL   | 65            | 7224       |
 
 <!-- /bom -->
 

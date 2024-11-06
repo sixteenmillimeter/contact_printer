@@ -1,0 +1,11 @@
+quantity,part,part_id,price
+25,"M3 sliding t slot nut",N/A,150
+25,"M3 hex cap bolt 8mm",N/A,225
+4,"M3 hex cap bolt 6mm",N/A,28
+1,"L298N Motor driver module",N/A,289
+1,"ESP32 Dev board",N/A,666
+2,"250RPM DC geared motor",JSX40-370,2998
+2,"2020 Aluminum extrusion 420mm",N/A,522
+4,"2020 Aluminum extrusion 260mm",N/A,644
+1,"100RPM DC geared motor with encoder",N/A,1702
+65,N/A,TOTAL,7224

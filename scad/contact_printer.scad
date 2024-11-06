@@ -838,6 +838,9 @@ module takeup_panel_motor_mount_pads (pos = [0, 0, 0], rot = [0, 0, 0]) {
     }
 }
 
+//BOM: 1, 250RPM DC geared motor, JSX40-370, Drive the takeup of the picture pathway
+//BOM: 7, M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_picture to the frame
+//BOM: 7, M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_picture
 module takeup_panel_picture (pos = [0, 0, 0]) {
     BoltX = (TakeupPanelX / 2) - 10;
     BoltY = (TakeupPanelY / 2) - 10;
@@ -908,6 +911,9 @@ module takeup_panel_picture_motor_mount (pos = [0, 0, 0] ) {
     }
 }
 
+//BOM: 1, 250RPM DC geared motor, JSX40-370, Drive the takeup of the stock pathway
+//BOM: 6, M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_stock to the frame
+//BOM: 6, M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_stock
 module takeup_panel_stock (pos = [0, 0, 0]) {
     BoltX = (TakeupPanelX / 2) - 10;
     BoltY = (TakeupPanelY / 2) - 10;
@@ -1378,7 +1384,9 @@ module button_void (pos = [0, 0, 0], rot = [0, 0, 0]) {
 }
 
 //BOM: 1, ESP32 Dev board,N/A,Control the contact_printer
-//BOM: 1, ESP32 Dev board,N/A,Control the contact_printer
+//BOM: 1, L298N Motor driver module,N/A,Control the 3 motors using 2 channels
+//BOM: 6, M3 hex cap bolt 8mm,N/A,Attach the electronics_panel to the frame
+//BOM: 6, M3 sliding t slot nut,N/A,Attach the frame to the electronics_panel
 module electronics_panel (pos = [0, 0, 0], rot = [0, 0, 0]) {
     X = PanelX - 40;
     Y = 100;
