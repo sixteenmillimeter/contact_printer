@@ -27,6 +27,9 @@ This project is for DIY filmmakers, independent artists and small film labs to h
 
 # Bill of Materials
 
+The costs listed are estimates based on per-unit costs found online.
+Actual price of a full build may be higher.
+
 <!-- bom -->
 
 |                Part                 | Qty | Cost (USD) |
@@ -40,8 +43,8 @@ This project is for DIY filmmakers, independent artists and small film labs to h
 | 2020 Aluminum extrusion 420mm       | 2   | 5.22       |
 | 2020 Aluminum extrusion 260mm       | 4   | 6.44       |
 | 100RPM DC geared motor with encoder | 1   | 17.02      |
-|---------|---------------|------------|
-| TOTAL   | 65            | 7224       |
+|---------|---------------|------------------------------------|
+| TOTAL   | 65            | 72.24                              |
 
 <!-- /bom -->
 

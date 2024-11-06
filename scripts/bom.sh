@@ -58,7 +58,7 @@ sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom"  -cmd '.mode markd
   "SELECT part as Part, quantity as Qty, CAST(price / 100.00 as MONEY) as 'Cost (USD)' FROM bom ORDER BY part DESC;"
 
 sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom" -cmd '.mode markdown' \
-  "SELECT 'TOTAL', SUM(quantity), SUM(price) FROM bom;" | grep -v 'SUM('
+  "SELECT 'TOTAL', SUM(quantity), CAST(SUM(price) / 100.00 as MONEY) FROM bom;" | grep -v 'SUM('
 
 sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom"\
   "SELECT SUM(quantity),'N/A','TOTAL', SUM(price) FROM bom;" | tr -d '"' >> "${TOTAL}"
