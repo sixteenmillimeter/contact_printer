@@ -34,17 +34,20 @@ Actual price of a full build may be higher.
 
 |                Part                 | Qty | Cost (USD) |
 |-------------------------------------|-----|------------|
+| M4 hex bolt 40mm                    | 4   | 5.0        |
 | M3 sliding t slot nut               | 25  | 1.5        |
 | M3 hex cap bolt 8mm                 | 25  | 2.25       |
-| M3 hex cap bolt 6mm                 | 4   | 0.28       |
+| M3 hex cap bolt 6mm                 | 8   | 0.56       |
 | L298N Motor driver module           | 1   | 2.89       |
+| ESP32 GPIO breakout board           | 1   | 5.99       |
 | ESP32 Dev board                     | 1   | 6.66       |
 | 250RPM DC geared motor              | 2   | 29.98      |
 | 2020 Aluminum extrusion 420mm       | 2   | 5.22       |
 | 2020 Aluminum extrusion 260mm       | 4   | 6.44       |
 | 100RPM DC geared motor with encoder | 1   | 17.02      |
 |---------|---------------|------------------------------------|
-| TOTAL   | 65            | 72.24                              |
+| TOTAL   | 74            | 83.51                              |
+
 
 <!-- /bom -->
 

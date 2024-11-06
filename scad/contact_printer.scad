@@ -450,12 +450,20 @@ module gate_blank () {
         //roller shelf
         translate([0, (-42.39 / 2) + RollerVoidY, (Z / 2) - (RollerShelfZ / 2) + 0.01]) cylinder(r = R(RollerShelfD), h = RollerShelfZ, center = true, $fn = 240);
         //picture channel
-        translate([0, (-42.39 / 2) + RollerVoidY, PictureShelfOffsetZ ]) cylinder(r = R(PictureShelfD), h = PictureShelfZ, center = true, $fn = 240);
-        
+        difference () {
+            translate([0, (-42.39 / 2) + RollerVoidY, PictureShelfOffsetZ ]) cylinder(r = R(PictureShelfD), h = PictureShelfZ, center = true, $fn = 240);
+            //ramp to slit
+            difference () {
+                translate([0, -1, 0]) rotate([0, 0, 45]) cube([4, 4, 200 + 1], center = true);
+                translate([0, (-42.39 / 2) + RollerVoidY - 1, PictureShelfOffsetZ ]) cylinder(r = R(PictureShelfD), h = PictureShelfZ, center = true, $fn = 240);
+            }
+        }
+
         //gate notches
         translate([(X / 2) + SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, Z + 1], center = true);
         translate([(-X / 2) - SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, Z + 1], center = true);
     }
+
 }
 
 module gate_carrier (pos = [0, 0, 0], rot = [0, 0, 0]) {
@@ -680,10 +688,11 @@ module panel_bearing_void (pos = [0, 0, 0]) {
     }
 }
 
-//BOM: 4,M3 hex cap bolt 6mm,N/A,Attach encoder motor to panel
-//BOM: 6,M3 hex cap bolt 8mm,N/A,Attach panel to aluminum extrusions
-//BOM: 6,M3 sliding t slot nut,N/A,Attach aluminum extrusions to panel
-//BOM: 1,100RPM DC geared motor with encoder,N/A,Drive the sprocketed_roller
+//BOM: 4, M3 hex cap bolt 6mm,N/A,Attach encoder motor to panel
+//BOM: 6, M3 hex cap bolt 8mm,N/A,Attach panel to aluminum extrusions
+//BOM: 6, M3 sliding t slot nut,N/A,Attach aluminum extrusions to panel
+//BOM: 1, 100RPM DC geared motor with encoder,N/A,Drive the sprocketed_roller
+//BOM: 4, M4 hex bolt 40mm, N/A, Attach the lamp to the panel
 module panel (pos = [0, 0, 0]) {
     BoltX = (PanelX-20)/2;
     BoltY2 = (PanelY)/2;
@@ -1384,9 +1393,11 @@ module button_void (pos = [0, 0, 0], rot = [0, 0, 0]) {
 }
 
 //BOM: 1, ESP32 Dev board,N/A,Control the contact_printer
-//BOM: 1, L298N Motor driver module,N/A,Control the 3 motors using 2 channels
-//BOM: 6, M3 hex cap bolt 8mm,N/A,Attach the electronics_panel to the frame
-//BOM: 6, M3 sliding t slot nut,N/A,Attach the frame to the electronics_panel
+//BOM: 1, L298N Motor driver module, N/A, Control the 3 motors using 2 channels
+//BOM: 6, M3 hex cap bolt 8mm, N/A, Attach the electronics_panel to the frame
+//BOM: 6, M3 sliding t slot nut, N/A, Attach the frame to the electronics_panel
+//BOM: 1, ESP32 GPIO breakout board, N/A, To make the ESP32 dev board easier to wire
+//BOM: 4, M3 hex cap bolt 6mm, N/A, Attach the GPIO breakout board to the panel
 module electronics_panel (pos = [0, 0, 0], rot = [0, 0, 0]) {
     X = PanelX - 40;
     Y = 100;
@@ -1463,10 +1474,10 @@ module debug () {
         //translate([-5.35, LampY -7.1, 11 + 1 + .1]) rotate([0, 0, 7]) color("blue") picture_gate();
         
         //idle rollers
-        /*idle_roller([ IdleRollerPrintX, IdleRollerPrintY, 3]);
-        idle_roller([-IdleRollerPrintX, IdleRollerPrintY, 3]);
-        idle_roller([ IdleRollerStockX, IdleRollerStockY, 3]);
-        idle_roller([-IdleRollerStockX, IdleRollerStockY, 3]);*/
+        idle_roller([ IdleRollerPrintX, IdleRollerPrintY - 10, 3]);
+        idle_roller([-IdleRollerPrintX, IdleRollerPrintY - 10, 3]);
+        idle_roller([ IdleRollerStockX, IdleRollerStockY - 10, 3]);
+        idle_roller([-IdleRollerStockX, IdleRollerStockY - 10, 3]);
 
         //idle roller path
        // translate([0, IdleRollerPrintY - 8, 10]) cube([200, .1, 16], center = true);
@@ -1571,9 +1582,9 @@ module debug () {
 }
 
 module debug_lamp () {
-    //color("red") translate([0, -8.5, 10.6]) rotate([0, 90, 90]) 16mm_film(40, true, true);
-    color("red") lamp_bolts_voids([0, LampY + 5, (LampBoltH/2) - 1.5 - 2.5]);
-    //color("red") lamp_rails_voids([0, 20, 11 + LampRailsOffsetZ], [90, 0, 0], h = 50);
+    color("blue") translate([0, -8.5, 10.6]) rotate([0, 90, 90]) 16mm_film(40, true, true);
+    color("red") lamp_bolts_voids([0, LampY + 5, (LampBoltH/2) - 1.5 - 2.5], H = 40);
+    color("red") lamp_rails_voids([0, 20, 11 + LampRailsOffsetZ], [90, 0, 0], h = 50);
     panel([0, -10, -1.5]);
     //
     lamp_single([0, 10, 2]);
