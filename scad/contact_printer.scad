@@ -1250,6 +1250,8 @@ module sprocketed_roller_upright_solid (pos = [0, 0, 0]) {
     }
 }
 
+//BOM: 1, M3 hex cap bolt 12mm, N/A, Attaches the sprocketed_roller to the geared motor
+//PRINT: 1
 module sprocketed_roller_invert_solid (pos = [0, 0, 0]) {
     D = (FrameC * Sprockets) / PI;
     OverhangD = 42.85;

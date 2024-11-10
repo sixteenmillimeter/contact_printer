@@ -7,6 +7,7 @@ electronics_panel,6,M3 sliding t slot nut,N/A,Attach the frame to the electronic
 electronics_panel,6,M3 hex cap bolt 8mm,N/A,Attach the electronics_panel to the frame
 electronics_panel,1,L298N Motor driver module,N/A,Control the 3 motors using 2 channels
 electronics_panel,1,ESP32 Dev board,N/A,Control the contact_printer
+sprocketed_roller_invert_solid,1,M3 hex cap bolt 12mm,N/A,Attaches the sprocketed_roller to the geared motor
 takeup_panel_stock,6,M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_stock
 takeup_panel_stock,6,M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_stock to the frame
 takeup_panel_stock,1,250RPM DC geared motor,JSX40-370,Drive the takeup of the stock pathway

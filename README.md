@@ -25,6 +25,13 @@ This project is for DIY filmmakers, independent artists and small film labs to h
 
 ![contact printer render](https://github.com/sixteenmillimeter/contact_printer/blob/master/img/contact_printer.png?raw=true)
 
+---
+
+# Examples
+
+[Contact](https://vimeo.com/flashfra/contact?share=git) the first print made on the prototype during a residency at [Filmwerkplaats](https://filmwerkplaats.org/).
+Soundtrack applied by the opt_snd soundtrack recorder system by [Hrvoje Spudić](https://hrvojespudic.net/optical-sound-2).
+
 # Bill of Materials
 
 Below are estimates based on per-unit costs found online.
@@ -38,6 +45,7 @@ Actual price of a full build may be higher.
 | M3 sliding t slot nut               | 25  | 1.5        |
 | M3 hex cap bolt 8mm                 | 25  | 2.25       |
 | M3 hex cap bolt 6mm                 | 8   | 0.56       |
+| M3 hex cap bolt 12mm                | 1   | 0.0        |
 | L298N Motor driver module           | 1   | 2.89       |
 | ESP32 GPIO breakout board           | 1   | 5.99       |
 | ESP32 Dev board                     | 1   | 6.66       |
@@ -46,7 +54,8 @@ Actual price of a full build may be higher.
 | 2020 Aluminum extrusion 260mm       | 4   | 6.44       |
 | 100RPM DC geared motor with encoder | 1   | 17.02      |
 |---------|---------------|------------------------------------|
-| TOTAL   | 74            | 83.51                              |
+| TOTAL   | 75            | 83.51                              |
+
 
 
 <!-- /bom -->
