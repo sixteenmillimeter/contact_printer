@@ -1679,6 +1679,6 @@ if (PART == "panel") {
 } else if(PART=="blank") {
     //
 } else {
-    debug();
-    //debug_lamp();
+    //debug();
+    debug_lamp();
 }
