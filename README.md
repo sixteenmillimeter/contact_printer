@@ -39,23 +39,24 @@ Actual price of a full build may be higher.
 
 <!-- bom -->
 
-|                Part                 | Qty | Cost (USD) |
-|-------------------------------------|-----|------------|
-| M4 hex bolt 40mm                    | 4   | $2.40      |
-| M3 sliding t slot nut               | 25  | $1.25      |
-| M3 hex cap bolt 8mm                 | 25  | $2.00      |
-| M3 hex cap bolt 6mm                 | 8   | $0.56      |
-| M3 hex cap bolt 12mm                | 1   | $0.08      |
-| L298N Motor driver module           | 1   | $2.87      |
-| ESP32 GPIO breakout board           | 1   | $5.99      |
-| ESP32 Dev board                     | 1   | $6.66      |
-| 608-RS Ball Bearing                 | 1   | $0.17      |
-| 250RPM DC geared motor              | 2   | $29.98     |
-| 2020 Aluminum extrusion 420mm       | 2   | $5.10      |
-| 2020 Aluminum extrusion 260mm       | 4   | $6.40      |
-| 100RPM DC geared motor with encoder | 1   | $16.19     |
-|---------|---------------|--------------------------------------------------|
-| TOTAL   | 76            | $79.65                                           |
+|                Part                 | Qty | Cost (USD) |                  Minumum                  |
+|-------------------------------------|-----|------------|-------------------------------------------|
+| M4 hex bolt 40mm                    | 4   | $2.40      | [10 for $6.09](https://amzn.to/4ikpYL8)   |
+| M3 sliding t slot nut               | 25  | $1.25      | [105 for $5.99](https://amzn.to/48GRrSU)  |
+| M3 hex cap bolt 8mm                 | 25  | $2.00      | [100 for $8.99](https://amzn.to/3YEvWNB)  |
+| M3 hex cap bolt 6mm                 | 8   | $0.56      | [100 for $7.26](https://amzn.to/3AwiZxo)  |
+| M3 hex cap bolt 12mm                | 1   | $0.08      | [100 for $8.36](https://amzn.to/48CGa5Y)  |
+| L298N Motor driver module           | 1   | $2.87      | [4 for $11.49](https://amzn.to/4ellssy)   |
+| ESP32 GPIO breakout board           | 1   | $5.99      | [2 for $11.99](https://amzn.to/3UFjpbO)   |
+| ESP32 Dev board                     | 1   | $6.66      | [3 for $19.99](https://amzn.to/3NXCvGj)   |
+| 608-RS Ball Bearing                 | 1   | $0.17      | [100 for $17.79](https://amzn.to/4fKxDA7) |
+| 250RPM DC geared motor              | 2   | $29.98     | [1 for $14.99](https://amzn.to/3NWkcRL)   |
+| 2020 Aluminum extrusion 420mm       | 2   | $5.10      | [29 for $73.99](https://amzn.to/418OicC)  |
+| 2020 Aluminum extrusion 260mm       | 4   | $6.40      | [46 for $73.99](https://amzn.to/418OicC)  |
+| 100RPM DC geared motor with encoder | 1   | $16.19     | [1 for $16.19](https://amzn.to/3UF707G)   |
+|---------|-----|--------|---------|
+| TOTAL   | 76  | $79.65 | $277.11 |
+
 
 
 <!-- /bom -->

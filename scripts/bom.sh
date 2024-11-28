@@ -54,11 +54,17 @@ echo "quantity,part,part_id,price" > "${TOTAL}"
 sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${DESTINATION} bom" -cmd ".import ${PRICES} prices"\
   'SELECT SUM(quantity),part,part_id, SUM(quantity) * (COALESCE((SELECT CEIL(prices.price / prices.quantity) FROM prices WHERE prices.part = bom.part LIMIT 1), 0)) as price FROM bom GROUP BY part ORDER BY part DESC;' >> "${TOTAL}"
 
-sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom"  -cmd '.mode markdown' \
-  "SELECT part as Part, quantity as Qty, printf('$%.2f', CAST(price AS FLOAT) / 100) as 'Cost (USD)' FROM bom ORDER BY part DESC;"
+sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom" -cmd ".import ${PRICES} prices" -cmd '.mode markdown' \
+  "SELECT part as Part, quantity as Qty, \
+  printf('$%.2f', CAST(price AS FLOAT) / 100) as 'Cost (USD)', \
+  printf( '[%s for $%.2f](%s)', (SELECT prices.quantity FROM prices WHERE prices.part = bom.part), (SELECT CAST(prices.price AS FLOAT) / 100 FROM prices WHERE prices.part = bom.part), (SELECT prices.url FROM prices WHERE prices.part = bom.part)) as 'Minumum' \
+  FROM bom ORDER BY part DESC;"
 
-sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom" -cmd '.mode markdown' \
-  "SELECT 'TOTAL', SUM(quantity), printf('$%.2f', CAST(SUM(price) AS FLOAT) / 100) FROM bom;" | grep -v 'SUM('
+sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom" -cmd ".import ${PRICES} prices" -cmd '.mode markdown' \
+  "SELECT 'TOTAL', SUM(quantity) AS qty, \
+  printf('$%.2f', CAST(SUM(price) AS FLOAT) / 100) as total, \
+  printf('$%.2f', ( SELECT CAST( SUM(price) AS FLOAT) / 100 FROM prices WHERE prices.part IN ( SELECT bom.part FROM bom ) ) ) as min \
+  FROM bom;" | grep -v 'qty'
 
 sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom"\
   "SELECT SUM(quantity), 'TOTAL', 'N/A', SUM(price) FROM bom;" | tr -d '"' >> "${TOTAL}"
