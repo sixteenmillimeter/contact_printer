@@ -52,7 +52,7 @@ done
 
 echo "quantity,part,part_id,price" > "${TOTAL}"
 sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${DESTINATION} bom" -cmd ".import ${PRICES} prices"\
-  'SELECT SUM(quantity),part,part_id, SUM(quantity) * (COALESCE((SELECT CEIL(prices.price / prices.quantity) FROM prices WHERE prices.part = bom.part LIMIT 1), 0)) as price FROM bom GROUP BY part ORDER BY part DESC;' >> "${TOTAL}"
+  'SELECT SUM(quantity),part,part_id, CAST( CEIL( CAST(SUM(quantity) AS FLOAT) * (SELECT CAST(prices.price AS FLOAT) / CAST(prices.quantity AS FLOAT) FROM prices WHERE prices.part = bom.part LIMIT 1) ) AS INTEGER) as price FROM bom GROUP BY part ORDER BY part DESC;' >> "${TOTAL}"
 
 sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom" -cmd ".import ${PRICES} prices" -cmd '.mode markdown' \
   "SELECT part as Part, quantity as Qty, \

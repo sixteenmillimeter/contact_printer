@@ -1,15 +1,14 @@
 quantity,part,part_id,price
-4,"M4 hex bolt 40mm",N/A,240
-25,"M3 sliding t slot nut",N/A,125
-25,"M3 hex cap bolt 8mm",N/A,200
-8,"M3 hex cap bolt 6mm",N/A,56
-1,"M3 hex cap bolt 12mm",N/A,8
-1,"L298N Motor driver module",N/A,287
-1,"ESP32 GPIO breakout board",N/A,599
-1,"ESP32 Dev board",N/A,666
-1,"608-RS Ball Bearing",608-RS,17
+4,"M4 hex bolt 40mm",N/A,244
+25,"M3 sliding t slot nut",N/A,143
+25,"M3 hex cap bolt 8mm",N/A,225
+8,"M3 hex cap bolt 6mm",N/A,59
+1,"M3 hex cap bolt 12mm",N/A,9
+1,"L298N Motor driver module",N/A,288
+1,"ESP32 GPIO breakout board",N/A,600
+1,"ESP32 Dev board",N/A,667
+1,"608-RS Ball Bearing",608-RS,18
 2,"250RPM DC geared motor",JSX40-370,2998
-2,"2020 Aluminum extrusion 420mm",N/A,510
-4,"2020 Aluminum extrusion 260mm",N/A,640
+1880,"2020 Aluminum extrusion mm",N/A,1141
 1,"100RPM DC geared motor with encoder",N/A,1619
-76,TOTAL,N/A,7965
+1950,TOTAL,N/A,8011

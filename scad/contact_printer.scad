@@ -1600,8 +1600,8 @@ module debug_lamp () {
     gate_carrier([0, -2.5, 11]);
 }
 
-//BOM: 2, 2020 Aluminum extrusion 420mm,N/A,Top and bottom frame
-//BOM: 4, 2020 Aluminum extrusion 260mm,N/A,Sides and central frame
+//BOM: 840, 2020 Aluminum extrusion mm,N/A,Top and bottom frame 2x 420mm
+//BOM: 1040, 2020 Aluminum extrusion mm,N/A,Sides and central frame 4x 260mm
 module contact_printer () {
     //debug module for BOM
 }

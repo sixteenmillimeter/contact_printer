@@ -1,6 +1,6 @@
 module,quantity,part,part_id,description
-contact_printer,4,2020 Aluminum extrusion 260mm,N/A,Sides and central frame
-contact_printer,2,2020 Aluminum extrusion 420mm,N/A,Top and bottom frame
+contact_printer,1040,2020 Aluminum extrusion mm,N/A,Sides and central frame 4x 260mm
+contact_printer,840,2020 Aluminum extrusion mm,N/A,Top and bottom frame 2x 420mm
 electronics_panel,4,M3 hex cap bolt 6mm,N/A,Attach the GPIO breakout board to the panel
 electronics_panel,1,ESP32 GPIO breakout board,N/A,To make the ESP32 dev board easier to wire
 electronics_panel,6,M3 sliding t slot nut,N/A,Attach the frame to the electronics_panel
