@@ -62,3 +62,11 @@ sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom" -cmd '.mode markdo
 
 sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom"\
   "SELECT SUM(quantity), 'TOTAL', 'N/A', SUM(price) FROM bom;" | tr -d '"' >> "${TOTAL}"
+
+NONEFOUND=$(sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${DESTINATION} bom" -cmd ".import ${PRICES} prices" -cmd '.mode column' -cmd '.headers off' \
+  'SELECT DISTINCT part FROM bom WHERE part NOT IN (SELECT part FROM prices) ORDER BY part;')
+
+if [[ "${NONEFOUND}" != "" ]]; then
+  echo "No price found for the following parts:"
+  echo "${NONEFOUND}"
+fi

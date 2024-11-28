@@ -3,7 +3,7 @@ quantity,part,part_id,price
 25,"M3 sliding t slot nut",N/A,125
 25,"M3 hex cap bolt 8mm",N/A,200
 8,"M3 hex cap bolt 6mm",N/A,56
-1,"M3 hex cap bolt 12mm",N/A,0
+1,"M3 hex cap bolt 12mm",N/A,8
 1,"L298N Motor driver module",N/A,287
 1,"ESP32 GPIO breakout board",N/A,599
 1,"ESP32 Dev board",N/A,666
@@ -12,4 +12,4 @@ quantity,part,part_id,price
 2,"2020 Aluminum extrusion 420mm",N/A,510
 4,"2020 Aluminum extrusion 260mm",N/A,640
 1,"100RPM DC geared motor with encoder",N/A,1619
-76,TOTAL,N/A,7957
+76,TOTAL,N/A,7965
