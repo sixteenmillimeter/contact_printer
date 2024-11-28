@@ -52,7 +52,7 @@ done
 
 echo "quantity,part,part_id,price" > "${TOTAL}"
 sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${DESTINATION} bom" -cmd ".import ${PRICES} prices"\
-  'SELECT SUM(quantity),part,part_id, SUM(quantity) * (COALESCE((SELECT prices.price FROM prices WHERE prices.part = bom.part LIMIT 1), 0)) as price FROM bom GROUP BY part ORDER BY part DESC;' >> "${TOTAL}"
+  'SELECT SUM(quantity),part,part_id, SUM(quantity) * (COALESCE((SELECT CEIL(prices.price / prices.quantity) FROM prices WHERE prices.part = bom.part LIMIT 1), 0)) as price FROM bom GROUP BY part ORDER BY part DESC;' >> "${TOTAL}"
 
 sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom"  -cmd '.mode markdown' \
   "SELECT part as Part, quantity as Qty, CAST(price / 100.00 as MONEY) as 'Cost (USD)' FROM bom ORDER BY part DESC;"
@@ -61,4 +61,4 @@ sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom" -cmd '.mode markdo
   "SELECT 'TOTAL', SUM(quantity), CAST(SUM(price) / 100.00 as MONEY) FROM bom;" | grep -v 'SUM('
 
 sqlite3 :memory: -cmd '.mode csv' -cmd ".import ${TOTAL} bom"\
-  "SELECT SUM(quantity),'N/A','TOTAL', SUM(price) FROM bom;" | tr -d '"' >> "${TOTAL}"
+  "SELECT SUM(quantity), 'TOTAL', 'N/A', SUM(price) FROM bom;" | tr -d '"' >> "${TOTAL}"

@@ -1,13 +1,14 @@
-part,part_id,price,url
-M3 hex nut,N/A,3,https://amzn.to/4hAnwjc
-M3 hex cap bolt 6mm,N/A,7,https://amzn.to/3AwiZxo
-M3 hex cap bolt 8mm,N/A,9,https://amzn.to/3YEvWNB
-M3 sliding t slot nut,N/A,6,https://amzn.to/48GRrSU
-2020 Aluminum extrusion 260mm,N/A,161,https://amzn.to/4ehSolE
-2020 Aluminum extrusion 420mm,N/A,261,https://amzn.to/4ehSolE
-100RPM DC geared motor with encoder,N/A,1702,https://amzn.to/3UF707G
-250RPM DC geared motor,JSX40-370,1499,https://amzn.to/3NWkcRL
-ESP32 Dev board,N/A,666,https://amzn.to/3NXCvGj
-L298N Motor driver module,N/A,289,https://amzn.to/4ellssy
-ESP32 GPIO breakout board,N/A,599,https://amzn.to/3UFjpbO
-M4 hex bolt 40mm,N/A,125,https://www.homedepot.com/p/M4-0-7-x-40-mm-Class-8-8-Zinc-Plated-Hex-Bolt-801298/204273654
+part,part_id,price,quantity,url
+M3 hex nut,N/A,999,300,https://amzn.to/4hAnwjc
+M3 hex cap bolt 6mm,N/A,726,100,https://amzn.to/3AwiZxo
+M3 hex cap bolt 8mm,N/A,899,100,https://amzn.to/3YEvWNB
+M3 sliding t slot nut,N/A,599,105,https://amzn.to/48GRrSU
+2020 Aluminum extrusion 260mm,N/A,7399,46,https://amzn.to/418OicC
+2020 Aluminum extrusion 420mm,N/A,7399,29,https://amzn.to/418OicC
+100RPM DC geared motor with encoder,N/A,1619,1,https://amzn.to/3UF707G
+250RPM DC geared motor,JSX40-370,1499,1,https://amzn.to/3NWkcRL
+ESP32 Dev board,N/A,1999,3,https://amzn.to/3NXCvGj
+L298N Motor driver module,N/A,1149,4,https://amzn.to/4ellssy
+ESP32 GPIO breakout board,N/A,1199,2,https://amzn.to/3UFjpbO
+M4 hex bolt 40mm,N/A,609,10,https://amzn.to/4ikpYL8
+608-RS Ball Bearing,608-RS,1779,100,https://amzn.to/4fKxDA7

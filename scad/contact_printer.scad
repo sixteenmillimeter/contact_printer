@@ -468,12 +468,13 @@ module gate_blank () {
 
 module gate_carrier (pos = [0, 0, 0], rot = [0, 0, 0]) {
     X = 15.4;
+    GateCarrierZ = 22;
     SidesX = 2;
     SidesY = -1.2;
     translate(pos) rotate(rot) {
         difference () {
             union () {
-                rotate([90, 0, 0]) rounded_cube([30, 20, 5], d = 4, center = true, $fn = 40);
+                rotate([90, 0, 0]) translate([0, 1, -1]) rounded_cube([30, GateCarrierZ, 5], d = 4, center = true, $fn = 40);
                 translate([-12.5, 2.5, 10]) difference () {
                     rotate([0, 0, 180]) cylinder(r = R(5), h = 3, center = true, $fn = 3);
                     translate([0, 5 / 2, 0]) cube([5, 5, 5 + 1], center = true);
@@ -481,11 +482,11 @@ module gate_carrier (pos = [0, 0, 0], rot = [0, 0, 0]) {
             }
             lamp_rails_voids([0, 0, LampRailsOffsetZ], [90, 0, 0], h = 11);
             translate([0 ,0, 1]) difference () {
-                cube([X, 10 + 1, 20], center = true);
+                cube([X, 10 + 1, GateCarrierZ], center = true);
                 translate([(X / 2) + SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, 20 + 1], center = true);
                 translate([(-X / 2) - SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, 20 + 1], center = true);
                  difference () {
-                     translate([0, 6.7, 0]) cube([X + 1, 10 + 1, 20], center = true);
+                     translate([0, 6.7, 0]) cube([X + 1, 10 + 1, GateCarrierZ], center = true);
                      translate([0, 0, 0]) cube([X - 5, 10 + 1, 16], center = true);
                  }
             }
@@ -494,9 +495,10 @@ module gate_carrier (pos = [0, 0, 0], rot = [0, 0, 0]) {
                 rotate([0, 0, 30]) m4_nut(5);
             }
             translate([-LampRailsSpacingX / 2, -3, LampRailsOffsetZ]) rotate([90, 0, 0]) {
-                cylinder(r = R(5), h = 20, center = true, $fn = 40);
+                cylinder(r = R(5), h = GateCarrierZ, center = true, $fn = 40);
             }
         }
+        filter_carrier([0, 5, 0], [180, 0, 0]);
     }
 }
 
@@ -1251,6 +1253,7 @@ module sprocketed_roller_upright_solid (pos = [0, 0, 0]) {
 }
 
 //BOM: 1, M3 hex cap bolt 12mm, N/A, Attaches the sprocketed_roller to the geared motor
+//BOM: 1, 608-RS Ball Bearing, 608-RS, Reduces wobble in the rollers spin
 //PRINT: 1
 module sprocketed_roller_invert_solid (pos = [0, 0, 0]) {
     D = (FrameC * Sprockets) / PI;
@@ -1592,8 +1595,8 @@ module debug_lamp () {
     lamp_single([0, 10, 2]);
     translate([0, -30, 3.5]) rotate([0, 0, 10]) sprocketed_roller_invert_solid();
     lamp_LEDs([0, 19, 11]);
-    filter_carrier([0, 9, 11]);
-    picture_gate([0, -6.2, 11], Type = "standard"); //standard
+    //filter_carrier([0, 9, 11]);
+    //picture_gate([0, -6.2, 11], Type = "standard"); //standard
     gate_carrier([0, -2.5, 11]);
 }
 
