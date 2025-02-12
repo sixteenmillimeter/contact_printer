@@ -1707,7 +1707,7 @@ if (PART == "panel") {
 } else if (PART == "sprocketed_roller_invert_solid") {
     sprocketed_roller_invert_solid();
 } else if (PART == "sprocketed_wheel") {
-    rotate([180, 0, 0]) sprocketed_roller_reinforced(sprockets = 18, bevel = true, model = "gearbox_motor", nuts = true);
+    rotate([180, 0, 0]) sprocketed_roller_reinforced_wheel(sprockets = 18, bevel = true, model = "gearbox_motor", nuts = true);
 } else if (PART == "magnetic_coupling") {
     magnetic_coupling();
 } else if (PART == "slip_coupling"){
