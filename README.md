@@ -23,7 +23,7 @@ This project is for DIY filmmakers, independent artists and small film labs to h
 
 ---
 
-![contact printer render](https://github.com/sixteenmillimeter/contact_printer/blob/master/img/contact_printer.png?raw=true)
+![contact printer render](./img/contact_printer.png)
 
 ---
 
