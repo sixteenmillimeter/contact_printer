@@ -5,7 +5,7 @@ include <./common/common.scad>;
 include <./common/motors.scad>;
 include <./common/2020_tslot.scad>;
 include <./takeup/takeup.scad>;
-include <./sprocketed_roller/scad/sprocketed_roller_var.scad>;
+include <./sprocketed_roller/scad/sprocketed_roller.scad>;
 use <./filmless.scad>;
 
 
