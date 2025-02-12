@@ -5,7 +5,7 @@ include <./common/common.scad>;
 include <./common/motors.scad>;
 include <./common/2020_tslot.scad>;
 include <./takeup/takeup.scad>;
-include <./sprocketed_roller/sprocketed_roller_var.scad>;
+include <./sprocketed_roller/scad/sprocketed_roller_var.scad>;
 use <./filmless.scad>;
 
 
@@ -110,11 +110,13 @@ LampRailsSpacingX = 32;
 LampRailsSpacingY = 13;
 LampRailsOffsetZ = 1 / 2;
 
-LampGateCarrierThreadedSpacingX = 23;
-
+LampGateCarrierThreadedSpacingX = 30;
 LampCarrierX = 40;
-
 LampSingleX = 70;
+LEDWidthX = 20;
+
+GateCarrierX = 37;
+GateCarrierZ = 21.5;
 
 IdleRollerPrintX = 55;
 IdleRollerPrintY = 0;
@@ -161,8 +163,6 @@ L298NModulePostsD = 2.8;
 SpringY = 32;
 SpringD = 8;
 SpringPostD = 5.3;
-
-LEDWidthX = 20;
 
 /**
  * DEBUG MODULES
@@ -480,8 +480,6 @@ module gate_blank () {
 
 module gate_carrier (pos = [0, 0, 0], rot = [0, 0, 0]) {
     X = 15.4;
-    GateCarrierX = 40;
-    GateCarrierZ = 21.5;
     SidesX = 2;
     SidesY = -1.2;
     SpringRail = 4.5;
@@ -497,8 +495,8 @@ module gate_carrier (pos = [0, 0, 0], rot = [0, 0, 0]) {
             }
 
             //corners
-            translate([GateCarrierX / 2, 0, -12.9]) cube([(GateCarrierX - LEDWidthX), 20, 10], center = true);
-            translate([-GateCarrierX / 2, 0, -12.9]) cube([(GateCarrierX - LEDWidthX), 20, 10], center = true);
+            //translate([GateCarrierX / 2, 0, -12.9]) cube([(GateCarrierX - LEDWidthX), 20, 10], center = true);
+            //translate([-GateCarrierX / 2, 0, -12.9]) cube([(GateCarrierX - LEDWidthX), 20, 10], center = true);
             
             translate([0 ,-4, 1.651]) difference () {
                 cube([X, 10 + 1, GateCarrierZ], center = true);
@@ -515,6 +513,18 @@ module gate_carrier (pos = [0, 0, 0], rot = [0, 0, 0]) {
                 cube([18, 10 + 1, 16], center = true);
                 translate([20 / 2, -3, 0]) rotate([0, 0, -45]) cube([5, 50, 20 + 1], center = true);
                 translate([(-20 / 2), -3, 0]) rotate([0, 0, 45]) cube([5, 50, 20 + 1], center = true);
+            }
+        }
+        translate([0, (5 / 2) + (4 / 2), 0]) difference() {
+            rotate([90, 0, 0]) translate([0, 1, -1]) rounded_cube([GateCarrierX, GateCarrierZ, 4], d = 4, center = true, $fn = 40);
+            translate([0, (-2.5 / 2) + 1.5, 3]) cube([25, 2.5, GateCarrierZ], center = true);
+            translate([0, 1, 2]) cube([20, 4 + 1, GateCarrierZ - 3], center = true);
+            //
+            translate([-LampGateCarrierThreadedSpacingX / 2, 0, 1]) rotate([90, 0, 0]) {
+                cylinder(r = R(4.25), h = 20, center = true, $fn = 40);
+            }
+            translate([LampGateCarrierThreadedSpacingX / 2, 0, 1]) rotate([90, 0, 0]) {
+                cylinder(r = R(4.25), h = 20, center = true, $fn = 40);
             }
         }
     }
@@ -648,6 +658,8 @@ module lamp_single (pos = [0, 0, 0]) {
                 //void for gate carrier, front
                 translate([0, 1, 12]) cube([25, 32, 22], center = true);
                 //void for gate carrier, bottom
+                translate([0, -4, 0]) cube([GateCarrierX + 0.25, 12, 50], center = true);
+                //void for lamp slide
                 translate([0, 10, 0]) cube([LEDWidthX + 0.25, 40, 50], center = true);
                 //void for gate
                 translate([0, -4, 0]) cube([LEDWidthX + 0.25, 32, 50], center = true);
@@ -655,23 +667,15 @@ module lamp_single (pos = [0, 0, 0]) {
                 
                 lamp_bolts_voids([0, 14.75, -2], 50, 0.2);
                 
-                //translate([LampGateCarrierThreadedSpacingX / 2, 34, 9 + LampRailsOffsetZ]) rotate([90, 0, 0]) {
-                    //cylinder(r = R(4.25), h = 20, center = true, $fn = 40);
-                //}
-                //translate([-LampGateCarrierThreadedSpacingX / 2, 34, 9 + LampRailsOffsetZ]) rotate([90, 0, 0]) {
-                    //cylinder(r = R(4.25), h = 20, center = true, $fn = 40);
-                //}
-                //translate([0, -11.5, 9 + LampRailsOffsetZ]) {
-                    //translate([LampGateCarrierThreadedSpacingX / 2, 0, 0]) rotate([90, 0, 0]) cylinder(r = R(5), h = 10, center = true, $fn = 40);
-                    //translate([-LampGateCarrierThreadedSpacingX / 2, 0, 0]) rotate([90, 0, 0]) cylinder(r = R(5), h = 10, center = true, $fn = 40);
-                //}
+                translate([LampGateCarrierThreadedSpacingX / 2, 31, 9 + LampRailsOffsetZ]) rotate([90, 0, 0]) {
+                    cylinder(r = R(4.25), h = 20, center = true, $fn = 40);
+                    rotate([0, 0, 30]) m4_nut();
+                }
+                translate([-LampGateCarrierThreadedSpacingX / 2, 31, 9 + LampRailsOffsetZ]) rotate([90, 0, 0]) {
+                    cylinder(r = R(4.25), h = 20, center = true, $fn = 40);
+                    rotate([0, 0, 30]) m4_nut();
+                }
 
-                //lamp_rails_voids([0, -10, 9 + LampRailsOffsetZ], [90, 0, 0], h = 11);
-                //lamp_rails_voids([0, 20, 9 + LampRailsOffsetZ], [90, 0, 0], h = 40);
-                //translate([LampWireX, LampWireY, 0]) cylinder(r = R(10), h = 10, center = true);
-                //translate([-LampWireX, LampWireY, 0]) cylinder(r = R(10), h = 10, center = true);
-                //guide for assembly
-                
                 //void for slide
                 translate([0, 70 / 2, -0.2]) {
                     cube([LEDWidthX + 0.25, 20, 2], center = true);
@@ -685,6 +689,15 @@ module lamp_single (pos = [0, 0, 0]) {
             translate([0, 1, -1]) cube([LEDWidthX - 6.75, 8, 4], center = true);
             m4_nut();
             cylinder(r = R(4), h = 20, $fn = 40, center = true);
+        }
+
+        translate([LampGateCarrierThreadedSpacingX / 2, 12, (11 / 2) - (2 / 2)]) difference() {
+            translate([-0.7, 0, 0]) cube([(GateCarrierX - LEDWidthX) / 2, 20, 11], center = true);
+            translate([0, 0, 10.2 / 2]) rotate([90, 0, 0])  cylinder(r = R(4.1), h = 20 + 1, center = true, $fn = 40);
+        }
+        translate([-LampGateCarrierThreadedSpacingX / 2, 12, (11 / 2) - (2 / 2)]) difference() {
+            translate([0.7, 0, 0]) cube([(GateCarrierX - LEDWidthX) / 2, 20, 11], center = true);
+            translate([0, 0, 10.2 / 2]) rotate([90, 0, 0])  cylinder(r = R(4.1), h = 20 + 1, center = true, $fn = 40);
         }
     }
 }
@@ -1567,29 +1580,29 @@ module debug () {
 
         difference() {
             union(){
-                translate([ReelX,  ReelY, -10]) magnetic_coupling();
-                translate([ReelX,  ReelY, -8]) slip_coupling();
+                translate([ReelX, ReelY, -10]) magnetic_coupling();
+                translate([ReelX, ReelY, -8]) slip_coupling();
             }
-            translate([ReelX + 50,  ReelY, -10]) cube([100, 100, 100], center = true);
+            translate([ReelX + 50, ReelY, -10]) cube([100, 100, 100], center = true);
         }
         difference() {
             union(){
-                translate([-ReelX,  ReelY, -8]) slip_coupling();
+                translate([-ReelX, ReelY, -8]) slip_coupling();
             }
-            translate([-ReelX + 50,  ReelY, -10]) cube([100, 100, 100], center = true);
+            translate([-ReelX + 50, ReelY, -10]) cube([100, 100, 100], center = true);
         }
-        translate([ReelX,  ReelY, BearingOffsetZ+1]) {
-            rotate([0, 0, BearingRotateZ1]) color("blue") bearing([0, BearingY, BearingZ]);
-            rotate([0, 0, BearingRotateZ2]) color("blue") bearing([0, BearingY, BearingZ]);
-            rotate([0, 0, BearingRotateZ3]) color("blue") bearing([0, BearingY, BearingZ]);
-            rotate([0, 0, BearingRotateZ4]) color("blue") bearing([0, BearingY, BearingZ]);
+        translate([ReelX, ReelY, BearingOffsetZ + 1]) color("blue") {
+            rotate([0, 0, BearingRotateZ1]) bearing([0, BearingY, BearingZ]);
+            rotate([0, 0, BearingRotateZ2]) bearing([0, BearingY, BearingZ]);
+            rotate([0, 0, BearingRotateZ3]) bearing([0, BearingY, BearingZ]);
+            rotate([0, 0, BearingRotateZ4]) bearing([0, BearingY, BearingZ]);
         }
         
-        translate([ReelX,  ReelY, BearingOffsetZ+1-5]) {
-            rotate([0, 0, BearingRotateZ1]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
-            rotate([0, 0, BearingRotateZ2]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
-            rotate([0, 0, BearingRotateZ3]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
-            rotate([0, 0, BearingRotateZ4]) color("red") bearing_post_nut([0, BearingY, BearingZ-.75]);
+        translate([ReelX, ReelY, BearingOffsetZ + 1 - 5]) color("red") {
+            rotate([0, 0, BearingRotateZ1]) bearing_post_nut([0, BearingY, BearingZ-.75]);
+            rotate([0, 0, BearingRotateZ2]) bearing_post_nut([0, BearingY, BearingZ-.75]);
+            rotate([0, 0, BearingRotateZ3]) bearing_post_nut([0, BearingY, BearingZ-.75]);
+            rotate([0, 0, BearingRotateZ4]) bearing_post_nut([0, BearingY, BearingZ-.75]);
         }
         
         //centered_geared_motor([ReelX,  ReelY, TakeupMotorZ], [180, 0, PictureTakeupMotorRotationZ]);
@@ -1634,6 +1647,7 @@ module debug_lamp () {
     //color("blue") translate([0, -8.5, 10.6]) rotate([0, 90, 90]) 16mm_film(40, true, true);
     //color("red") lamp_bolts_voids([0, LampY + 5, (LampBoltH / 2) - 2], H = 30);
     //color("red") lamp_rails_voids([0, 21, 11 + LampRailsOffsetZ], [90, 0, 0], h = 51, Void = false);
+    //translate([LampGateCarrierThreadedSpacingX / 2, 34, 11 + LampRailsOffsetZ]) rotate([90, 0, 0]) cylinder(r = R(4), h = 130, center = true);
     //panel([0, -10, -1.5]);
     //
     lamp_single([0, 10.25, 2]);
@@ -1651,7 +1665,7 @@ module contact_printer () {
     //debug module for BOM
 }
 
-PART = "gate_carrierx";
+PART = "lamp_single";
 LIBRARY = true;
 
 if (PART == "panel") {
