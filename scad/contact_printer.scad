@@ -5,7 +5,7 @@ include <./common/common.scad>;
 include <./common/motors.scad>;
 include <./common/2020_tslot.scad>;
 include <./takeup/takeup.scad>;
-include <./sprocketed_roller/scad/sprocketed_roller.scad>;
+use <./sprocketed_roller/scad/sprocketed_roller.scad>;
 use <./filmless.scad>;
 
 
@@ -1665,7 +1665,7 @@ module contact_printer () {
     //debug module for BOM
 }
 
-PART = "lamp_single";
+PART = "lamp_singlex";
 LIBRARY = true;
 
 if (PART == "panel") {
