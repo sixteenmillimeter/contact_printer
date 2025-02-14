@@ -1,4 +1,4 @@
-/*
+
 AT = 25.4 * 0.22;
 
 
@@ -685,7 +685,7 @@ module sprocketed_roller_gear_cap () {
         }
         translate([0, 0, -30]) contact_printer_roller();
     }
-}*/
+}
 
 
 

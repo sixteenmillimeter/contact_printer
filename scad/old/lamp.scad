@@ -1,7 +1,7 @@
 $fn = 80;
 
-include <./common/common.scad>;
-include <./16mm_sprocketed_roller_var.scad>;
+include <../common/common.scad>;
+include <../16mm_sprocketed_roller_var.scad>;
 
 BRACE_L = 24;
 PLATE_L = 47;
