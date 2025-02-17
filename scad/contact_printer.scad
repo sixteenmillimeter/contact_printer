@@ -1670,7 +1670,7 @@ module contact_printer () {
     //debug module for BOM
 }
 
-PART = "lamp_LEDsx";
+PART = "lamp_LEDs";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -1740,11 +1740,9 @@ if (PART == "panel") {
 } else if (PART == "filter_carrier") {
     rotate([-90, 0, 0]) filter_carrier();
 } else if (PART == "lamp_LEDs") {
-    rotate([0, 0, 0]) lamp_LEDs();
+    rotate([90, 0, 0]) lamp_LEDs();
 } else if (PART == "electronics_panel") {
     electronics_panel(rot = [180, 0, 0]);
-} else if(PART == "blank") {
-    //
 } else {
     //debug();
     //difference () {

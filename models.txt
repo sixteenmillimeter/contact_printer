@@ -1,6 +1,5 @@
 2020_tslot_insert
 bearing_post_nut
-blank
 corner_foot
 daylight_spool_insert_reinforced
 daylight_spool_insert_reinforced_nut
