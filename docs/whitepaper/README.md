@@ -22,7 +22,6 @@ In typical usage a camera-original negative film is placed in *contact* with an 
 
 Intermittent-motion printers vs. continuous printers
 
-
 # Motivations
 
 The use of 16mm film and other small gauge formats has reached a new equilibrium where it is almost no longer used in mid-to-high budget productions aiming for distribution and many duplicate prints.
@@ -44,31 +43,23 @@ A small, portable contact printer that can be quickly stored or even mounted ver
 This project adopts the RepRap model of using common components--"simple cheap and ubiquitous parts like screws and electric motors" [@reprap-philosophy]--and building the purpose-specific parts around them.
 Aluminum extrusion, the same kind used to build 3D printers and CNC machines, provides a stable framing material that is readily available.
 Cheap-but-reliably geared DC motors provide movement for the transport mechanism.
+Open-source electronics platforms, such as the Arduino and the ESP32 microcontrollers, allow for the electronics to be built and modified by hobbyists and amateurs.
 
-Modularity and open
+A modular design strategy compared to a monolithic one has two theoretical benefits; it can leverage existing components to make the process easier and it can lead to the creation and update of new components that can benefit other projects.
+Key common elements of a contact printer are the film-transporting sprocketed roller and the motorized film takeups.
 
-Design as code gives the creator the benefits of working with code-managing tools and in producing the design in plaintext.
-
-The source control software `git` [@git] 
+Designing all hardware in OpenSCAD [@openscad] gives the creator the benefits of working with code-managing tools and in producing the design in plaintext files.
+The source control software `git` [@git] provides the ability to make changes that update the project incrementally.
+Changes that are made and "committed" to the git repository are stored as "diffs" or just the difference between the new code and the previous save.
+This allows for the tracking of changes over time, with notes annotated why they were made and what they address, and provides the ability to roll back changes to earlier versions of the project.
 Many of the illustrations and renderings in this paper were made by rolling back to earlier stages in the design process and using exactly what was represented in the code on specific dates or before certain changes were made.
 
-Using a readable design format means that even if the software for rendering the printable models no longer exists or no longer works or for some reason cannot be executed, the features of the design can be preserved and recreated by reading the measurements it describes.
-Take, for example, this snippet of OpenSCAD.
-
-```cpp
-difference () {
-    cube([8, 8, 5], center = true);
-    cylinder(r = 5 / 2, h = 5 + 1, center = true);
-}
-```
-
-It describes an 8x8mm rectangle with a height of 5mm.
-The `difference` operator means that the 5mm diameter cylinder is removed from it's center.
-
-
+Using a human-readable design format means that even if the software for rendering the printable models no longer exists or no longer works or for some reason cannot be executed, the features of the design can be preserved and recreated by reading the measurements it describes.
+Dimensions and makeup of each part are stored in such a way with adjacent comments and other semantic signifiers to describe the 3D objects in such a way that a person with the code printed out on paper could, theoretically, reconstruct.
 
 The ultimate goal of this project is to create a free and open design that is a platform that others can expand on to fulfill their production needs.
-The goal is *not* to create a "product" and take on all of the expectations and economic considerations therein.
+The goal is *not* to create a "product" and take on all of the expectations and economic considerations that endeavor requires.
+This goal does not preclude the possiblity that motivated individuals and organizations could produce this 
 
 # SPECTRAL Residency at Filmwerkplaats
 
@@ -76,9 +67,9 @@ Motivation for this design was spurred on by the SPECTRAL project--Spatial, Perf
 
 # The Contact Printer
 
-
-
 ## The Sprocketed Roller
+
+Sprockets register the two strips of film at the perferations to keep them aligned and in contact at the correct frame positions as they move through the transports.
 
 Production of the sprocketed roller is made easier and more precise by the advent of SLA resin printing becoming more available and cheap in the recent years leading up to this development process.
 
@@ -104,9 +95,7 @@ PID control
 
 Geared DC motor drawbacks : stopping has slack in system
 
-24fps is the target because it theoretically could be used to write sound.
-
-
+24fps is the target because the platform could be used, theoretically, to build a sound camera.
 
 ## The Lamp
 
@@ -144,10 +133,10 @@ The microcontroller contains radios for Bluetooth Low Energy and Wifi-based conn
 
 ## The Firmware
 
-The Arduino platform uses a subset of C++
-
-built using a modular object oriented programming style
-
+The Arduino platform uses a subset of C++ which has the benefits of being approachable and easy to use while at the same time preserving all the functionalities of the full C++ language for when they are needed.
+The project is built with an object-oriented programming style that allows for abstraction over the functionality of the physical hardware and other features at the class level.
+This approach serves the project's larger goal to leverage modularity by making use of pre-existing classes and creating reusable ones for other projects.
+The initial release of the firmware will 
 
 
 
