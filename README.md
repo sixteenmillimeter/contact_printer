@@ -2,30 +2,21 @@
 
 A desktop 16mm contact printer and film transport platform made using 3D printing and aluminum extrusion.
 
-## [Project Home: git.sixteenmillimeter.com/16mm/contact_printer](https://git.sixteenmillimeter.com/16mm/contact_printer)
-
-## Acknowledgements
-
-Developed with support from [Filmwerkplaats at WORM](https://worm.org/spaces/filmwerkplaats/) and [SPECTRAL](http://www.spectral-cinematics.eu/).
-
-Special thanks to [Esther Urlus](https://estherurlus.hotglue.me/), [Hrvoje Spudić](https://hrvojespudic.net/) and [Nan Wang](https://nanwang.org/).
-
-Magnetic clutch design inspired by Clyde Shaffer's [Shaffer Linear Processor](https://clydeshaffer.com/slp/).
-
----
-
-## Description
-
-This contact printer is designed to make 16mm prints using affordable electronics and 3D printing.
-It is *not* intended as a replacement for professional printers like the Bell & Howell Model C.
-This project is for DIY filmmakers, independent artists and small film labs to have a machine that can produce reasonable-quality work prints with a small footprint on short lengths of film easily.
-
-
 ---
 
 ![contact printer render](./img/contact_printer.png)
 
 ---
+
+#### NOTE: This is a work in progress. Build instructions to follow.
+
+This contact printer is designed to make 16mm prints using affordable electronics and 3D printing.
+It is *not* intended as a replacement for professional printers like the Bell & Howell Model C.
+This project is for DIY filmmakers, independent artists and small film labs to have a machine that can produce reasonable-quality work prints with a small footprint on short lengths of film easily.
+
+This is intended to be a
+
+
 
 # Examples
 
@@ -56,12 +47,18 @@ Actual price of a full build may be higher.
 |---------|------|--------|---------|
 | TOTAL   | 1950 | $80.11 | $203.12 |
 
-
-
-
 <!-- /bom -->
 
-### Mirrors
+## Acknowledgements
 
-* [github.com/sixteenmillimeter/contact_printer](https://github.com/sixteenmillimeter/contact_printer)
-* [gitlab.com/16mm/contact_printer](https://gitlab.com/16mm/contact_printer)
+Developed with support from [Filmwerkplaats at WORM](https://worm.org/spaces/filmwerkplaats/) and [SPECTRAL](http://www.spectral-cinematics.eu/).
+
+Special thanks to [Esther Urlus](https://estherurlus.hotglue.me/), [Hrvoje Spudić](https://hrvojespudic.net/) and [Nan Wang](https://nanwang.org/).
+
+Magnetic clutch design inspired by Clyde Shaffer's [Shaffer Linear Processor](https://clydeshaffer.com/slp/).
+
+---
+
+## [Project Home: git.sixteenmillimeter.com/16mm/contact_printer](https://git.sixteenmillimeter.com/16mm/contact_printer)
+
+###  [Github Mirror: github.com/sixteenmillimeter/contact_printer](https://github.com/sixteenmillimeter/contact_printer)
