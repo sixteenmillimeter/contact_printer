@@ -54,8 +54,8 @@ Changes that are made and "committed" to the git repository are stored as "diffs
 This allows for the tracking of changes over time, with notes annotated why they were made and what they address, and provides the ability to roll back changes to earlier versions of the project.
 Many of the illustrations and renderings in this paper were made by rolling back to earlier stages in the design process and using exactly what was represented in the code on specific dates or before certain changes were made.
 
-Using a human-readable design format means that even if the software for rendering the printable models no longer exists or no longer works or for some reason cannot be executed, the features of the design can be preserved and recreated by reading the measurements it describes.
-Dimensions and makeup of each part are stored in such a way with adjacent comments and other semantic signifiers to describe the 3D objects in such a way that a person with the code printed out on paper could, theoretically, reconstruct.
+Using a human-readable design format means that even if the software for rendering the printable models no longer exists or no longer works or for some reason cannot be executed, the features of the design can be theoretically preserved and recreated by reading the measurements described.
+Dimensions and makeup of each part are stored in such a way with adjacent comments and other semantic signifiers to describe the 3D objects in such a way that a person with the OpenSCAD code printed out on paper could reconstruct or recreate in another CAD software.
 
 The ultimate goal of this project is to create a free and open design that is a platform that others can expand on to fulfill their production needs.
 The goal is *not* to create a "product" and take on all of the expectations and economic considerations that endeavor requires.
@@ -64,6 +64,10 @@ This goal does not preclude the possiblity that motivated individuals and organi
 # SPECTRAL Residency at Filmwerkplaats
 
 Motivation for this design was spurred on by the SPECTRAL project--Spatial, Performative & Expanded Cinematics – Transnational Research at Artist-run Labs[@spectral].
+As a part of the SPECTRAL project, Filmwerkplaats proposed a device research topic: creating a DIY contact printer.
+In order to fulfill this research proposal the lab hosted a residency with myself, Hrvoje Spudić [@spudic] and Nan Wang [@wang].
+We were given time and resources to explore our various topics of research related to contact printing and creating sound prints.
+
 
 # The Contact Printer
 
