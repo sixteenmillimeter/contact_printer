@@ -14,7 +14,6 @@ gate_holder
 idle_roller_half_a
 idle_roller_half_b
 lamp_cover
-lamp_dual
 lamp_LEDs
 lamp_single
 magnetic_coupling
@@ -23,10 +22,8 @@ panel
 picture_gate
 slip_coupling
 sound_gate
-sprocketed_roller
 sprocketed_roller_invert
 sprocketed_roller_invert_solid
-sprocketed_roller_solid
 sprocketed_wheel
 super_gate
 takeup_panel_picture
