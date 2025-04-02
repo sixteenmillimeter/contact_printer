@@ -8,15 +8,14 @@ A desktop 16mm contact printer and film transport platform made using 3D printin
 
 ---
 
-#### NOTE: This is a work in progress. Build instructions to follow.
+#### NOTE: This is a work in progress. Build instructions and whitepaper to follow.
 
 This contact printer is designed to make 16mm prints using affordable electronics and 3D printing.
 It is *not* intended as a replacement for professional printers like the Bell & Howell Model C.
 This project is for DIY filmmakers, independent artists and small film labs to have a machine that can produce reasonable-quality work prints with a small footprint on short lengths of film easily.
 
-This is intended to be a
-
-
+This is intended to be a modular printer.
+As of now there is only a single lamp design that uses standard white 5mm LEDs.
 
 # Examples
 
