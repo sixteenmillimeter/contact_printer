@@ -63,11 +63,11 @@ This goal does not preclude the possiblity that motivated individuals and organi
 
 # SPECTRAL Residency at Filmwerkplaats
 
-Motivation for this design was spurred on by the SPECTRAL project--Spatial, Performative & Expanded Cinematics – Transnational Research at Artist-run Labs[@spectral].
+Motivation for this design was spurred on by the SPECTRAL project--Spatial, Performative & Expanded Cinematics – Transnational Research at Artist-run Labs [@spectral].
 As a part of the SPECTRAL project, Filmwerkplaats proposed a device research topic: creating a DIY contact printer.
 In order to fulfill this research proposal the lab hosted a residency with myself, Hrvoje Spudić [@spudic] and Nan Wang [@wang].
 We were given time and resources to explore our various topics of research related to contact printing and creating sound prints.
-
+This allowed for tremendous progress to be made on the details of the implementation and, with darkroom access, gave opportunities to run tests on exposure and filtering.
 
 # The Contact Printer
 
