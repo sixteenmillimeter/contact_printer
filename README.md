@@ -51,6 +51,8 @@ Actual price of a full build may be higher.
 ## Acknowledgements
 
 Developed with support from [Filmwerkplaats at WORM](https://worm.org/spaces/filmwerkplaats/) and [SPECTRAL](http://www.spectral-cinematics.eu/).
+Read the [report from the residency](./docs/report) provided by Filmwerkplaats.
+[Report as PDF.](./docs/report/residency_report.pdf)
 
 Special thanks to [Esther Urlus](https://estherurlus.hotglue.me/), [Hrvoje Spudić](https://hrvojespudic.net/) and [Nan Wang](https://nanwang.org/).
 
