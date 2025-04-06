@@ -67,17 +67,21 @@ Motivation for this design was spurred on by the SPECTRAL project--Spatial, Perf
 As a part of the SPECTRAL project, Filmwerkplaats proposed a device research topic: creating a DIY contact printer.
 In order to fulfill this research proposal the lab hosted a residency with myself, Hrvoje Spudić [@spudic] and Nan Wang [@wang].
 We were given time and resources to explore our various topics of research related to contact printing and creating sound prints.
-This allowed for tremendous progress to be made on the details of the implementation and, with darkroom access, gave opportunities to run tests on exposure and filtering.
+This allowed for tremendous progress to be made on the details of the implementation and, with darkroom access, gave opportunities to run tests on exposure, use of filters and overall film tensioning.
+
+The results of this residency included a 100 foot sound print made from a negative and with the soundtrack printed directly on the print stock.
 
 # The Contact Printer
 
 ## The Sprocketed Roller
 
-Sprockets register the two strips of film at the perferations to keep them aligned and in contact at the correct frame positions as they move through the transports.
+Sprockets on a cylindrical roller register the two strips of film at the perforations to keep them aligned and in contact at the correct frame positions as they move through the transports.
 
-Production of the sprocketed roller is made easier and more precise by the advent of SLA resin printing becoming more available and cheap in the recent years leading up to this development process.
+Production of the sprocketed rollers via 3D printing is made easier and more precise by the advent of SLA resin printing becoming more available and cheap in the recent years leading up to this development process.
 
-SLA printing advances
+Advances in SLA resin printing allows for cheap desktop printing at levels of detail previously not possible with FDM desktop printing.
+
+Development of this sprocketed drive roller was bootstrapped by an existing parametric model that was designed to replace an 8-frame roller and work on this project was upstreamed into that module so that it may benefit other use cases.
 
 Kinograph multi-format sprocketed roller.
 
