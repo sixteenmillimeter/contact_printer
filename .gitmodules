@@ -10,3 +10,6 @@
 	path = scad/sprocketed_roller
 	url = https://git.sixteenmillimeter.com/modules/sprocketed_roller.git
 	
+[submodule "scad/knobs"]
+	path = scad/knobs
+	url = https://git.sixteenmillimeter.com/modules/knobs.git
