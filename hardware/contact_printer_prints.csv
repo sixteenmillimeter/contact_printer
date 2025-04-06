@@ -1,0 +1,4 @@
+module,quantity,stl
+sprocketed roller invert solid,1,./stl/contact_printer_sprocketed_roller_invert_solid.stl
+picture gate,1,./stl/contact_printer_picture_gate.stl
+gate carrier,1,./stl/contact_printer_gate_carrier.stl

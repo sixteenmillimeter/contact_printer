@@ -17,5 +17,6 @@ while read m; do
 done < models.txt
 
 bash scripts/bom.sh "./scad/contact_printer.scad"
+bash scripts/prints.sh "./scad/contact_printer.scad"
 
 #run client tests?

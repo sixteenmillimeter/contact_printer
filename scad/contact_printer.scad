@@ -434,7 +434,6 @@ module gate_blank_void (pos = [0, 0, 0], rot = [0, 0, 0], bottom = [1, 1], top =
     }
 }
 
-
 module gate_blank () {
     X = 15;
     Z = 20;
@@ -480,9 +479,10 @@ module gate_blank () {
         translate([(X / 2) + SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, Z + 1], center = true);
         translate([(-X / 2) - SidesX, SidesY, 0]) rotate([0, 0, 45]) cube([5, 5, Z + 1], center = true);
     }
-
 }
 
+
+//PRINT: 1
 module gate_carrier (pos = [0, 0, 0], rot = [0, 0, 0]) {
     X = 15.4;
     SidesX = 2;
@@ -583,6 +583,7 @@ module picture_gate_text (pos = [0, 1.5, 9.3], label = "gate" ){
 }
 
 //standard, super, full, sound
+//PRINT: 1
 module picture_gate (pos = [0, 0, 0], rot = [0, 0, 0], Type = "full", Width = 2) {
     X = LampGateX;
     translate(pos) rotate(rot) {
@@ -647,6 +648,7 @@ module lamp_dual (pos = [0, 0, 0]) {
     }
 }*/
 
+//PRINT: 1
 module lamp_single (pos = [0, 0, 0]) {
     Height = 20 + 5;
     BaseZ = 2;
@@ -742,6 +744,7 @@ module lamp_single_assembly (pos = [0, 0, 0]) {
     }
 }
 
+//PRINT: 1
 module lamp_cover (pos = [0, 0, 0]) {
     RollerVoidY = -17.5;
     RollerShelfD = 44.75;
@@ -783,6 +786,7 @@ module panel_bearing_void (pos = [0, 0, 0]) {
 //BOM: 6, M3 sliding t slot nut,N/A,Attach aluminum extrusions to panel
 //BOM: 1, 100RPM DC geared motor with encoder,N/A,Drive the sprocketed_roller
 //BOM: 4, M4 hex bolt 40mm, N/A, Attach the lamp to the panel
+//PRINT: 1
 module panel (pos = [0, 0, 0]) {
     BoltX = (PanelX - 20) / 2;
     BoltY2 = (PanelY) / 2;
