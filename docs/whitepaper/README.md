@@ -49,8 +49,8 @@ A modular design strategy compared to a monolithic one has two theoretical benef
 Key common elements of a contact printer are the film-transporting sprocketed roller and the motorized film takeups.
 
 Designing all hardware in OpenSCAD [@openscad] gives the creator the benefits of working with code-managing tools and in producing the design in plaintext files.
-The source control software `git` [@git] provides the ability to make changes that update the project incrementally.
-Changes that are made and "committed" to the git repository are stored as "diffs" or just the difference between the new code and the previous save.
+The source control software git [@git] provides the ability to make and track changes that update the project incrementally.
+Changes that are made and "committed" to the git repository are stored as "diffs" or just the difference between the new code and the previous state.
 This allows for the tracking of changes over time, with notes annotated why they were made and what they address, and provides the ability to roll back changes to earlier versions of the project.
 Many of the illustrations and renderings in this paper were made by rolling back to earlier stages in the design process and using exactly what was represented in the code on specific dates or before certain changes were made.
 
@@ -69,7 +69,7 @@ In order to fulfill this research proposal the lab hosted a residency with mysel
 We were given time and resources to explore our various topics of research related to contact printing and creating sound prints.
 This allowed for tremendous progress to be made on the details of the implementation and, with darkroom access, gave opportunities to run tests on exposure, use of filters and overall film tensioning.
 
-The results of this residency included a 100 foot sound print made from a negative and with the soundtrack printed directly on the print stock.
+The results of this residency included a 100 foot sound print made from a negative and with the soundtrack printed directly on the print stock and a working first draft prototype of this design.
 
 # The Contact Printer
 
@@ -77,19 +77,27 @@ The results of this residency included a 100 foot sound print made from a negati
 
 Sprockets on a cylindrical roller register the two strips of film at the perforations to keep them aligned and in contact at the correct frame positions as they move through the transports.
 
-Production of the sprocketed rollers via 3D printing is made easier and more precise by the advent of SLA resin printing becoming more available and cheap in the recent years leading up to this development process.
+![Illustration of film registered by sprockets]()
 
-Advances in SLA resin printing allows for cheap desktop printing at levels of detail previously not possible with FDM desktop printing.
+Production of the sprocketed rollers via 3D printing has been made easier and more precise by the advent of SLA resin printing becoming more available and cheap in the recent years leading up to this development process.
+Resin printing is capable of resolutions not capable with FDM desktop printing by an order of magnitude.
+The ultra-cheap resin printer used in prototyping this sprocketed roller is the Anycubic Mono 4K [@anycubic] which has a Z axis resolution of 10 microns (0.01mm) and a XY resolution of 35 microns (0.035mm).
+This can be compared to the resolutions available in the FDM printer used to make this prototype, the Creality Ender 3 [@ender3], which extrudes plastic through a 400 micron (0.4mm) nozzle and has a range of vertical and horizontal resolutions from 100 to 300 microns (0.1mm to 0.3mm).
 
-Development of this sprocketed drive roller was bootstrapped by an existing parametric model that was designed to replace an 8-frame roller and work on this project was upstreamed into that module so that it may benefit other use cases.
+![Illustration of the 8-frame sprocketed roller and the 18-frame roller created with the same module]()
 
-Kinograph multi-format sprocketed roller.
+Development of this sprocketed drive roller was kickstarted by an existing parametric model that was designed to replace an 8-frame roller and work on this project was upstreamed into that module so that it may benefit other use cases.
+That work has already proven useful to the mcopy [@mcopy] project as the updated module has been used to design a gate compatible with JK optical printers.
+Due to the model being parametric, it can be used in designing film transport mechanisms in other, future projects, and additional improvements to the measurements and tolerances will benefit those projects as well.
+
+The roller designed for this project is distinct from
+
 
 ## The Drive Motor
 
-Speed
-
-120 RPM 18 frame
+The speed of the printer is an important factor in this design that affects usability and exposure.
+Slower speeds would allow for more overall exposure when controlling for lamp brightness but would make for longer print times.
+Also, 
 
 Encoder motor
 
@@ -177,6 +185,10 @@ Cut with drop saw
 ## Sound
 
 ## Color Lamp Control
+
+## Multi-format
+
+Kinograph multi-format sprocketed roller.
 
 ### References
 
