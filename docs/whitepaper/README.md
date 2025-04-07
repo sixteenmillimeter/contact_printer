@@ -15,19 +15,26 @@ bibliography: sources.bib
 csl: citation_style.csl
 ---
 
+![Photograph of the first contact printer prototype at Filmwerkplaats]()
+
 # Introduction
 
-The contact printer is a tool for analog filmmaking that enables negative film to be printed to positive for projection and allows copies of existing films to be made.
-In typical usage a camera-original negative film is placed in *contact* with an unexposed, undeveloped print stock and a light exposes the negative onto the print stock.
+The contact printer is a tool for analog filmmaking that enables negative film to be printed to positive for projection and more generally allows film media to be copied onto other film stocks.
+In typical usage a camera-original, developed negative film strip is sandwiched emulsion-to-emulsion in *contact* with an unexposed, undeveloped print stock.
+A light shown from behind the negative, or picture source, exposes the image onto the print stock.
 
-Intermittent-motion printers vs. continuous printers
+Contact printers can be continuous or intermittent-motion: meaning that they expose each frame individually, pausing for each exposure.
+This project will create a continuous printer for simplicity.
+Intermittent-motion printers require precise movements, more complex lamps or shutter mechanisms and would make this a needlessly-complicated DIY project.
+
+![Illustration of intermittent-motion vs. continuous printers]()
 
 # Motivations
 
-The use of 16mm film and other small gauge formats has reached a new equilibrium where it is almost no longer used in mid-to-high budget productions aiming for distribution and many duplicate prints.
-Big production companies still use analog movie film as a capture medium but a vast majority of them go to digital scans and real film projection is an after thought (if one at all).
+The use of 16mm film and other small gauge formats has reached a new equilibrium where it is almost no longer used in mid-to-high budget productions aiming for print distribution.
+Big production companies still use analog movie film as a capture medium but a vast majority of them that use it go to digital scans and real film projection is an after thought (if one at all).
 Filmmakers that make prints for 16mm projection are a different population of people than 100, 50 or even 30 years ago--they make shorter films, they use more alternate techniques and they are working with fewer resources.
-Creating a contact printer that is useful to and usable for those artists *now* means acknowledging that they work at a smaller scale and with different requirements.
+Creating a contact printer that is useful to and usable by those artists *now* means acknowledging that they work at a smaller scale and with different requirements.
 
 Contact printers for working with shorter lengths of film and with a small footprint have been made previously but not for many years.
 The Uhler Cine Printer provides a great example of a tool that solves the problem just presented and no action would be needed were it still being made today.
@@ -40,36 +47,39 @@ Designing a new contact printer at the same scale and feature complexity as the 
 Creating one at the scale the Uhler Cine Printer that can be made using rapid prototyping techniques, however, will find a use to many artists.
 A small, portable contact printer that can be quickly stored or even mounted vertically on a wall means that artists will not have to sacrifice floor or even table space to own and operate it.
 
+![Photograph of the Bell & Howell Model C printer next to the Uhler Cine Printer]()
+
 This project adopts the RepRap model of using common components--"simple cheap and ubiquitous parts like screws and electric motors" [@reprap-philosophy]--and building the purpose-specific parts around them.
 Aluminum extrusion, the same kind used to build 3D printers and CNC machines, provides a stable framing material that is readily available.
-Cheap-but-reliably geared DC motors provide movement for the transport mechanism.
+Cheap-but-reliably geared DC motors are to provide movement for the transport mechanism.
 Open-source electronics platforms, such as the Arduino and the ESP32 microcontrollers, allow for the electronics to be built and modified by hobbyists and amateurs.
 
 A modular design strategy compared to a monolithic one has two theoretical benefits; it can leverage existing components to make the process easier and it can lead to the creation and update of new components that can benefit other projects.
 Key common elements of a contact printer are the film-transporting sprocketed roller and the motorized film takeups.
 
-Designing all hardware in OpenSCAD [@openscad] gives the creator the benefits of working with code-managing tools and in producing the design in plaintext files.
+Designing all the printable hardware in OpenSCAD [@openscad] gives the creator the benefits of working with code-managing tools and using only plaintext files.
 The source control software git [@git] provides the ability to make and track changes that update the project incrementally.
 Changes that are made and "committed" to the git repository are stored as "diffs" or just the difference between the new code and the previous state.
 This allows for the tracking of changes over time, with notes annotated why they were made and what they address, and provides the ability to roll back changes to earlier versions of the project.
 Many of the illustrations and renderings in this paper were made by rolling back to earlier stages in the design process and using exactly what was represented in the code on specific dates or before certain changes were made.
 
-Using a human-readable design format means that even if the software for rendering the printable models no longer exists or no longer works or for some reason cannot be executed, the features of the design can be theoretically preserved and recreated by reading the measurements described.
+Using a human-readable design format means that even if the software for rendering the printable models no longer exists or no longer works or for some reason cannot be executed, the features of the design can be theoretically preserved and recreated by reading the measurements the code describes.
 Dimensions and makeup of each part are stored in such a way with adjacent comments and other semantic signifiers to describe the 3D objects in such a way that a person with the OpenSCAD code printed out on paper could reconstruct or recreate in another CAD software.
 
 The ultimate goal of this project is to create a free and open design that is a platform that others can expand on to fulfill their production needs.
-The goal is *not* to create a "product" and take on all of the expectations and economic considerations that endeavor requires.
-This goal does not preclude the possiblity that motivated individuals and organizations could produce this 
+The goal is *not* to create a product and take on all of the expectations and economic considerations that endeavor requires.
+The licensing of the project allows for the possibility of motivated individuals or organizations to produce and sell the contact printer without any restrictions.
+That same license also gives people the ability to create their own modification and release their own design as they see fit.
 
 # SPECTRAL Residency at Filmwerkplaats
 
-Motivation for this design was spurred on by the SPECTRAL project--Spatial, Performative & Expanded Cinematics – Transnational Research at Artist-run Labs [@spectral].
+Motivation for this contact printer was spurred on by the SPECTRAL project--Spatial, Performative & Expanded Cinematics – Transnational Research at Artist-run Labs [@spectral].
 As a part of the SPECTRAL project, Filmwerkplaats proposed a device research topic: creating a DIY contact printer.
 In order to fulfill this research proposal the lab hosted a residency with myself, Hrvoje Spudić [@spudic] and Nan Wang [@wang].
 We were given time and resources to explore our various topics of research related to contact printing and creating sound prints.
 This allowed for tremendous progress to be made on the details of the implementation and, with darkroom access, gave opportunities to run tests on exposure, use of filters and overall film tensioning.
 
-The results of this residency included a 100 foot sound print made from a negative and with the soundtrack printed directly on the print stock and a working first draft prototype of this design.
+The results of this residency included a 100 foot sound print made from a Kodak 7222 Double-X negative onto Kodak 3302 print stock, with a soundtrack written directly on the print and a working first draft prototype of this design.
 Collaboration with the other residents led to ideas for future work and improved the design as we performed tests collectively.
 The possibility of making this platform work as a soundtrack camera was also explored during this session.
 
@@ -82,7 +92,7 @@ Sprockets on a cylindrical roller register the two strips of film at the perfora
 ![Illustration of film registered by sprockets]()
 
 Production of the sprocketed rollers via 3D printing has been made easier and more precise by the advent of SLA resin printing becoming more available and cheap in the recent years leading up to this development process.
-Resin printing is capable of resolutions not capable with FDM desktop printing by an order of magnitude.
+Resin printing is capable of resolutions not possible with FDM desktop printing by an order of magnitude.
 The ultra-cheap resin printer used in prototyping this sprocketed roller is the Anycubic Mono 4K [@anycubic] which has a Z axis resolution of 10 microns (0.01mm) and a XY resolution of 35 microns (0.035mm).
 This can be compared to the resolutions available in the FDM printer used to make this prototype, the Creality Ender 3 [@ender3], which extrudes plastic through a 400 micron (0.4mm) nozzle and has a range of vertical and horizontal resolutions from 100 to 300 microns (0.1mm to 0.3mm).
 
@@ -92,7 +102,7 @@ Development of this sprocketed drive roller was kickstarted by an existing param
 That work has already proven useful to the mcopy [@mcopy] project as the updated module has been used to design a gate compatible with JK optical printers.
 Due to the model being parametric, it can be used in designing film transport mechanisms in other, future projects, and additional improvements to the measurements and tolerances will benefit those projects as well.
 
-The roller designed for this project is distinct from a professionally-oriented machine like the B&H Model C printer.
+The roller designed for this project is distinct from a professionally-oriented machine and is more similar to the DIY technique of contact printing using a sync block or using a modified Steenbeck editing table.
 
 
 
