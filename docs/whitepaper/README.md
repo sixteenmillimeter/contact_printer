@@ -120,17 +120,15 @@ Due to the modular nature to this design, the choice to not take this approach a
 
 The speed of the printer is an important factor in this design that affects usability and exposure.
 Slower speeds would allow for more overall exposure when controlling for lamp brightness but would make for longer print times.
-Also, targeting the capability for real time speeds (24 FPS) preserves the ability to build a sound camera module and expand this platform to write soundtracks as well as print picture.
+Targeting the capability for real time speeds (24 fps) preserves the ability to build a sound camera module and expand this platform to write soundtracks as well as print picture.
 
-Encoder motor
+The first choice made in this project was to select between a stepper motor and a regular DC motor.
+By choosing a stepper, immediately the overall complexity of the software design and hardware design increases by adding the requirement of a stepper driver and the code to manage it.
+There is also the consideration of what each of these styles of motors are: a stepper moves in discrete movements while a regular DC merely moves.
+It is possible that there are stepper motor and driver that moves continuously, but each of those requirements increases the cost of making that choice both in the quality of the hardware required and the time spent on testing the movement.
 
-Near real time
-
-Tests were run at 18fps, up to 24.
-
-As low as 12fps.
-
-PID control
+A cheap (~$10 at the time of writing) DC geared motor with an encoder present an affordable compromise of a choice in drive motor.
+With a reasonably-high resolution encoder, this motor can provide speed and position feedback to the control firmware at a per-frame level.
 
 Geared DC motor drawbacks : stopping has slack in system
 
@@ -151,7 +149,7 @@ Assuming perfect light transmission in the new design, this would increase the e
 A contact printer typically requires at least four reels, cores or spools to transport two strips of film.
 Film must be driven from one side--the feed--to another side; the takeup.
 
-The takeup motors for the picture and stock are based on a magnetic clutch design [@slp-clutch] inspired by the one used in The Shaffer Linear Processor [@slp].
+The takeup motors for the picture and stock are inspired by a feature in the The Shaffer Linear Processor [@slp]: the magnetic clutch [@slp-clutch].
 
 The choice to direct drive the takeup is due to the fact that powerful geared DC motors are cheap and available.
 Driving them separately, rather than using a belt, means that the speed can be controlled individually.
