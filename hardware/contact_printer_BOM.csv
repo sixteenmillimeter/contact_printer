@@ -1,21 +1,39 @@
 module,quantity,part,part_id,description
 contact_printer,1040,2020 Aluminum extrusion mm,N/A,Sides and central frame 4x 260mm
 contact_printer,840,2020 Aluminum extrusion mm,N/A,Top and bottom frame 2x 420mm
+contact_printer_knob,14,M4 hex nut,N/A,Secure knob to M4 bolts
 electronics_panel,4,M3 hex cap bolt 6mm,N/A,Attach the GPIO breakout board to the panel
 electronics_panel,1,ESP32 GPIO breakout board,N/A,To make the ESP32 dev board easier to wire
 electronics_panel,6,M3 sliding t slot nut,N/A,Attach the frame to the electronics_panel
 electronics_panel,6,M3 hex cap bolt 8mm,N/A,Attach the electronics_panel to the frame
 electronics_panel,1,L298N Motor driver module,N/A,Control the 3 motors using 2 channels
 electronics_panel,1,ESP32 Dev board,N/A,Control the contact_printer
+lamp_LEDs,6,5mm White LED,N/A,Light source
+lamp_LEDs,6,220 Ohm Resistor,N/A,Provide resistance for LEDs
 sprocketed_roller_invert_solid,1,608-RS Ball Bearing,608-RS,Reduces wobble in the rollers spin
-sprocketed_roller_invert_solid,1,M3 hex cap bolt 12mm,N/A,Attaches the sprocketed_roller to the geared motor
-takeup_panel_stock,6,M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_stock
-takeup_panel_stock,6,M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_stock to the frame
+sprocketed_roller_invert_solid,1,M3 hex cap bolt 12mm,N/A,Attaches the sprocketed_roller_invert_solid to the geared motor
+corner_foot,32,M3 sliding t slot nut,N/A,Attach the frame to the corner_foot
+corner_foot,32,M3 hex cap bolt 8mm,N/A,Attach the corner_foot to the frame
+feed_panel_stock,7,M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_stock
+feed_panel_stock,7,M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_stock to the frame
+feed_panel_stock,3,M4 hex bolt 35mm,N/A,Attach the feed_panel_motor_mount to the panel
+feed_panel_picture,7,M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_stock
+feed_panel_picture,7,M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_stock to the frame
+feed_panel_picture,3,M4 hex bolt 35mm,N/A,Attach the feed_panel_motor_mount to the panel
+takeup_panel_stock_motor_mount,4,M3 hex cap bolt 8mm,N/A,Attach the motor to the takeup_panel_stock_motor_mount
+takeup_panel_stock_motor_mount,3,M4 hex nut,N/A,Attach the takeup_panel_picture_motor_mount to the panel
+takeup_panel_stock,3,M4 hex bolt 25mm,N/A,Attach the panel to the takeup_panel_stock_motor_mount
+takeup_panel_stock,7,M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_stock
+takeup_panel_stock,7,M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_stock to the frame
 takeup_panel_stock,1,250RPM DC geared motor,JSX40-370,Drive the takeup of the stock pathway
+takeup_panel_picture_motor_mount,4,M3 hex cap bolt 8mm,N/A,Attach the motor to the takeup_panel_picture_motor_mount
+takeup_panel_picture_motor_mount,3,M4 hex nut,N/A,Attach the takeup_panel_picture_motor_mount to the panel
+takeup_panel_picture,3,M4 hex bolt 25mm,N/A,Attach the panel to the takeup_panel_picture_motor_mount
 takeup_panel_picture,7,M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_picture
 takeup_panel_picture,7,M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_picture to the frame
 takeup_panel_picture,1,250RPM DC geared motor,JSX40-370,Drive the takeup of the picture pathway
-panel,4,M4 hex bolt 40mm,N/A,Attach the lamp to the panel
+panel,4,M4 hex bolt 25mm,N/A,Attach the lamp to the panel
+panel,4,M4 hex bolt 50mm,N/A,Attach the lamp to the panel
 panel,1,100RPM DC geared motor with encoder,N/A,Drive the sprocketed_roller
 panel,6,M3 sliding t slot nut,N/A,Attach aluminum extrusions to panel
 panel,6,M3 hex cap bolt 8mm,N/A,Attach panel to aluminum extrusions

@@ -1,4 +1,25 @@
 module,quantity,stl
-sprocketed roller invert solid,1,./stl/contact_printer_sprocketed_roller_invert_solid.stl
-picture gate,1,./stl/contact_printer_picture_gate.stl
-gate carrier,1,./stl/contact_printer_gate_carrier.stl
+daylight spool insert reinforced nut,4,stl/contact_printer_daylight_spool_insert_reinforced_nut.stl
+slip coupling,4,stl/contact_printer_slip_coupling.stl
+magnetic coupling,2,stl/contact_printer_magnetic_coupling.stl
+knob,14,stl/contact_printer_knob.stl
+lamp LEDs,1,stl/contact_printer_lamp_LEDs.stl
+sprocketed roller invert solid,1,stl/contact_printer_sprocketed_roller_invert_solid.stl
+corner foot,8,stl/contact_printer_corner_foot.stl
+feed panel motor mount,2,stl/contact_printer_feed_panel_motor_mount.stl
+feed panel stock,1,stl/contact_printer_feed_panel_stock.stl
+feed panel picture,1,stl/contact_printer_feed_panel_picture.stl
+takeup panel stock motor mount,1,stl/contact_printer_takeup_panel_stock_motor_mount.stl
+takeup panel stock,1,stl/contact_printer_takeup_panel_stock.stl
+takeup panel picture motor mount,1,stl/contact_printer_takeup_panel_picture_motor_mount.stl
+takeup panel picture,1,stl/contact_printer_takeup_panel_picture.stl
+panel,1,stl/contact_printer_panel.stl
+lamp cover,1,stl/contact_printer_lamp_cover.stl
+lamp single,1,stl/contact_printer_lamp_single.stl
+picture gate sound,1,stl/contact_printer_picture_gate_sound.stl
+picture gate super16,1,stl/contact_printer_picture_gate_super16.stl
+picture gate full,1,stl/contact_printer_picture_gate_full.stl
+picture gate standard,1,stl/contact_printer_picture_gate_standard.stl
+gate carrier,1,stl/contact_printer_gate_carrier.stl
+idle roller b,4,stl/contact_printer_idle_roller_b.stl
+idle roller half a,4,stl/contact_printer_idle_roller_half_a.stl

@@ -29,6 +29,8 @@ tac "${1}" | while read line; do
     module=$(echo "${line}" | grep 'module ' | grep '(' | grep ')')
     if [[ "${module}" != "" ]]; then
     	MODULE=$(echo "${module}" | xargs | awk '{print $2}' | awk -F'{' '{print $1}')
+      MODULE=$(echo "${MODULE}" | sed "s/^$NAME//")
+      MODULE=$(echo "${MODULE}" | sed "s/^_//")
     fi
     qty=$(echo "${line}" | grep ^'//' | grep 'PRINT' | awk -F'PRINT:' '{print $2}'| xargs)
     if [[ "${qty}" != "" ]]; then

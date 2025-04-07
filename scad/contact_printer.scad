@@ -7,6 +7,7 @@ include <./common/2020_tslot.scad>;
 include <./takeup/takeup.scad>;
 use <./sprocketed_roller/scad/sprocketed_roller.scad>;
 use <./filmless.scad>;
+use <./knobs/scad/knob.scad>;
 
 $fn = 100;
 
@@ -342,6 +343,16 @@ module idle_roller_half (pos = [0, 0, 0], rot = [0, 0, 0], flip = false) {
     }
 }
 
+//PRINT: 4
+module idle_roller_half_a () {
+    idle_roller_half();
+}
+
+//PRINT: 4
+module idle_roller_b () {
+    idle_roller_half(flip = true);
+}
+
 module idle_roller_bolt_void (pos = [0, 0, 0], H = IdleRollerBoltH) {
     translate(pos) {
         cylinder(r = R(4.25), h = H, center = true);
@@ -583,7 +594,7 @@ module picture_gate_text (pos = [0, 1.5, 9.3], label = "gate" ){
 }
 
 //standard, super, full, sound
-//PRINT: 1
+
 module picture_gate (pos = [0, 0, 0], rot = [0, 0, 0], Type = "full", Width = 2) {
     X = LampGateX;
     translate(pos) rotate(rot) {
@@ -608,6 +619,26 @@ module picture_gate (pos = [0, 0, 0], rot = [0, 0, 0], Type = "full", Width = 2)
             }
         }
     }
+}
+
+//PRINT: 1
+module picture_gate_standard (pos = [0, 0, 0], rot = [0, 0, 0]) {
+    picture_gate(pos, rot, Type = "standard");
+}
+
+//PRINT: 1
+module picture_gate_full (pos = [0, 0, 0], rot = [0, 0, 0]) {
+    picture_gate(pos, rot, Type = "full");
+}
+
+//PRINT: 1
+module picture_gate_super16 (pos = [0, 0, 0], rot = [0, 0, 0]) {
+    picture_gate(pos, rot, Type = "super16");
+}
+
+//PRINT: 1
+module picture_gate_sound (pos = [0, 0, 0], rot = [0, 0, 0]) {
+    picture_gate(pos, rot, Type = "sound");
 }
 
 /*
@@ -785,7 +816,8 @@ module panel_bearing_void (pos = [0, 0, 0]) {
 //BOM: 6, M3 hex cap bolt 8mm,N/A,Attach panel to aluminum extrusions
 //BOM: 6, M3 sliding t slot nut,N/A,Attach aluminum extrusions to panel
 //BOM: 1, 100RPM DC geared motor with encoder,N/A,Drive the sprocketed_roller
-//BOM: 4, M4 hex bolt 40mm, N/A, Attach the lamp to the panel
+//BOM: 4, M4 hex bolt 50mm, N/A, Attach the lamp to the panel
+//BOM: 4, M4 hex bolt 25mm, N/A, Attach the lamp to the panel
 //PRINT: 1
 module panel (pos = [0, 0, 0]) {
     BoltX = (PanelX - 20) / 2;
@@ -949,6 +981,8 @@ module takeup_panel_motor_mount_pads (pos = [0, 0, 0], rot = [0, 0, 0]) {
 //BOM: 1, 250RPM DC geared motor, JSX40-370, Drive the takeup of the picture pathway
 //BOM: 7, M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_picture to the frame
 //BOM: 7, M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_picture
+//BOM: 3, M4 hex bolt 25mm,N/A,Attach the panel to the takeup_panel_picture_motor_mount
+//PRINT: 1
 module takeup_panel_picture (pos = [0, 0, 0]) {
     BoltX = (TakeupPanelX / 2) - 10;
     BoltY = (TakeupPanelY / 2) - 10;
@@ -985,10 +1019,12 @@ module takeup_panel_picture (pos = [0, 0, 0]) {
             
             takeup_panel_motor_mount_m4_bolts_voids([TakeupPanelPictureOffsetX, TakeupPanelPictureOffsetY, -8.99]);
         }
-        
     }
 }
 
+//BOM: 3, M4 hex nut,N/A,Attach the takeup_panel_picture_motor_mount to the panel
+//BOM: 4, M3 hex cap bolt 8mm,N/A,Attach the motor to the takeup_panel_picture_motor_mount
+//PRINT: 1
 module takeup_panel_picture_motor_mount (pos = [0, 0, 0] ) {
     translate(pos) {
         translate([TakeupPanelPictureOffsetX, TakeupPanelPictureOffsetY, 0]) {
@@ -1020,8 +1056,10 @@ module takeup_panel_picture_motor_mount (pos = [0, 0, 0] ) {
 }
 
 //BOM: 1, 250RPM DC geared motor, JSX40-370, Drive the takeup of the stock pathway
-//BOM: 6, M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_stock to the frame
-//BOM: 6, M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_stock
+//BOM: 7, M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_stock to the frame
+//BOM: 7, M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_stock
+//BOM: 3, M4 hex bolt 25mm,N/A,Attach the panel to the takeup_panel_stock_motor_mount
+//PRINT: 1
 module takeup_panel_stock (pos = [0, 0, 0]) {
     BoltX = (TakeupPanelX / 2) - 10;
     BoltY = (TakeupPanelY / 2) - 10;
@@ -1061,6 +1099,9 @@ module takeup_panel_stock (pos = [0, 0, 0]) {
     }
 }
 
+//BOM: 3, M4 hex nut,N/A,Attach the takeup_panel_picture_motor_mount to the panel
+//BOM: 4, M3 hex cap bolt 8mm,N/A,Attach the motor to the takeup_panel_stock_motor_mount
+//PRINT: 1
 module takeup_panel_stock_motor_mount (pos = [0, 0, 0] ) {
     translate(pos) {
         translate([TakeupPanelStockOffsetX, TakeupPanelStockOffsetY, 0]) {
@@ -1119,6 +1160,10 @@ module feed_panel_motor_mount_m4_bolts_voids (pos = [0, 0, 0], rot = [0, 0, 0]) 
     }
 }
 
+//BOM: 3, M4 hex bolt 35mm,N/A,Attach the feed_panel_motor_mount to the panel
+//BOM: 7, M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_stock to the frame
+//BOM: 7, M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_stock
+//PRINT: 1
 module feed_panel_picture (pos = [0, 0, 0]) {
     BoltX = (TakeupPanelX / 2) - 10;
     BoltY = (TakeupPanelY / 2) - 10;
@@ -1153,6 +1198,10 @@ module feed_panel_picture (pos = [0, 0, 0]) {
     }
 }
 
+//BOM: 3, M4 hex bolt 35mm,N/A,Attach the feed_panel_motor_mount to the panel
+//BOM: 7, M3 hex cap bolt 8mm,N/A,Attach the takeup_panel_stock to the frame
+//BOM: 7, M3 sliding t slot nut,N/A,Attach the frame to the takeup_panel_stock
+//PRINT: 1
 module feed_panel_stock (pos = [0, 0, 0]) {
     BoltX = (TakeupPanelX / 2) - 10;
     BoltY = (TakeupPanelY / 2) - 10;
@@ -1187,6 +1236,7 @@ module feed_panel_stock (pos = [0, 0, 0]) {
     }
 }
 
+//PRINT: 2
 module feed_panel_motor_mount (pos = [0, 0, 0]) {
     translate(pos) {
         translate([FeedPanelPictureOffsetX, 0, 0]) {
@@ -1227,6 +1277,9 @@ module m3_nut_bolt_void (pos = [0, 0, 0], rot = [0, 0, 0], H = 20) {
     }
 }
 
+//BOM: 32, M3 hex cap bolt 8mm,N/A,Attach the corner_foot to the frame
+//BOM: 32, M3 sliding t slot nut,N/A,Attach the frame to the corner_foot
+//PRINT: 8
 module corner_foot (pos = [0, 0, 0], rot = [0, 0, 0]) {
     H = 30;
     D1 = 16;
@@ -1270,18 +1323,6 @@ module L298N_mount (pos = [0, 0, 0], rot = [0, 0, 0]) {
             translate([DISTANCE, DISTANCE, 0]) cylinder(r = 1.5, h = H * 5, center = true);
             translate([0, DISTANCE, 0]) cylinder(r = 1.5, h = H * 5, center = true);
         }
-    }
-}
-
-module motor_controller_panel (pos = [0, 0, 0]) {
-    translate(pos) difference() {
-        union () {
-            translate([-5, 17, 0]) rounded_cube([110, 50, 3], d = 4, center = true, $fn = 30);
-            L298N_mount([5, 0, 6]);
-            L298N_mount([-52, 0, 6]);
-        }
-        translate([23, 18, 0]) rounded_cube([28, 28, 10], d = 4, center = true, $fn = 30);
-        translate([-34, 18, 0]) rounded_cube([28, 28, 10], d = 4, center = true, $fn = 30);
     }
 }
 
@@ -1354,7 +1395,7 @@ module sprocketed_roller_upright_solid (pos = [0, 0, 0]) {
 }
 */
 
-//BOM: 1, M3 hex cap bolt 12mm, N/A, Attaches the sprocketed_roller to the geared motor
+//BOM: 1, M3 hex cap bolt 12mm, N/A, Attaches the sprocketed_roller_invert_solid to the geared motor
 //BOM: 1, 608-RS Ball Bearing, 608-RS, Reduces wobble in the rollers spin
 //PRINT: 1
 module sprocketed_roller_invert_solid (pos = [0, 0, 0]) {
@@ -1435,6 +1476,9 @@ module lamp_LED_side (pos = [0, 0, 0], rot = [0, 0, 0]) {
     }
 }
 
+//BOM: 6, 220 Ohm Resistor,N/A,Provide resistance for LEDs
+//BOM: 6, 5mm White LED,N/A,Light source
+//PRINT: 1
 module lamp_LEDs (pos = [0, 0, 0], rot = [0, 0, 0]) {
     LightChannelY = 24;
     LEDOffsetY = -2;
@@ -1548,6 +1592,31 @@ module electronics_panel (pos = [0, 0, 0], rot = [0, 0, 0]) {
         }
 
     }
+}
+
+//BOM: 14, M4 hex nut,N/A,Secure knob to M4 bolts
+//PRINT: 14
+module contact_printer_knob () {
+    knob(H = 10, D = 14, DEPTH = 4, BOLT = "M4", TYPE = "hex");
+}
+
+//PRINT: 2
+module contact_printer_magnetic_coupling () {
+    magnetic_coupling();
+}
+
+//PRINT: 4
+module contact_printer_slip_coupling () {
+    slip_coupling();
+}
+
+//PRINT: 4
+module contact_printer_daylight_spool_insert_reinforced_nut () {
+    daylight_spool_insert_reinforced_nut();
+}
+
+module contact_printer_daylight_spool_insert_reinforced () {
+    daylight_spool_insert_reinforced();
 }
 
 module debug () {
@@ -1727,13 +1796,15 @@ module debug_clutch () {
     centered_geared_motor([TakeupPanelPictureX, TakeupPanelPictureY, -50], [180, 0, 0]);
 }
 
+
+
 //BOM: 840, 2020 Aluminum extrusion mm,N/A,Top and bottom frame 2x 420mm
 //BOM: 1040, 2020 Aluminum extrusion mm,N/A,Sides and central frame 4x 260mm
 module contact_printer () {
     //debug module for BOM
 }
 
-PART = "lamp_coverx";
+PART = "feed_panel_picture";
 LIBRARY = true;
 
 if (PART == "panel") {
@@ -1756,50 +1827,46 @@ if (PART == "panel") {
     feed_panel_stock();
 } else if (PART == "feed_panel_motor_mount") {
     feed_panel_motor_mount();
-} else if (PART == "picture_gate") {
-    rotate([-90, 0, 0]) picture_gate(Type = "standard");
-} else if (PART == "full_gate") {
-    rotate([-90, 0, 0]) picture_gate(Type = "full");
-} else if (PART == "super_gate") {
-    rotate([-90, 0, 0]) picture_gate(Type = "super16");
-} else if (PART == "sound_gate") {
-    rotate([-90, 0, 0]) picture_gate(Type = "sound");
+} else if (PART == "gate_picture") {
+    picture_gate_standard(rot = [-90, 0, 0]);
+} else if (PART == "gate_full") {
+    picture_gate_full(rot = [-90, 0, 0]);
+} else if (PART == "gate_super16") {
+    picture_gate_super16(rot = [-90, 0, 0]);
+} else if (PART == "gate_sound") {
+    picture_gate_sound(rot = [-90, 0, 0]);
 } else if (PART == "sprocketed_roller_invert") {
     sprocketed_roller_invert();
 } else if (PART == "sprocketed_roller_invert_solid") {
     sprocketed_roller_invert_solid();
-} else if (PART == "sprocketed_wheel") {
+} else if (PART == "sprocketed_roller_reinforced_wheel") {
     rotate([180, 0, 0]) sprocketed_roller_reinforced_wheel(sprockets = 18, bevel = true, model = "gearbox_motor", nuts = true);
 } else if (PART == "magnetic_coupling") {
-    magnetic_coupling();
+    contact_printer_magnetic_coupling();
 } else if (PART == "slip_coupling"){
-    slip_coupling();
+    contact_printer_slip_coupling();
+} else if (PART == "daylight_spool_insert_reinforced_nut") {
+    contact_printer_daylight_spool_insert_reinforced_nut();
+} else if (PART == "daylight_spool_insert_reinforced") {
+    contact_printer_daylight_spool_insert_reinforced();
 } else if (PART == "corner_foot") {
     rotate([180, 0, 0]) corner_foot();
 } else if (PART == "2020_tslot_insert") {
     2020_tslot_insert();
 } else if (PART == "bearing_post_nut"){
     bearing_post_nut();
-} else if (PART == "daylight_spool_insert_reinforced_nut") {
-    daylight_spool_insert_reinforced_nut();
-} else if (PART == "daylight_spool_insert_reinforced") {
-    daylight_spool_insert_reinforced();
 } else if (PART == "idle_roller_half_a") {
-    idle_roller_half();
+    idle_roller_half_a();
 } else if (PART == "idle_roller_half_b") {
-    idle_roller_half(flip = true);
-} else if (PART == "motor_controller_panel") {
-    motor_controller_panel();
-} else if (PART == "gate_holder") {
-    gate_holder();
+    idle_roller_half_b();
 } else if (PART == "gate_carrier") {
     rotate([0, 0, 0]) gate_carrier();
-} else if (PART == "filter_carrier") {
-    rotate([-90, 0, 0]) filter_carrier();
 } else if (PART == "lamp_LEDs") {
     rotate([90, 0, 0]) lamp_LEDs();
 } else if (PART == "electronics_panel") {
     electronics_panel(rot = [180, 0, 0]);
+} else if (PART == "knob"){
+    contact_printer_knob();
 } else {
     //debug();
     //difference () {

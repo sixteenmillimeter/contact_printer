@@ -70,6 +70,8 @@ We were given time and resources to explore our various topics of research relat
 This allowed for tremendous progress to be made on the details of the implementation and, with darkroom access, gave opportunities to run tests on exposure, use of filters and overall film tensioning.
 
 The results of this residency included a 100 foot sound print made from a negative and with the soundtrack printed directly on the print stock and a working first draft prototype of this design.
+Collaboration with the other residents led to ideas for future work and improved the design as we performed tests collectively.
+The possibility of making this platform work as a soundtrack camera was also explored during this session.
 
 # The Contact Printer
 
@@ -90,7 +92,8 @@ Development of this sprocketed drive roller was kickstarted by an existing param
 That work has already proven useful to the mcopy [@mcopy] project as the updated module has been used to design a gate compatible with JK optical printers.
 Due to the model being parametric, it can be used in designing film transport mechanisms in other, future projects, and additional improvements to the measurements and tolerances will benefit those projects as well.
 
-The roller designed for this project is distinct from
+The roller designed for this project is distinct from a professionally-oriented machine like the B&H Model C printer.
+
 
 
 ## The Drive Motor
