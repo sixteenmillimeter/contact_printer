@@ -98,19 +98,29 @@ This can be compared to the resolutions available in the FDM printer used to mak
 
 ![Illustration of the 8-frame sprocketed roller and the 18-frame roller created with the same module]()
 
-Development of this sprocketed drive roller was kickstarted by an existing parametric model that was designed to replace an 8-frame roller and work on this project was upstreamed into that module so that it may benefit other use cases.
+Development of this sprocketed drive roller was kickstarted by using an existing parametric model[@param-roller] that was designed to replace an 8-frame roller and work on this project was upstreamed into that module so that it may benefit other use cases.
 That work has already proven useful to the mcopy [@mcopy] project as the updated module has been used to design a gate compatible with JK optical printers.
 Due to the model being parametric, it can be used in designing film transport mechanisms in other, future projects, and additional improvements to the measurements and tolerances will benefit those projects as well.
 
-The roller designed for this project is distinct from a professionally-oriented machine and is more similar to the DIY technique of contact printing using a sync block or using a modified Steenbeck editing table.
+The roller designed for this project is distinct from a professionally-oriented machine and is similar to the DIY technique of contact printing using a gang sync block and a flashlight or using a modified editing table as a printer.
+16mm gauge film has two different pitches of film perforations: short pitches for camera stocks and long pitches for print stocks.
+The purpose of this difference is to allow for a camera stock to sit on the inside of a cylindrical roller and the print stock on the outside so that the minute difference in diameter cause the perforations to line up when registered by sprockets.
 
+![Illustration of short and long pitch films correctly wrapped around a sprocketed roller]()
 
+This alignment creates a design constraint for "proper" lamp orientation: it has to come from inside the roller.
+Large-scale commercial machines solve for this by having a large wheel that only contains the sprockets rotate next to the light path, letting the film pass against a gate to support the remainder of the material.
+Building this on a small scale is possible but onerous.
+Using a single wheel driven directly by a motor that both registers the film perforations of both stocks and supports the opposing soundtrack area of the film is possible to build with minimal parts.
+
+Designing a lamp with a light path and gate that sits at or behind where the motor would need to be mounted is possible and becomes a challenge to be discussed in future work.
+Due to the modular nature to this design, the choice to not take this approach at the earliest stages does not preclude the creation of a swap-in panel that uses the existing feed and takeup transports. 
 
 ## The Drive Motor
 
 The speed of the printer is an important factor in this design that affects usability and exposure.
 Slower speeds would allow for more overall exposure when controlling for lamp brightness but would make for longer print times.
-Also, 
+Also, targeting the capability for real time speeds (24 FPS) preserves the ability to build a sound camera module and expand this platform to write soundtracks as well as print picture.
 
 Encoder motor
 
