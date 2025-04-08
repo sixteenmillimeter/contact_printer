@@ -87,9 +87,13 @@ In order to fulfill this research proposal the lab hosted a residency with mysel
 We were given time and resources to explore our various topics of research related to contact printing and creating sound prints.
 This allowed for tremendous progress to be made on the details of the implementation and, with darkroom access, gave opportunities to run tests on exposure, use of filters and overall film tensioning.
 
-The results of this residency included a 100 foot sound print made from a Kodak 7222 Double-X negative onto Kodak 3302 print stock, with a soundtrack written directly on the print and a working first draft prototype of this design.
+This residency 
+The results included a 100 foot sound print made from a Kodak 7222 Double-X negative onto Kodak 3302 print stock, with a soundtrack written directly on the print and a working first draft prototype of this design.
 Collaboration with the other residents led to ideas for future work and improved the design as we performed tests collectively.
 The possibility of making this platform work as a soundtrack camera was also explored during this session.
+
+Prior to this residency, a very early version of the prototype was presented at the Liason of Independent Filmmakers of Toronto (LIFT) [@lift] during the "Analog Resilience: Film Labs Gathering" [@lift-labs] in May of 2023.
+This device was used to create a short silent print during the lab meeting and provided a starting point which was able to be refined during the dedicated period of research.
 
 # The Contact Printer
 
@@ -277,6 +281,11 @@ This was avoided in the prototyping phase because it would add parts to the bill
 
 Kinograph multi-format sprocketed roller.
 
+
+### Research Supporters
+
+![](../img/EN_FundedbytheEU_RGB_POS.png){ width=5.5in height=1.2in }
+
 ### References
 
 ---
@@ -284,3 +293,4 @@ refs: |
    ::: {#refs}
    :::
 ...
+
