@@ -10,7 +10,7 @@ void DriveMotor::Setup () {
 	pinMode(backward_pin, OUTPUT);
 
 	pinMode(encoder_a_pin, INPUT);
-  	pinMode(encoder_b_pin, INPUT);
+	pinMode(encoder_b_pin, INPUT);
 
 	ledcSetup(pwm_channel, pwm_frequency, pwm_resolution);
 	Serial.print("Attaching pin ");
