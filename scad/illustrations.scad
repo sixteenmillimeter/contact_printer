@@ -1,7 +1,49 @@
 use <./contact_printer.scad>;
 
-PART = "gates";
 
+
+Film16mmStandard = 10.26;
+Film16mmStandardZ = -0.7;
+Film16mmFull = 16;
+Film16mmFullZ = -1.1;
+Film16mmSuper = 13.25;
+Film16mmSuperZ = -(16 - Film16mmSuper) + 0.7;
+Film16mmSound = Film16mmSuper - Film16mmStandard;
+Film16mmSoundZ = -7.75;
+
+OldLampGateX = 11;
+module old_gate_blank () {
+	X = OldLampGateX;
+    //front
+    translate([0, -6.25, 0]) cube([X-7.2, 1.2, 19.25], center = true);
+    //middle
+    translate([0, -5.1, -0.5]) cube([X-4.2, 1.4, 19], center = true);
+    
+    //top
+    translate([0, -5.9, 9]) cube([X-4.2, 3, 2], center = true);
+}
+//standard, super, full, sound
+module old_picture_gate (pos = [0, 0, 0], rot = [0, 0, 0], Type = "full", Width = 2) {
+    X = OldLampGateX;
+    translate(pos) rotate(rot) {
+        difference () {
+            union () {
+                old_gate_blank();
+            }
+            if (Type == "standard") {
+                translate([0, -6, Film16mmStandardZ]) cube([Width, 10, Film16mmStandard], center = true);
+            } else if (Type == "full") {
+                translate([0, -6, Film16mmFullZ]) cube([Width, 10, Film16mmFull], center = true);
+            } else if (Type == "super16") {
+                translate([0, -6, Film16mmSuperZ]) cube([Width, 10, Film16mmSuper], center = true);
+            } else if (Type == "sound") {
+                translate([0, -6, Film16mmSoundZ]) cube([Width, 10, Film16mmSound], center = true);
+            }
+        }
+    }
+}
+
+PART = "gate_comparsion";
 
 if (PART == "sprocketed_roller_invert_solid") {
 	$fn = 200;
@@ -38,6 +80,9 @@ if (PART == "sprocketed_roller_invert_solid") {
     picture_gate_full([-10, 0, 0]);
     picture_gate_super16([10, 0, 0]);
     picture_gate_sound([30, 0, 0]);
+} else if (PART == "gate_comparsion") {
+	translate([-10, 5, 0]) old_picture_gate(Type = "standard");
+	translate([10, 0, 0]) picture_gate(Type = "standard");
 }
 /*
 PART = "feed_panel_picture";
