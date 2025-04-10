@@ -16,7 +16,7 @@ bibliography: sources.bib
 csl: citation_style.csl
 ---
 
-![Photograph of the first contact printer prototype at Filmwerkplaats]()
+![Photograph of the contact printer prototype](../img/IMG_8295.jpg){ width=5.5in height=4.1in }
 
 # Introduction
 
@@ -61,7 +61,7 @@ Cheap-but-reliably geared DC motors are to provide movement for the transport me
 Open-source electronics platforms, such as the Arduino and the ESP32 microcontrollers, allow for the electronics to be built and modified by hobbyists and amateurs.
 
 A modular design strategy compared to a monolithic one has two theoretical benefits; it can leverage existing components to make the process easier and it can lead to the creation and update of new components that can benefit other projects.
-Key common elements of a contact printer are the film-transporting sprocketed roller and the motorized film takeups.
+Key common elements of a contact printer are the film-transporting sprocketed roller and the motorized film take-ups.
 
 Designing all the printable hardware in OpenSCAD [@openscad] gives the creators the benefits of working with code-managing tools and using only plaintext files.
 The source control software git [@git] provides the ability to make and track changes that update the project incrementally.
@@ -97,6 +97,8 @@ This device was used to create a short silent print during the lab meeting and p
 
 # The Contact Printer
 
+![Render of the assembled contact printer](../img/contact_printer.svg){ width=5.5in height=3.9in }
+
 ## The Sprocketed Roller
 
 Sprockets on a cylindrical roller register the two strips of film at the perforations to keep them aligned and in contact at the correct frame positions as they move through the transports.
@@ -126,7 +128,7 @@ Building this on a small scale is possible but onerous.
 Using a single wheel driven directly by a motor that both registers the film perforations of both stocks and supports the opposing soundtrack area of the film is possible to build with minimal parts.
 
 Designing a lamp with a light path and gate that sits at or behind where the motor would need to be mounted is possible and becomes a challenge to be discussed in future work.
-Due to the modular nature to this design, the choice to not take this approach at the earliest stages does not preclude the creation of a swap-in panel that uses the existing feed and takeup transports. 
+Due to the modular nature to this design, the choice to not take this approach at the earliest stages does not preclude the creation of a swap-in panel that uses the existing feed and take-up transports. 
 
 ## The Drive Motor
 
@@ -154,18 +156,20 @@ Being able to transport film at this speed would make it easier write soundtrack
 
 Though this was the decision that was made for the earliest prototypes it will be discussed critically in exploration of future work.
 
-## The Takeup Motors
+## The Take-ups
 
 A contact printer typically requires at least four reels, cores or spools to transport two strips of film.
-Film must be driven from one side--the feed--to another side; the takeup.
+Film must be driven from one side--the feed--to another side; the take-up where it is wound onto a core or spool.
+For this reason only the take-up side *needs* to be motorized.
+This reduces the overall cost of the build and removes the need for additional motor-controlling electronics.
 
-The takeup motors for the picture and stock are inspired by a feature in the The Shaffer Linear Processor [@slp]: the magnetic clutch [@slp-clutch].
+The take-up mechanisms for the picture and stock are inspired by a feature in the The Shaffer Linear Processor [@slp]: the magnetic clutch [@slp-clutch].
 
-![Illustration of an exploded view of a takeup magnetic clutch]()
+![Illustration of an exploded view of a take-up magnetic clutch]()
 
-The choice to direct drive the takeup is due to the fact that powerful geared DC motors are cheap and available.
+The choice to direct drive the take-up is due to the fact that powerful geared DC motors are cheap and available.
 Driving them separately, rather than using a belt, means that the speed can be controlled individually.
-The speed of one takeup can be set to expect a 3 inch core but
+The speed of one take-up can be set to expect a 3 inch core but
 
 ## The Lamp
 
@@ -173,11 +177,11 @@ To start this project the goal is to create a simple, constant lamp.
 Reducing the number of variables in the light source reduces the required cognitive load of using the contact printer.
 Being able to load film and run it rather than tweak settings, a simple, constant LED-based lamp matches the simplicity the Uhler Cine Printer which had a single bulb that was either dimmed or filtered.
 
-The first lamp consisted of a three (3) 5mm LED and from tests at the Filmwerkplaats residency we determined, through all of our tests, that there needs to be more light to have exposure headroom to run at the speed we chose.
+The first lamp consisted of a three (3) 5mm LED and from tests at the Filmwerkplaats residency we determined, through all of our tests, that more light is needed to have exposure headroom to run at the speed we chose.
 
 Design with six 5mm LEDs was in the next iteration of the lamp that also allowed for an adjustable distance.
 Assuming perfect light transmission in the second design, this would increase the exposure by a stop and allow for more filters to be used in the case of printing onto color stock.
-Our tests with color prints indicated that we needed additional filters, which cut exposure, to achieve standard color using the 
+Our tests with color prints indicated that we needed additional filters, which cut exposure, to achieve standard color using these "cool white" LEDs that likely emitted light in the ~6000 Kelvin range (though they were not measured).
 
 ## The Gate
 
@@ -227,8 +231,8 @@ The central processing unit of this machine is an ESP32 development board.
 Choosing an ESP32-based microcontroller allows for the use of the complete Arduino toolchain while maintaining the capability to add advanced features at later point in the design without sacrificing memory or performance.
 The microcontroller contains radios for Bluetooth Low Energy and Wifi-based connections, so a remote control application is possible.
 
-For the ease of prototyping and reducing the number of parts in the bill of materials, a L298N motor driver module with two (2) channels will be used for the drive and takeup motors.
-Because the takeup motors run concurrently and in opposite directions, they share a single channel with their lead wires reversed.
+For the ease of prototyping and reducing the number of parts in the bill of materials, a L298N motor driver module with two (2) channels will be used for the drive and take-up motors.
+Because the take-up motors run concurrently and in opposite directions, they share a single channel with their lead wires reversed.
 This requires six (6) GPIO pins to run both motor channels with PWM for speed control.
 Motivations for the drive motor encoder have been mentioned, but it will require only three (3) GPIO pins and ground on the ESP32 board.
 The lamp is driven by connecting a single GPIO pin to the base pin of a TIP120 transistor and setting the ESP32 pin to  `HIGH` or `LOW`.
@@ -246,9 +250,14 @@ The initial release of the firmware will
 
 ## Printing the Components
 
-PLA or PETG for most parts.
+By volume, the majority of parts for this project can be printed using an FDM printer.
+For the first prototypes the materials used were PLA and PETG.
 This may seem obvious but just to be clear: dark colored plastics reflect less light.
-Printing parts in all black plastic is an easy way to make parts with the lowest possible reflective areas close to the 
+Printing parts in all black plastic is an easy way to make sure that there is the lowest amount of potential light reflection occurring near the lamp and gate areas.
+
+For the detailed parts, resin SLA printing is recommended.
+This would be for the sprocketed drive roller and the gates.
+Overall this is a very small amount of SLA printing needed and for people without access to resin printing technology these parts could be made by a print-on-demand service.
 
 ## Assembling the Frame
 
