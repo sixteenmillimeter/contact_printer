@@ -16,7 +16,15 @@ bibliography: sources.bib
 csl: citation_style.csl
 ---
 
-![Photograph of the contact printer prototype](../img/IMG_8295.jpg){ width=5.5in height=4.1in }
+```{=latex}
+\begin{center}
+```
+
+![Photograph of the contact printer prototype](../img/IMG_8295.jpg){ width=4in height=3in }
+
+```{=latex}
+\end{center}
+```
 
 # Introduction
 
@@ -45,7 +53,15 @@ The Uhler Cine Printer provides a great example of a tool that solves the proble
 Its design was a product of the time it was created and therefore a modern approach is needed to make a contact printer that fulfills the same needs but, for example, won't be cast out of metal in a mass production run.
 Still, it provides a guide as an example of a tool built for shorter films and with simple exposure controls.
 
-![Photograph of the Uhler Cine Printer]()
+```{=latex}
+\begin{center}
+```
+
+![Photograph of the Uhler Cine Printer](../img/Uhler_Cine_Printer.jpeg){ width=4in height=2.66in }
+
+```{=latex}
+\end{center}
+```
 
 Designing a new contact printer at the same scale and feature complexity as the towering Bell & Howell Model C printer--a machinebuilt to handle thousands of feet of film for printing features with intricate color and fade controls--is not practical or within the engineering capabilities of the authors.
 Creating one at the size and scale the Uhler Cine Printer that can be made using rapid prototyping techniques, however, will find a use to many artists.
@@ -87,7 +103,7 @@ In order to fulfill this research proposal the lab hosted a residency with mysel
 We were given time and resources to explore our various topics of research related to contact printing and creating sound prints.
 This allowed for tremendous progress to be made on the details of the implementation and, with darkroom access, gave opportunities to run tests on exposure, use of filters and overall film tensioning.
 
-This residency 
+This residency took place during 
 The results included a 100 foot sound print made from a Kodak 7222 Double-X negative onto Kodak 3302 print stock, with a soundtrack written directly on the print and a working first draft prototype of this design.
 Collaboration with the other residents led to ideas for future work and improved the design as we performed tests collectively.
 The possibility of making this platform work as a soundtrack camera was also explored during this session.
@@ -97,7 +113,7 @@ This device was used to create a short silent print during the lab meeting and p
 
 # The Contact Printer
 
-![Render of the assembled contact printer](../img/contact_printer.svg){ width=5.5in height=3.9in }
+![Render of the assembled contact printer](../img/contact_printer.svg){ width=5.5in height=3.89in }
 
 ## The Sprocketed Roller
 
@@ -165,7 +181,15 @@ This reduces the overall cost of the build and removes the need for additional m
 
 The take-up mechanisms for the picture and stock are inspired by a feature in the The Shaffer Linear Processor [@slp]: the magnetic clutch [@slp-clutch].
 
-![Illustration of an exploded view of a take-up magnetic clutch]()
+```{=latex}
+\begin{center}
+```
+
+![Illustration of an exploded view of a take-up magnetic clutch](../img/contact_printer_takeup.svg){ width=3in height=3.98in }
+
+```{=latex}
+\end{center}
+```
 
 The choice to direct drive the take-up is due to the fact that powerful geared DC motors are cheap and available.
 Driving them separately, rather than using a belt, means that the speed can be controlled individually.
@@ -184,6 +208,8 @@ Assuming perfect light transmission in the second design, this would increase th
 Our tests with color prints indicated that we needed additional filters, which cut exposure, to achieve standard color using these "cool white" LEDs that likely emitted light in the ~6000 Kelvin range (though they were not measured).
 
 ## The Gate
+
+![Illustration of all four available gates](../img/contact_printer_gates.svg){ width=5.5in height=1.92in }
 
 The gate, being the part of the printer that allows light to pass from the lamp onto the film with a precise mask, is one of the most essential parts of any contact printer design.
 Lessons learned through testing the first version of this prototype mean that major changes were needed in the approach to get satisfactory results.
@@ -222,7 +248,7 @@ As a framing material it is light, sturdy and holds up to substantial forces whe
 
 ![Illustration of the 2020 aluminum extrusion frame with lengths separated]()
 
-It would be possible to add additional rigidity if needed by adding additional lengths but for this prototype a total of six (6) lengths connected by five (5) panels and eight (8) corner brackets has been st
+It would be possible to add rigidity if needed by adding additional lengths but for this prototype a total of six (6) lengths connected by five (5) panels and eight (8) corner brackets has been sturdy enough for all tests.
 
 
 ## The Electronics
