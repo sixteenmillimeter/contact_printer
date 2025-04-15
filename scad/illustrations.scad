@@ -1,6 +1,12 @@
 use <./contact_printer.scad>;
 
+FrameX = 400;
+FrameY = 260;
+FrameZ = -16;
 
+PanelX = 155;
+PanelY = 100;
+PanelZ = 5;
 
 Film16mmStandard = 10.26;
 Film16mmStandardZ = -0.7;
@@ -43,7 +49,29 @@ module old_picture_gate (pos = [0, 0, 0], rot = [0, 0, 0], Type = "full", Width 
     }
 }
 
-PART = "gate_comparsion";
+module m3_bolt_void (pos = [0, 0, 0], rot = [0, 0, 0], Cap = 3, Bolt = 8) {
+    translate(pos) rotate(rot) {
+        translate([0, 0, -Cap / 2]) cylinder(r = R(6), h = Cap, center = true, $fn = 30);
+        translate([0, 0, (Bolt / 2) - 0.01]) cylinder(r = R(3), h = Bolt, center = true, $fn = 30);
+    }
+}
+
+module corner_foot_bolts (pos = [0, 0, 0], rot = [0, 0, 0]) {
+    translate(pos) rotate(rot) {
+        corner_foot();
+        m3_bolt_void([0, 20, -20]);
+        m3_bolt_void([0, 40, -20]);
+        m3_bolt_void([20, 0, -20]);
+        m3_bolt_void([40, 0, -20]);
+
+        2020_tslot_insert([0, 20, 20], [180, 0, 90]);
+        2020_tslot_insert([0, 40, 20], [180, 0, 90]);
+        2020_tslot_insert([20, 0, 20], [180, 0, 0]);
+        2020_tslot_insert([40, 0, 20], [180, 0, 0]);
+    }
+}
+
+PART = "frame";
 
 if (PART == "sprocketed_roller_invert_solid") {
 	$fn = 200;
@@ -83,6 +111,27 @@ if (PART == "sprocketed_roller_invert_solid") {
 } else if (PART == "gate_comparsion") {
 	translate([-10, 5, 0]) old_picture_gate(Type = "standard");
 	translate([10, 0, 0]) picture_gate(Type = "standard");
+} else if (PART == "frame") {
+    FootZ = -60;
+    //top/bottom
+    translate([0, (FrameY/2) + 10, FrameZ]) rotate([0, 90, 0]) 2020_tslot(FrameX + 20);
+    translate([0, -(FrameY/2) - 10, FrameZ]) rotate([0, 90, 0]) 2020_tslot(FrameX + 20);
+    //far sides
+    translate([FrameX/2, 0, FrameZ + 40]) rotate([90, 0, 0]) 2020_tslot(FrameY);
+    translate([-FrameX/2, 0, FrameZ + 40]) rotate([90, 0, 0]) 2020_tslot(FrameY);
+    //inner rails
+    translate([(PanelX/2) - 10, 0, FrameZ + 40]) rotate([90, 0, 0]) 2020_tslot(FrameY);
+    translate([-(PanelX/2) + 10, 0, FrameZ + 40]) rotate([90, 0, 0]) 2020_tslot(FrameY);
+
+    corner_foot_bolts([FrameX / 2, (FrameY / 2) + 10, FootZ], [0, 0, 180]);
+    corner_foot_bolts([FrameX / 2, -(FrameY / 2) - 10, FootZ], [0, 0, 90]);
+    corner_foot_bolts([-FrameX / 2, -(FrameY / 2) - 10, FootZ], [0, 0, 0]);
+    corner_foot_bolts([-FrameX / 2, (FrameY / 2) + 10, FootZ], [0, 0, -90]);
+    
+    corner_foot_bolts([(PanelX / 2) - 10, (FrameY / 2) + 10, FootZ], [0, 0, 180]);
+    corner_foot_bolts([-(PanelX / 2) + 10, (FrameY / 2) + 10, FootZ], [0, 0, -90]);
+    corner_foot_bolts([(PanelX / 2) - 10, -(FrameY / 2) - 10, FootZ], [0, 0, 90]);
+    corner_foot_bolts([-(PanelX / 2) + 10, -(FrameY / 2) - 10, FootZ], [0, 0, 0]);
 }
 /*
 PART = "feed_panel_picture";

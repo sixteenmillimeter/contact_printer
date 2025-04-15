@@ -767,14 +767,6 @@ module lamp_single (pos = [0, 0, 0]) {
     }
 }
 
-module lamp_single_assembly (pos = [0, 0, 0]) {
-    translate(pos) {
-        difference () {
-            translate([0, 0, 6]) cube([10, 20, 10], center = true);
-        }
-    }
-}
-
 //PRINT: 1
 module lamp_cover (pos = [0, 0, 0]) {
     RollerVoidY = -17.5;

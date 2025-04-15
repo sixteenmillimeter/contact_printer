@@ -115,6 +115,19 @@ This device was used to create a short silent print during the lab meeting and p
 
 ![Render of the assembled contact printer](../img/contact_printer.svg){ width=5.5in height=3.89in }
 
+## The Electronics
+
+The central processing unit of this machine is an ESP32 development board.
+Choosing an ESP32-based microcontroller allows for the use of the complete Arduino toolchain while maintaining the capability to add advanced features at later point in the design without sacrificing memory or performance.
+The microcontroller contains radios for Bluetooth Low Energy and Wifi-based connections, so a remote control application is possible.
+
+For the ease of prototyping and reducing the number of parts in the bill of materials, a L298N motor driver module with two (2) channels will be used for the drive and take-up motors.
+Because the take-up motors run concurrently and in opposite directions, they share a single channel with their lead wires reversed.
+This requires six (6) GPIO pins to run both motor channels with PWM for speed control.
+Motivations for the drive motor encoder have been mentioned, but it will require only three (3) GPIO pins and ground on the ESP32 board.
+The lamp is driven by connecting a single GPIO pin to the base pin of a TIP120 transistor and setting the ESP32 pin to  `HIGH` or `LOW`.
+It will *not* use PWM to control brightness at this stage as explained in the section detailing the lamp.
+
 ## The Sprocketed Roller
 
 Sprockets on a cylindrical roller register the two strips of film at the perforations to keep them aligned and in contact at the correct frame positions as they move through the transports.
@@ -197,15 +210,23 @@ The speed of one take-up can be set to expect a 3 inch core but
 
 ## The Lamp
 
-To start this project the goal is to create a simple, constant lamp.
-Reducing the number of variables in the light source reduces the required cognitive load of using the contact printer.
-Being able to load film and run it rather than tweak settings, a simple, constant LED-based lamp matches the simplicity the Uhler Cine Printer which had a single bulb that was either dimmed or filtered.
+To start this project the goal is to create a simple, constant light source for a lamp.
+Reducing the number of variables in this part of the design reduces the required cognitive load of using the contact printer.
+Being able to load film and run it rather than tweak settings a constant-brightness LED-based lamp matches the simplicity the Uhler Cine Printer which had a single bulb that was either dimmed or filtered.
 
 The first lamp consisted of a three (3) 5mm LED and from tests at the Filmwerkplaats residency we determined, through all of our tests, that more light is needed to have exposure headroom to run at the speed we chose.
+A design with six (6) 5mm LEDs was in the next iteration of the lamp that also allowed for an adjustable distance--the first prototype had the LEDs fixed.
+Assuming perfect light transmission in the second design, this increases the exposure by a stop and allow for more filters to be used in the case of printing onto color stock.
+Our tests with color prints indicated that we needed additional filters, which cut exposure, to achieve standard color using these "cool white" LEDs that likely emitted light in the ~6000 Kelvin range (though they were not measured to confirm their precise color).
+The solution of raising the brightness of the lamp allows for more color filters to be added before reducing the below the level required by color print stock.
 
-Design with six 5mm LEDs was in the next iteration of the lamp that also allowed for an adjustable distance.
-Assuming perfect light transmission in the second design, this would increase the exposure by a stop and allow for more filters to be used in the case of printing onto color stock.
-Our tests with color prints indicated that we needed additional filters, which cut exposure, to achieve standard color using these "cool white" LEDs that likely emitted light in the ~6000 Kelvin range (though they were not measured).
+The L298N motor controller module provides a stable 5 volt DC signal that is used for powering the ESP32 and is wired via a transistor to power the lamp.
+In theory, the signal provided by the ESP32 to the transistor could be modulated with a PWM channel.
+The reason this is being avoided at this stage is that PWM, as in it's name, pulses light to acheive perceptual brightness.
+In the case of a continuous contact print, this would mean the light would be, essentially, flashing on and off as the film passed by the gate.
+Using a standard Arduino PWM rate of 5 kHz and assuming the printer is running at an ideal 24 fps (24 Hz) means that the LEDs would blink on and off ~208 per frame.
+What this *could* result in is 208 distinct lines along the vertical axis of the image.
+It's not a presumption in this project that a PWM-modulated lamp is impossible to make with high-enough of a duty rate or with a properly-designed gate, only that it is a more complicated goal for future work.
 
 ## The Gate
 
@@ -213,9 +234,18 @@ Our tests with color prints indicated that we needed additional filters, which c
 
 The gate, being the part of the printer that allows light to pass from the lamp onto the film with a precise mask, is one of the most essential parts of any contact printer design.
 Lessons learned through testing the first version of this prototype mean that major changes were needed in the approach to get satisfactory results.
+The first version was very compact and simple but sat a few millimeters away from the sprocketed roller and therefore allowed light to be cast across the film media into unintended areas.
+The second version is larger and rounded to allow it to sit as close as possible to the film without impeding its motion.
 
+```{=latex}
+\begin{center}
+```
 
-![Illustration of the initial approach to the gate next to the first major revision of the gate design]()
+![Illustration of the initial approach to the gate next to the first major revision of the gate design](../img/contact_printer_gate_comparison.svg){ width=4in height=3.30in }
+
+```{=latex}
+\end{center}
+```
 
 In order to maintain the sharpest possible mask the gate needs to be close to the moving film material without scratching or damaging it.
 Because the strips of film move past the gate along the top and bottom axis (relative to the film image as it's viewed) what the sharpness and accuracy of the gate determines the quality and selection of the horizontal area of the film--when projecting the resulting image.
@@ -228,7 +258,7 @@ For a print to be made with sound the gate must allow for a clean separation bet
 Sound bleeding into the picture area can affect one side of the image and image bleeding into the soundtrack area can cause a 24Hz hum or other distortion to the audio.
 For this reason the standard picture gate and the soundtrack gate should be able to allow light from the lamp to pass onto areas of the film stock that they isolate from one another.
 
-![]()
+![Illustration of the picture and soundtrack gates side by side]()
 
 An example process for making a print with an image and a soundtrack negative would be to run the unexposed, undeveloped print stock with the negative film containing the negative while using a picture gate and then rewinding the print stock and running it again with the soundtrack negative and the soundtrack gate.
 This would first expose the picture onto the print stock and then, without developing, add the soundtrack to *only* the soundtrack area of the print.
@@ -237,40 +267,31 @@ It is a relatively simple process but it requires precision in the gates to ensu
 
 ## The Frame
 
-Within reason, the frame for this project should be resizable.
-The first draft of the original prototype was made to support 100 foot daylight spools and the first change was to increase the dimensions to allow for 400 foot reels.
-Being able to reduce or increase the area of the frame is one way to make it easier to modify tools built using this platform.
+Within reason, the aluminum frame for this project is resizable.
+The first draft of the original prototype was made to support 100 foot daylight spools and was 300mm by 175mm (11.8" x 6.9").
+This was changed increase the dimensions to allow for 400 foot reels and is now 400mm by 260mm (15.75" x 10.25").
+Being able to reduce or increase the area of the frame is one way to make it easier to modify and customize tools built using this platform.
+There is nothing preventing the creation of a version of this printer with a much larger footage capacity by expanding the frame even further.
 
 Aluminum extrusion as a choice for building DIY machines has proven to be effective for desktop 3D printers and CNC machines.
 There is general availability of common gauges and profiles and aluminum can be cut by hand or with typical shop equipment.
 For these prototypes, lengths of aluminum 2020 T-slot profile extrusion were cut either by hand using a hacksaw or by drop saw.
 As a framing material it is light, sturdy and holds up to substantial forces when secured with panels and other brackets.
 
-![Illustration of the 2020 aluminum extrusion frame with lengths separated]()
+![Illustration of the 2020 aluminum extrusion frame with lengths separated](../img/contact_printer_frame.svg){ width=5.5in height=2.5in }
 
-It would be possible to add rigidity if needed by adding additional lengths but for this prototype a total of six (6) lengths connected by five (5) panels and eight (8) corner brackets has been sturdy enough for all tests.
+It would be possible to increase the rigidity, if needed, by adding additional intermediary crossing lengths but for this prototype a total of six (6) lengths connected by five (5) panels and eight (8) corner brackets has been sturdy enough for all tests.
 
-
-## The Electronics
-
-The central processing unit of this machine is an ESP32 development board.
-Choosing an ESP32-based microcontroller allows for the use of the complete Arduino toolchain while maintaining the capability to add advanced features at later point in the design without sacrificing memory or performance.
-The microcontroller contains radios for Bluetooth Low Energy and Wifi-based connections, so a remote control application is possible.
-
-For the ease of prototyping and reducing the number of parts in the bill of materials, a L298N motor driver module with two (2) channels will be used for the drive and take-up motors.
-Because the take-up motors run concurrently and in opposite directions, they share a single channel with their lead wires reversed.
-This requires six (6) GPIO pins to run both motor channels with PWM for speed control.
-Motivations for the drive motor encoder have been mentioned, but it will require only three (3) GPIO pins and ground on the ESP32 board.
-The lamp is driven by connecting a single GPIO pin to the base pin of a TIP120 transistor and setting the ESP32 pin to  `HIGH` or `LOW`.
-It will *not* use PWM to control brightness at this stage.
 
 ## The Firmware
 
 The Arduino platform uses a subset of C++ which has the benefits of being approachable and easy to use while at the same time preserving all the functionalities of the full C++ language for when they are needed.
 The project is built with an object-oriented programming style that allows for abstraction over the functionality of the physical hardware and other features at the class level.
 This approach serves the project's larger goal to leverage modularity by making use of pre-existing classes and creating reusable ones for other projects.
-The initial release of the firmware will 
+The firmware can be compiled and uploaded using the Arduino IDE [@arduino-ide] or the arduino-cli [@arduino-cli] application using the "esp32:esp32:esp32" FBQN (Fully Qualified Board Name).
 
+The initial release of the firmware simply starts the printer when a button is pressed and stops it when that same button is pressed.
+Additional features, to be discussed in future work, can allow for the adjustment of several behaviors; changing the number of frames that pass before the lamp is struck, running only for a set number of frames, reducing the speed of the printer, etc.
 
 # Assembly
 
@@ -287,9 +308,7 @@ Overall this is a very small amount of SLA printing needed and for people withou
 
 ## Assembling the Frame
 
-Cut with miter box
-
-Cut with drop saw
+The frame is assembled with eight (8) `corner_foot` printed parts and attached with 32 M3 bolts and matching "T Slot Nuts" which are inserts that accept an M3 thread and rotate to grip the inside of the aluminum extrusion.
 
 
 ## Assembling the Electronics
