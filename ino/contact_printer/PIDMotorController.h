@@ -82,3 +82,12 @@ private:
 };
 
 #endif
+
+/*
+PIDMotorController pidController;
+pidController.setTargetRPM(1500.0);
+
+// loop()
+double currentRPM = readEncoderRPM(); // Your encoder reading function
+uint16_t pwmValue = pidController.update(currentRPM);
+*/
