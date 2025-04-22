@@ -193,18 +193,16 @@ Due to the modular nature to this design, the choice to not take this approach a
 The first choice made in this project was to select the type of motor to be used.
 between a stepper motor and a regular DC motor.
 Choosing a stepper might immediately the overall complexity of the software design and hardware design increases by adding the requirement of a stepper driver and the code to manage it.
-We should also consider the essence and purpose of what each type of these motors are: the stepper moves in discrete movements--steps--while regular DC motors merely move; it's either on or off.
+We should also consider the essence and purpose of what each type of these motors are: the stepper moves in discrete movements--steps--while regular DC motors merely move; it's either moving or not.
 It is possible that there are stepper motor and drivers that can create smooth continuous motion, but as a requirement it potentially increases the hardware cost and the time spent on testing the movement.
 
-To be clear; smooth, even motion is preferred when running the print stock past the lamp because uneven motion can create uneven exposure.
+To be clear; smooth, consistent motion is preferred when running the print stock past the lamp because uneven motion can create uneven exposure.
 Uneven motion past the lamp can manifest as lines in the frame or pulses that occur over multiple frames depending on the type or frequency of the light.
 These artifacts can be caused by other factors that will be discussed with the lamp but by focusing this project on producing the cheapest, smoothest motion with the fewest number of parts to assemble we will be avoiding stepper drive motors at first.
 
 A cheap (~$15 USD at the time of writing) DC geared motor with an encoder present an affordable compromise of a choice in drive motor.
-With a reasonably-high resolution encoder, this motor can provide speed and position feedback to the control firmware at a per-frame level.
-
-Geared DC motor drawbacks : stopping has slack in system
-Using a PWM motor driver and 
+With a reasonably-high resolution encoder, this motor can provide speed and position feedback to the control firmware on a per-frame level.
+Geared DC motors do have a drawback: there is slack in the gearing system that means that stopping based on encoder feedback is less accurate than with a stepper motor.
 
 The operating speed of the printer is an important target to set in this design that needs to take into account the effects it will have on usability and exposure.
 Slower print speeds would allow for greater overall exposure when controlling for lamp brightness but would make for longer print times.
@@ -214,7 +212,7 @@ Being able to transport film at this speed would make it easier write soundtrack
 
 Though this was the decision that was made for the earliest prototypes it will be discussed critically in exploration of future work.
 
-## The Take-ups
+## The Take-up Motors
 
 A contact printer typically requires at least four reels, cores or spools to transport two strips of film.
 Film must be driven from one side--the feed--to another side; the take-up where it is wound onto a core or spool.
@@ -317,7 +315,6 @@ As a framing material it is light, sturdy and holds up to substantial forces whe
 
 It would be possible to increase the rigidity, if needed, by adding additional intermediary crossing lengths but for this prototype a total of six (6) lengths connected by five (5) panels and eight (8) corner brackets has been sturdy enough for all tests.
 
-
 ## The Firmware
 
 The Arduino platform uses a subset of C++ which has the benefits of being approachable and easy to use while at the same time preserving the functionalities of the full C++ language for when they are needed.
@@ -333,8 +330,6 @@ There is a stub for the HTTP networking features named "WebGUI" which does not d
 The ContactPrinter class manages the take-up motors directly but the DriveMotor class is broken out into its own abstraction because it is expected to stabilize and manage the speed of the drive motor more accurately with feedback from the drive motors encoder and also keeps track of the number of frames passed using the same encoder data.
 The Lamp class, at this time, simply turns the contact printer lamp on or off using a method.
 
-
-
 The initial release of the firmware simply starts the printer when a button is pressed, turns the lamp on after 24 frames pass and stops it when that same button is pressed.
 Additional features, to be discussed in future work, can allow for the adjustment of several behaviors; changing the number of frames that pass before the lamp is struck, running only for a set number of frames, reducing the speed of the printer, etc.
 
@@ -346,17 +341,15 @@ Physical interfaces are another area of future expansion and development.
 Requests have been made, for example, to add a dial for controlling lamp brightness.
 This was avoided in the prototyping phase because it would add parts to the bill of materials and create additional potential points of failure in the wiring.
 
-
 ## Sound
 
+Creating a sound camera from this platform is 
+
 ## Color Lamp Control
-
-
 
 ## Multi-format
 
 Kinograph multi-format sprocketed roller.
-
 
 ### Research Supporters
 
