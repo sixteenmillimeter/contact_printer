@@ -349,7 +349,12 @@ Creating a sound camera from this platform is
 
 ## Multi-format
 
-Kinograph multi-format sprocketed roller.
+The Kinograph DIY scanner project [@kinograph] presents an example of a 3D-printed multi-format sprocketed roller capable of transporting 16mm, 8mm and 35mm gauge film material.
+This is a possibility to consider, though it would introduce new design challenges.
+First would be the need to create new lamps and gates for each format.
+Next would be the question of speed and the resulting exposure.
+Could the drive motor be slowed or sped up to allow for these formats to print properly?
+There is also the question of need: is it necessary to create an 8mm gauge printer at all?
 
 ### Research Supporters
 
