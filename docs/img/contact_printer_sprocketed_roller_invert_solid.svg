@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="full" height="1050px" version="1.1" width="1070px">
+  <style>svg { background-color: white; }</style>
   <defs/>
   <path d="M 74.6819,383.4154 L 76.4977,391.1229" fill="none" stroke="black" stroke-width="1.0"/>
   <path d="M 80.3694,398.904 L 86.3757,406.7218" fill="none" stroke="black" stroke-width="1.0"/>
