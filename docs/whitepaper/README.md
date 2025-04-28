@@ -104,7 +104,7 @@ This allows for the tracking of changes over time, with notes annotated why they
 Using a human-readable design format means that even if the software for rendering the printable models no longer exists or no longer works or for some reason cannot be executed, the features of the design can be theoretically preserved and recreated by reading the measurements the code describes.
 Dimensions and makeup of each part are stored in such a way with adjacent comments and other semantic signifiers to describe the 3D objects in such a way that a person with the OpenSCAD code printed out on paper could reconstruct or recreate in another CAD software or physically.
 
-In the below code example a cube measuring 4 mm x 5 mm x 3 mm has a cylindrical void with a 1.5 mm radius removed from it via the "difference" boolean operation.
+In the below code example a cube measuring 4mm x 5mm x 3mm has a cylindrical void with a 1.5mm radius removed from it via the "difference" boolean operation.
 
 ```{=latex}
 \begin{center}
@@ -117,7 +117,7 @@ In the below code example a cube measuring 4 mm x 5 mm x 3 mm has a cylindrical 
 ```
 
 The ultimate goal of this project is to create a free and open design that is a platform others can expand on to fulfill their production needs.
-The goal is *not* to create a product and take on all of the expectations and economic considerations that endeavor requires.
+The goal is *not* to create a "product" and take on all of the consumerist expectations and financial considerations that endeavor requires.
 The licensing of the project allows for the possibility of motivated individuals or organizations to produce and sell the contact printer without any restrictions.
 That same license also gives people the ability to create their own modification and release their own design as they see fit.
 
@@ -166,9 +166,19 @@ The ultra-cheap resin printer used in prototyping this sprocketed roller is the 
 This can be compared to the resolutions available in the FDM printer used to make this prototype, the Creality Ender 3 [@ender3], which extrudes plastic through a 400 micron (0.4mm) nozzle and has a range of vertical and horizontal resolutions from 100 to 300 microns (0.1mm to 0.3mm).
 
 The reason these resolutions are important is because of the specification for 16mm perforations on film.
+Perforations for 16mm film are standarized at 1.27mm high by 1.829mm wide with 0.01mm tolerances [@perforations].
+Printers that can only produce parts at a resolutions that is 10 to 40 times larger than the tolerance for the standard limits the ability to accurately produce useful sprockets.
+SLA printing puts production within the correct scale.
 
+```{=latex}
+\begin{center}
+```
 
-![Illustration of the 8-frame sprocketed roller and the 18-frame roller created with the same module]()
+![Illustration of the 8-frame sprocketed roller and the 18-frame roller created with the same module](../img/contact_printer_roller_comparison.svg){ width=4in height=2.42in }
+
+```{=latex}
+\end{center}
+```
 
 Development of this sprocketed drive roller was kick-started by using an existing parametric model[@param-roller] that was designed to replace an 8-frame roller and work on this project was up-streamed into that module so that it may benefit other use cases.
 That work has already proven useful to the mcopy [@mcopy] project as the updated module has been used to design a gate compatible with JK optical printers.
@@ -221,7 +231,7 @@ This reduces the overall cost of the build and removes the need for additional m
 
 The take-up mechanisms for the picture and stock are inspired by a feature in the The Shaffer Linear Processor [@slp]: the magnetic clutch [@slp-clutch].
 In principle a magnetic clutch is two parts; one is driven at a constant speed and a second part, secured only by magnets, slips while tension against it is too great to allow it to move.
-The design in this project uses 6 mm neodymium magnets on a drive wheel attached to a coupler with a steel washer and a square pegs for film spools and core adapters.
+The design in this project uses 6mm neodymium magnets on a drive wheel attached to a coupler with a steel washer and a square pegs for film spools and core adapters.
 
 ```{=latex}
 \begin{center}
@@ -255,7 +265,9 @@ The solution of raising the brightness of the lamp allows for more color filters
 
 The L298N motor controller module provides a stable 5 volt DC signal that is used for powering the ESP32 and is wired via a transistor to power the lamp.
 In theory, the signal provided by the ESP32 to the transistor could be modulated with a PWM channel.
-The reason this is being avoided at this stage is that PWM, as in it's name, pulses light to achieve perceptual brightness.
+The reason this is being avoided at this stage is that PWM, as in it's name, pulses light for a specified width (or length of time) to achieve perceptual brightness.
+Put more simply, PWM is a way to control *perceived* brightness by turning the LED on and off very quickly.
+
 In the case of a continuous contact print, this would mean the light would be, essentially, flashing on and off as the film passed by the gate.
 Using a standard Arduino PWM rate of 5 kHz and assuming the printer is running at an ideal 24 fps (24 Hz) means that the LEDs would blink on and off ~208 per frame.
 What this *could* result in is 208 distinct lines along the vertical axis of the image.
@@ -291,7 +303,16 @@ For a print to be made with sound the gate must allow for a clean separation bet
 Sound bleeding into the picture area can affect one side of the image and image bleeding into the soundtrack area can cause a 24Hz hum or other distortion to the audio.
 For this reason the standard picture gate and the soundtrack gate should be able to allow light from the lamp to pass onto areas of the film stock that they isolate from one another.
 
-![Illustration of the picture and soundtrack gates side by side]()
+```{=latex}
+\begin{center}
+```
+
+![Illustration of the picture and soundtrack gates side by side](../img/contact_printer_picture_sound.svg){ width=4in height=2.42in }
+
+```{=latex}
+\end{center}
+```
+
 
 An example process for making a print with an image and a soundtrack negative would be to run the unexposed, undeveloped print stock with the negative film containing the negative while using a picture gate and then rewinding the print stock and running it again with the soundtrack negative and the soundtrack gate.
 This would first expose the picture onto the print stock and then, without developing, add the soundtrack to *only* the soundtrack area of the print.
@@ -301,8 +322,8 @@ It is a relatively simple process but it requires precision in the gates to ensu
 ## The Frame
 
 Within reason, the aluminum frame for this project is resizable.
-The first draft of the original prototype was made to support 100 foot daylight spools and was 300 mm by 175 mm (11.8" x 6.9").
-This was changed increase the dimensions to allow for 400 foot reels and is now 400 mm by 260 mm (15.75" x 10.25").
+The first draft of the original prototype was made to support 100 foot daylight spools and was 300mm by 175mm (11.8" x 6.9").
+This was changed increase the dimensions to allow for 400 foot reels and is now 400mm by 260mm (15.75" x 10.25").
 Being able to reduce or increase the area of the frame is one way to make it easier to modify and customize tools built using this platform.
 There is nothing preventing the creation of a version of this printer with a much larger footage capacity by expanding the frame even further.
 
@@ -341,20 +362,57 @@ Physical interfaces are another area of future expansion and development.
 Requests have been made, for example, to add a dial for controlling lamp brightness.
 This was avoided in the prototyping phase because it would add parts to the bill of materials and create additional potential points of failure in the wiring.
 
+A simple but robust web interface could be added to control variables for each print: drive motor speed, number of frames to print before stopping, number of frames to run before striking lamp and others.
+It could also easily show statistics on each print such as actual speed, variation over a run and other information which would highlight any particular issues.
+With the ESP32 platform the printer could be set up as a standalone Wifi access point (like a router) so that devices can connect to it like clients and allow the web app to be accessed from the connected device.
+It could also be set up as a Wifi client and exist on a local network and be connected to by any other device on the network with access to it.
+
+Bluetooth is another option as the ESP32 board has dual radios for both Wifi and BLE.
+This could control the same variables as a web app could but be connected to by a native mobile application or a web app on a browser that supports the Web Bluetooth API [@web-bt-api].
+There is no reason that both web and BLE features cannot be developed in parallel to have matching APIs to allow the greatest number of clients to connect, the only consideration that should be made is that these features not impact performance-heavy actions such as printing.
+Introducing delay into, for example, the PID calculations could cause speed fluctuations that would result in uneven exposures on prints.
+
 ## Sound
 
-Creating a sound camera from this platform is 
+The traditional process of making a soundtrack negative for contact printing requires a separate strip of film and often an expensive service that is not available everywhere.
+Creating a sound camera from this platform is a secondary goal that has been factored into the design from the early stages.
+In practice, this would require creating a alternate lamp or entire panel that would replace the lamp and gate with new module consisting of a exciter lens from an Eiki or B&H projector and an "opt-snd" [@spudic-device] digital sound camera.
+Being able to print image and stripe a soundtrack onto the same piece of print stock using a digital audio file would reduce, tremendously, the steps and materials needed to make sound prints.
+
+While discussing this with others, it was suggested that a fly wheel mechanism, like a projector uses, may be needed at the point the sound is written to film.
+This may, or may not, be required because the purpose of the fly wheel in a projector is to dampen the intermittent motion of the projector on the film strip as it passes by the exciter lamp and sound reader.
+This design is *not* an intermittent motion printer and if the speed of the drive motor is constant enough then the sound should be written without much distortion.
+
 
 ## Color Lamp Control
 
+A digitally-controlled color-changing lamp is an appealing and plausible goal.
+RGB LEDs are everywhere and easy to program.
+Consider first that PWM is the most common method used to control affordable RGB LEDs.
+The aforementioned concerns about PWM duty rate must be addressed for this feature to take shape.
+Consider that as a typical RGB LED package that is controlled via PWM by flickering the red, green and blue LEDs at different pulse widths to change the perceptual color.
+Sometimes a low-level controller chip will change the individual color channel rates, as well.
+This means that, similar to the issue with "white" LEDs creating lines on a print, in a color printing scenario there could be horizontal lines of different colors that are noticeable across the frame.
+
+The ability to track per-frame position also makes features like this attractive.
+An idealized system could enable films to be printed with each frame a different lamp value.
+This is an incredible idea but requires control and accuracy that are very difficult to achieve with a DIY project.
+It is within the realm of possibility but it is firmly in the world of future work for the reason that it goes beyond the standard use case for a desktop contact printer which is to make a work or release print from a single roll of negative film.
+
 ## Multi-format
 
+There is nothing, in principle, in this contact printer platform design that would prevent it from being adapted for other movie film formats and there is precedent.
 The Kinograph DIY scanner project [@kinograph] presents an example of a 3D-printed multi-format sprocketed roller capable of transporting 16mm, 8mm and 35mm gauge film material.
 This is a possibility to consider, though it would introduce new design challenges.
+
 First would be the need to create new lamps and gates for each format.
+The take-ups would have to have their spindles extended to support 35mm cores and the idle rollers would have to be enlarged for the same
 Next would be the question of speed and the resulting exposure.
 Could the drive motor be slowed or sped up to allow for these formats to print properly?
+
 There is also the question of need: is it necessary to create an 8mm gauge printer at all?
+8mm gauge print stock is rare if non-existent though there is, in theory, the capability to slit and re-perforate the stock as is done for the Double 8 and Super 8 formats.
+
 
 ### Research Supporters
 

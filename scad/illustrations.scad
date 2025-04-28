@@ -1,3 +1,4 @@
+use <./sprocketed_roller/scad/sprocketed_roller.scad>;
 use <./contact_printer.scad>;
 
 FrameX = 400;
@@ -71,7 +72,7 @@ module corner_foot_bolts (pos = [0, 0, 0], rot = [0, 0, 0]) {
     }
 }
 
-PART = "frame";
+PART = "picture_sound";
 
 if (PART == "sprocketed_roller_invert_solid") {
 	$fn = 200;
@@ -132,6 +133,13 @@ if (PART == "sprocketed_roller_invert_solid") {
     corner_foot_bolts([-(PanelX / 2) + 10, (FrameY / 2) + 10, FootZ], [0, 0, -90]);
     corner_foot_bolts([(PanelX / 2) - 10, -(FrameY / 2) - 10, FootZ], [0, 0, 90]);
     corner_foot_bolts([-(PanelX / 2) + 10, -(FrameY / 2) - 10, FootZ], [0, 0, 0]);
+} else if (PART == "roller_comparison") {
+    $fn = 200;
+    translate([-30, 0, 0]) sprocketed_roller(sprockets = 18);
+    translate([20, 0, 0]) sprocketed_roller();
+} else if (PART == "picture_sound") {
+    picture_gate_standard([-10, 0, 0]);
+    picture_gate_sound([10, 0, 0]);
 }
 /*
 PART = "feed_panel_picture";
