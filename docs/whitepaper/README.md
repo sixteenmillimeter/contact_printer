@@ -180,7 +180,7 @@ SLA printing puts production within the correct scale.
 \end{center}
 ```
 
-Development of this sprocketed drive roller was kick-started by using an existing parametric model[@param-roller] that was designed to replace an 8-frame roller and work on this project was up-streamed into that module so that it may benefit other use cases.
+Development of this sprocketed drive roller was kick-started by using an existing parametric model [@param-roller] that was designed to replace an 8-frame roller and work on this project was up-streamed into that module so that it may benefit other use cases.
 That work has already proven useful to the mcopy [@mcopy] project as the updated module has been used to design a gate compatible with JK optical printers.
 Due to the model being parametric, it can be used in designing film transport mechanisms in other, future projects, and additional improvements to the measurements and tolerances will benefit those projects as well.
 
@@ -313,7 +313,6 @@ For this reason the standard picture gate and the soundtrack gate should be able
 \end{center}
 ```
 
-
 An example process for making a print with an image and a soundtrack negative would be to run the unexposed, undeveloped print stock with the negative film containing the negative while using a picture gate and then rewinding the print stock and running it again with the soundtrack negative and the soundtrack gate.
 This would first expose the picture onto the print stock and then, without developing, add the soundtrack to *only* the soundtrack area of the print.
 Then it could be developed and projected.
@@ -338,13 +337,13 @@ It would be possible to increase the rigidity, if needed, by adding additional i
 
 ## The Firmware
 
-The Arduino platform uses a subset of C++ which has the benefits of being approachable and easy to use while at the same time preserving the functionalities of the full C++ language for when they are needed.
+The Arduino platform uses a subset of C++ which has the benefits of being approachable and easy to use while at the same time preserving the capabilities of the full C++ language for when they are needed.
 The project is built with an object-oriented programming style that allows for abstraction over the functionality of the physical hardware and other features at the class level.
 This approach serves the project's larger goal to leverage modularity by making use of pre-existing classes and creating reusable ones for other projects.
 
 The firmware can be compiled and uploaded using the Arduino IDE [@arduino-ide] or the arduino-cli [@arduino-cli] application using the "esp32:esp32:esp32" FBQN (Fully Qualified Board Name).
 The code can be compiled *without* the ESP32 Arduino libraries and just the standard AVR libraries but the GPIO usage and LED PWM channel usage is such that it would have to be refactored to work on another board.
-Had this project targeted a different Arduino board from the start there would be limitations in the PWM duty rates of the motors and the ability to add network features.
+Had this project targeted a different Arduino board from the start there would be limitations in the PWM duty rates of the motors and the future ability to add network connectivity.
 
 Functionality is abstracted into three classes: the high-level "ContactPrinter" class which then imports the "DriveMotor" and "Lamp" classes.
 There is a stub for the HTTP networking features named "WebGUI" which does not do anything but host a placeholder page at this time.
@@ -358,9 +357,10 @@ Additional features, to be discussed in future work, can allow for the adjustmen
 
 ## Interfaces
 
-Physical interfaces are another area of future expansion and development.
+Expanding physical interfaces beyond the simple start/stop button from the initial design phase is one direction to improve the project in future work.
 Requests have been made, for example, to add a dial for controlling lamp brightness.
 This was avoided in the prototyping phase because it would add parts to the bill of materials and create additional potential points of failure in the wiring.
+Any added physical interface will increase build complexity so they should be motivated by actual difficulties that artists face while using the printer.
 
 A simple but robust web interface could be added to control variables for each print: drive motor speed, number of frames to print before stopping, number of frames to run before striking lamp and others.
 It could also easily show statistics on each print such as actual speed, variation over a run and other information which would highlight any particular issues.
@@ -382,7 +382,6 @@ Being able to print image and stripe a soundtrack onto the same piece of print s
 While discussing this with others, it was suggested that a fly wheel mechanism, like a projector uses, may be needed at the point the sound is written to film.
 This may, or may not, be required because the purpose of the fly wheel in a projector is to dampen the intermittent motion of the projector on the film strip as it passes by the exciter lamp and sound reader.
 This design is *not* an intermittent motion printer and if the speed of the drive motor is constant enough then the sound should be written without much distortion.
-
 
 ## Color Lamp Control
 
@@ -412,7 +411,7 @@ Could the drive motor be slowed or sped up to allow for these formats to print p
 
 There is also the question of need: is it necessary to create an 8mm gauge printer at all?
 8mm gauge print stock is rare if non-existent though there is, in theory, the capability to slit and re-perforate the stock as is done for the Double 8 and Super 8 formats.
-
+Making the printer capable of printing the gauge could, however, enable more work in this area and motivate filmmakers to seek out print stocks or suitable processes for these projection formats.
 
 ### Research Supporters
 
